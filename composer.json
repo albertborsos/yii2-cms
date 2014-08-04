@@ -1,0 +1,15 @@
+{
+    "name": "albertborsos/yii2-cms",
+    "description": "CMS module for Yii2 Framework",
+    "type": "module",
+    "license": "MIT",
+    "require": {
+        "albertborsos/yii2-lib": "*",
+        "albertborsos/yii2-user": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "albertborsos\\yii2cms\\": ""
+        }
+    }
+}
