@@ -1,8 +1,19 @@
 {
     "name": "albertborsos/yii2-cms",
     "description": "CMS module for Yii2 Framework",
-    "type": "module",
-    "license": "MIT",
+    "keywords": ["yii2", "cms", "extension"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/albertborsos/yii2-cms/issues",
+        "source": "https://github.com/albertborsos/yii2-cms"
+    },
+    "authors": [
+        {
+            "name": "Albert Borsos",
+            "email": "blog@borsosalbert.hu"
+        }
+    ],
     "require": {
         "albertborsos/yii2-lib": "*",
         "albertborsos/yii2-user": "*"
