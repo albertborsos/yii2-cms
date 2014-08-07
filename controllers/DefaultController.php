@@ -1,8 +1,8 @@
 <?php
 
-namespace vendor\albertborsos\yii2cms\controllers;
+namespace albertborsos\yii2cms\controllers;
 
-use yii\web\Controller;
+use albertborsos\yii2lib\web\Controller;
 
 class DefaultController extends Controller
 {
