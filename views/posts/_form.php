@@ -1,6 +1,8 @@
 <?php
 
-use yii\helpers\Html;
+    use albertborsos\yii2lib\helpers\Widgets;
+    use kartik\widgets\DateTimePicker;
+    use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use albertborsos\yii2cms\components\DataProvider;
 
@@ -13,23 +15,42 @@ use albertborsos\yii2cms\components\DataProvider;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'language_id')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'language_id')->dropDownList(\albertborsos\yii2cms\models\Languages::getLanguages()) ?>
 
-    <?= $form->field($model, 'post_type')->textInput(['maxlength' => 100]) ?>
+    <?php switch($model->post_type){
+        case 'BLOG':
+        case 'MENU':
+            break;
+        default:
+            print $form->field($model, 'post_type')->dropDownList(DataProvider::items('post_type'), ['prompt' => 'Válassz típust!']);
+            break;
+    }?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 160]) ?>
+    <?php if($model->post_type == 'BLOG'):?>
+    <?= $form->field($model, 'content_preview')->widget('\yii\imperavi\Widget', [
+        'model' => $model,
+        'attribute' => 'content_preview',
+        'options' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
+    ]) ?>
+    <?php endif ?>
 
-    <?= $form->field($model, 'content_preview')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'content_main')->widget('\yii\imperavi\Widget', [
+        'model' => $model,
+        'attribute' => 'content_preview',
+        'options' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
+    ]) ?>
 
-    <?= $form->field($model, 'content_main')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'commentable')->dropDownList(DataProvider::items('yesno')) ?>
 
-    <?= $form->field($model, 'order_num')->textInput() ?>
+    <?= $form->field($model, 'date_show')->widget(DateTimePicker::classname(), [
+        'options' => ['placeholder' => 'Válassz megjelenési időpontot'],
+        'pluginOptions' => [
+            'autoclose' => true
+        ]
+    ]) ?>
 
-    <?= $form->field($model, 'commentable')->textInput(['maxlength' => 1]) ?>
-
-    <?= $form->field($model, 'date_show')->textInput() ?>
-
-      <?= $form->field($model, 'status')->dropDownList(DataProvider::items('status')) ?>
+    <?= $form->field($model, 'status')->dropDownList(DataProvider::items('status')) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Létrehoz' : 'Módosít', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -2,6 +2,7 @@
 
 namespace albertborsos\yii2cms\models;
 
+use albertborsos\yii2cms\components\DataProvider;
 use albertborsos\yii2lib\db\ActiveRecord;
 use Yii;
 
@@ -23,8 +24,8 @@ use Yii;
  * @property integer $updated_user
  * @property string $status
  *
- * @property TblCmsPostSeo[] $tblCmsPostSeos
- * @property TblCmsLanguages $language
+ * @property PostSeo[] $seo
+ * @property Languages $language
  */
 class Posts extends ActiveRecord
 {
@@ -82,9 +83,9 @@ class Posts extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTblCmsPostSeos()
+    public function getSeo()
     {
-        return $this->hasMany(TblCmsPostSeo::className(), ['canonical_post_id' => 'id']);
+        return $this->hasOne(PostSeo::className(), ['post_id' => 'id']);
     }
 
     /**
@@ -92,7 +93,7 @@ class Posts extends ActiveRecord
      */
     public function getLanguage()
     {
-        return $this->hasOne(TblCmsLanguages::className(), ['id' => 'language_id']);
+        return $this->hasOne(Languages::className(), ['id' => 'language_id']);
     }
 
     public function beforeValidate()
@@ -121,6 +122,17 @@ class Posts extends ActiveRecord
         }else{
             return false;
         }
+    }
+
+    public function createSeo()
+    {
+        $seo                    = new PostSeo();
+        $seo->post_id           = $this->id;
+        $seo->canonical_post_id = $this->id;
+        $seo->title             = $this->name;
+        $seo->status            = DataProvider::STATUS_ACTIVE;
+
+        return $seo;
     }
 
 }

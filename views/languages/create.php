@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Languages */
 
-$this->title = 'Create Languages';
-$this->params['breadcrumbs'][] = ['label' => 'Languages', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Új nyelv létrehozása';
 ?>
 <div class="row">
 <div class="col-md-6">

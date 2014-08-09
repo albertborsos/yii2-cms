@@ -1,20 +1,18 @@
 <?php
 
-use yii\helpers\Html;
+    use albertborsos\yii2cms\components\DataProvider;
+    use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Posts */
 
-$this->title = 'Update Posts: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = DataProvider::items('post_type', $model->post_type, false).' módosítása: ' . ' ' . $model->name;;
 ?>
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-8">
 <div class="posts-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <legend><?= Html::encode($this->title) ?></legend>
 
     <?= $this->render('_form', [
         'model' => $model,
@@ -22,4 +20,15 @@ $this->params['breadcrumbs'][] = 'Update';
 
 </div>
 </div>
+    <div class="col-md-4">
+        <div class="post-seo-create well">
+
+            <legend>SEO beállítások</legend>
+
+            <?= $this->render('../postseo/_form', [
+                'model' => $model->seo,
+            ]) ?>
+
+        </div>
+    </div>
 </div>

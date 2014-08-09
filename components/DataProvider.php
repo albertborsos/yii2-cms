@@ -13,11 +13,23 @@ class DataProvider {
         $array = array();
         switch ($category) {
             case 'status':
-                $array = array(
+                $array = [
                     self::STATUS_ACTIVE   => 'Aktív',
                     self::STATUS_INACTIVE => 'Inaktív',
                     self::STATUS_DELETED  => 'Törölt',
-                );
+                ];
+                break;
+            case 'post_type':
+                $array = [
+                    'BLOG' => 'Blog bejegyzés',
+                    'MENU' => 'Menüpont',
+                ];
+                break;
+            case 'yesno':
+                $array = [
+                    '1' => 'Igen',
+                    '0' => 'Nem',
+                ];
                 break;
         }
         if (is_null($id) && $returnArray) {

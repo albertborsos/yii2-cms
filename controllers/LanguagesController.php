@@ -19,7 +19,7 @@ class LanguagesController extends Controller
     {
         parent::init();
         $this->defaultAction = 'index';
-        $this->name = 'Languages';
+        $this->name = 'Nyelvek';
         $this->layout = '//center';
     }
 
@@ -97,10 +97,10 @@ class LanguagesController extends Controller
             try{
                 if ($model->save()){
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', '<h4>Languages sikeresen létrehozva!</h4>');
+                    Yii::$app->session->setFlash('success', '<h4>Nyelv sikeresen létrehozva!</h4>');
                     return $this->redirect(['index']);
                 }else{
-                    Yii::$app->session->setFlash('error', '<h4>Languages mentése nem sikerült!</h4>');
+                    Yii::$app->session->setFlash('error', '<h4>Nyelv mentése nem sikerült!</h4>');
                 }
             }catch (\Exception $e){
                 $transaction->rollBack();
@@ -127,10 +127,10 @@ class LanguagesController extends Controller
             try{
                 if ($model->save()){
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', '<h4>Languages sikeresen módosítva!</h4>');
+                    Yii::$app->session->setFlash('success', '<h4>Nyelv sikeresen módosítva!</h4>');
                     return $this->redirect(['update', 'id' => $model->id]);
                 }else{
-                    Yii::$app->session->setFlash('error', '<h4>Languages módosítása nem sikerült!</h4>');
+                    Yii::$app->session->setFlash('error', '<h4>Nyelv módosítása nem sikerült!</h4>');
                 }
             }catch (\Exception $e){
                 $transaction->rollBack();
@@ -150,7 +150,18 @@ class LanguagesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        try{
+            $language = $this->findModel($id);
+            $posts = $language->posts;
+            if (count($posts) > 0){
+                $language->addError('posts', 'Előbb törölnöd kell a nyelvhez tartozó bejegyzéseket!');
+                $language->throwNewException('Nem törölhető ez a nyelv biztonségi okokból!');
+            }else{
+                $this->findModel($id)->delete();
+            }
+        }catch (\Exception $e){
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
 
         return $this->redirect(['index']);
     }
