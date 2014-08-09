@@ -1,26 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: borsosalbert
- * Date: 2014.08.07.
- * Time: 14:09
- */
 
 namespace albertborsos\yii2cms\components;
 
-
-use albertborsos\yii2cms\models\Languages;
-
 class DataProvider {
+
+    const STATUS_ACTIVE   = 'a';
+    const STATUS_INACTIVE = 'i';
+    const STATUS_DELETED  = 'd';
+
     public static function items($category, $id = null, $returnArray = true)
     {
         $array = array();
         switch ($category) {
-            case 'status_languages':
+            case 'status':
                 $array = array(
-                    Languages::STATUS_ACTIVE   => 'Aktív',
-                    Languages::STATUS_INACTIVE => 'Inaktív',
-                    Languages::STATUS_DELETED  => 'Törölt',
+                    self::STATUS_ACTIVE   => 'Aktív',
+                    self::STATUS_INACTIVE => 'Inaktív',
+                    self::STATUS_DELETED  => 'Törölt',
                 );
                 break;
         }
