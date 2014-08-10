@@ -16,6 +16,7 @@
     ],
     "require": {
         "albertborsos/yii2-lib": "*",
+        "albertborsos/yii2-tagger": "*",
         "albertborsos/yii2-user": "*"
     },
     "autoload": {

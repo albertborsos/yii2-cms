@@ -1,6 +1,7 @@
 <?php
 
     use albertborsos\yii2lib\helpers\Widgets;
+    use albertborsos\yii2tagger\models\Tags;
     use kartik\widgets\DateTimePicker;
     use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -27,6 +28,9 @@ use albertborsos\yii2cms\components\DataProvider;
     }?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 160]) ?>
+
+    <?= Tags::Widget() ?>
+
     <?php if($model->post_type == 'BLOG'):?>
     <?= $form->field($model, 'content_preview')->widget('\yii\imperavi\Widget', [
         'model' => $model,
