@@ -4,6 +4,7 @@ namespace albertborsos\yii2cms\models;
 
 use albertborsos\yii2cms\components\DataProvider;
 use albertborsos\yii2lib\db\ActiveRecord;
+use albertborsos\yii2tagger\models\Tags;
 use Yii;
 
 /**
@@ -24,7 +25,7 @@ use Yii;
  * @property integer $updated_user
  * @property string $status
  *
- * @property PostSeo[] $seo
+ * @property PostSeo $seo
  * @property Languages $language
  */
 class Posts extends ActiveRecord
@@ -133,6 +134,71 @@ class Posts extends ActiveRecord
         $seo->status            = DataProvider::STATUS_ACTIVE;
 
         return $seo;
+    }
+
+    public function checkUrlIsCorrect(){
+        $urlActual  = Yii::$app->request->getAbsoluteUrl();
+        $urlCorrect = self::generateUrl($this->id);
+
+        if ($urlActual !== $urlCorrect){
+            return Yii::$app->controller->redirect($urlCorrect, 301);
+        }
+    }
+
+    public static function generateUrl($postId){
+        $link = ['/'];
+        if (!is_null($postId)){
+            $post = Posts::findOne(['id' => $postId]);
+            if (!is_null($post)){
+                if (!is_null($post->seo->url)){
+                    return Yii::$app->urlManager->createAbsoluteUrl($post->seo->url);
+                }else{
+                    switch($post->post_type){
+                        case 'MENU':
+                            if ($post->order_num === 1){
+                                $link = ['/'];
+                            }else{
+                                $link = ['/'.DataProvider::replaceCharsToUrl($post->name).'-'.$post->id.'.html'];
+                            }
+                            break;
+                        case 'BLOG':
+                            $link = ['/blog/'.DataProvider::replaceCharsToUrl($post->name).'-'.$post->id.'.html'];
+                            break;
+                    }
+                    return Yii::$app->urlManager->createAbsoluteUrl($link);
+                }
+            }else{
+                return null;
+            }
+        }else{
+            return null;
+        }
+    }
+
+    public function setContent(){
+        switch($this->post_type){
+            case 'BLOG':
+                return Yii::$app->controller->renderPartial('_blog', [
+                    'post' => $this,
+                    'tags' => Tags::getAssignedTags($this, true, 'link'),
+                ]);
+                break;
+            case 'MENU':
+                return Yii::$app->controller->renderPartial('_menu', [
+                    'post' => $this,
+                    'tags' => Tags::getAssignedTags($this, true, 'link'),
+                ]);
+                break;
+        }
+        return false;
+    }
+
+    public static function getOrdersSourceArray(){
+        $sourceArray = [];
+        for($i = 1; $i <= 20; $i++){
+            $sourceArray[$i] = $i;
+        }
+        return $sourceArray;
     }
 
 }

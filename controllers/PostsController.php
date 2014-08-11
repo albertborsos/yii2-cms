@@ -4,10 +4,13 @@
 
     use albertborsos\yii2cms\components\DataProvider;
     use albertborsos\yii2lib\helpers\S;
+    use albertborsos\yii2tagger\models\Tags;
+    use Exception;
     use Yii;
     use albertborsos\yii2cms\models\Posts;
     use albertborsos\yii2cms\models\PostsSearch;
     use albertborsos\yii2lib\web\Controller;
+    use yii\web\HttpException;
     use yii\web\NotFoundHttpException;
     use yii\filters\VerbFilter;
     use yii\filters\AccessControl;
@@ -34,7 +37,8 @@
                         'view', // reader
                         'create',
                         'update',
-                        'delete'
+                        'delete',
+                        'Updatebyeditable',
                     ], // editor+
                     'rules' => [
                         [
@@ -45,7 +49,7 @@
                                 }
                         ],
                         [
-                            'actions'       => ['create', 'update', 'delete'],
+                            'actions'       => ['create', 'update', 'delete', 'Updatebyeditable'],
                             'allow'         => true,
                             'matchCallback' => function () {
                                     return Yii::$app->user->can('editor');
@@ -100,10 +104,14 @@
             $model->post_type = $type;
             $model->date_show = date('Y-m-d H:i');
 
+            $tags = null;
+
             if ($model->load(Yii::$app->request->post())) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
+                    $tags = Yii::$app->request->post('tags');
                     if ($model->save()) {
+                        Tags::saveTo($model, $tags);
                         // create seo setting
                         $seo = $model->createSeo();
                         if ($seo->save()){
@@ -116,7 +124,7 @@
                     } else {
                         Yii::$app->session->setFlash('error', '<h4>'.DataProvider::items('post_type', $model->post_type, false).' mentése nem sikerült!</h4>');
                     }
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $transaction->rollBack();
                     Yii::$app->session->setFlash('error', $e->getMessage());
                 }
@@ -124,6 +132,7 @@
 
             return $this->render('create', [
                 'model' => $model,
+                'tags' => $tags,
             ]);
         }
 
@@ -136,11 +145,14 @@
         public function actionUpdate($id)
         {
             $model = $this->findModel($id);
+            $tags = Tags::getAssignedTags($model, true, 'string');
 
             $transaction = Yii::$app->db->beginTransaction();
             if ($model->load(Yii::$app->request->post())) {
                 try {
                     if ($model->save()) {
+                        $tags = Yii::$app->request->post('tags');
+                        Tags::saveTo($model, $tags);
                         $transaction->commit();
                         Yii::$app->session->setFlash('success', '<h4>'.DataProvider::items('post_type', $model->post_type, false).' sikeresen módosítva!</h4>');
 
@@ -148,7 +160,7 @@
                     } else {
                         Yii::$app->session->setFlash('error', '<h4>'.DataProvider::items('post_type', $model->post_type, false).' módosítása nem sikerült!</h4>');
                     }
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $transaction->rollBack();
                     Yii::$app->session->setFlash('error', $e->getMessage());
                 }
@@ -156,6 +168,7 @@
 
             return $this->render('update', [
                 'model' => $model,
+                'tags' => $tags,
             ]);
         }
 
@@ -173,7 +186,7 @@
                 $post->delete();
 
                 return $this->redirect(['index']);
-            }catch (\Exception $e){
+            }catch (Exception $e){
                 Yii::$app->session->setFlash('error', $e->getMessage());
                 return $this->redirect(['index']);
             }
@@ -192,6 +205,26 @@
                 return $model;
             } else {
                 throw new NotFoundHttpException('The requested page does not exist.');
+            }
+        }
+
+        public function actionUpdatebyeditable(){
+            $id        = Yii::$app->request->post('pk');
+            $attribute = Yii::$app->request->post('name');
+            $value     = Yii::$app->request->post('value');
+
+            $post = Posts::findOne(['id' => $id]);
+            try{
+                if (!is_null($post)){
+                    $post->$attribute = $value;
+                    if (!$post->save()){
+                        throw new Exception('Nem sikerült menteni!');
+                    }
+                }else{
+                    throw new Exception('Nem létezik ilyen rekord!');
+                }
+            }catch (Exception $e){
+                throw new HttpException(400,$e->getMessage());
             }
         }
     }

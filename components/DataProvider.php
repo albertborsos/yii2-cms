@@ -38,4 +38,20 @@ class DataProvider {
             return isset($array[$id]) ? $array[$id] : $id;
         }
     }
+
+    public static function replaceCharsToUrl($string){
+        $mit    = array("á","é","í","ó","ö","ő","ú","ü","ű","Á","É","Í","Ó","Ö","Ő","Ú","Ü","Ű");
+        $mire   = array("a","e","i","o","o","o","u","u","u","a","e","i","o","o","o","u","u","u");
+        $string = str_replace($mit, $mire, $string);
+        $slug   = preg_replace('@[\s!:;_\?=\\\+\*/%&#,]+@', '-', $string);
+        $slug   = str_replace(array('.html', '.php', '.htm'), '', $slug);
+        $slug   = preg_replace('/\-+/', '-', $slug);
+        //this will replace all non alphanumeric char with '-'
+        $slug   = mb_strtolower($slug);
+        //convert string to lowercase
+        $slug   = trim($slug, '-');
+        //trim whitespaces
+
+        return $slug;
+    }
 } 

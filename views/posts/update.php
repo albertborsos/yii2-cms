@@ -5,6 +5,7 @@
 
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Posts */
+/* @var $tags string */
 
 $this->title = DataProvider::items('post_type', $model->post_type, false).' módosítása: ' . ' ' . $model->name;;
 ?>
@@ -16,6 +17,7 @@ $this->title = DataProvider::items('post_type', $model->post_type, false).' mód
 
     <?= $this->render('_form', [
         'model' => $model,
+        'tags' => $tags,
     ]) ?>
 
 </div>

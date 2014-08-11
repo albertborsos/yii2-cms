@@ -1,5 +1,9 @@
 <?php
 
+    use albertborsos\yii2cms\models\Languages;
+    use albertborsos\yii2cms\models\Posts;
+    use albertborsos\yii2lib\helpers\Date;
+    use albertborsos\yii2lib\wrappers\Editable;
     use yii\helpers\Html;
     use kartik\grid\GridView;
     use albertborsos\yii2cms\components\DataProvider;
@@ -34,20 +38,32 @@
                     'attribute'     => 'language_id',
                     'hAlign'        => 'center',
                     'vAlign'        => 'middle',
+                    'format' => 'raw',
                     'headerOptions' => ['class' => 'text-center'],
-                    'value'         => function ($model, $index, $widget) {
-                            return $model->language->name;
+                    'value'         => function($model, $index, $widget){
+                            $language  = Languages::findOne(['id' => $model->language_id]);
+                            $languages = \yii\helpers\ArrayHelper::map(Languages::findAll(['status' => DataProvider::STATUS_ACTIVE]), 'id', 'name');
+                            if (count($languages) > 1){
+                                return Editable::select('language_id', $model->id, $model->language_id, $language->name, ['/cms/posts/updatebyeditable'], $languages);
+                            }else{
+                                return $language->name;
+                            }
                         },
                 ],
-                /*[
-                    'class' => 'kartik\grid\EditableColumn',
-                    'attribute' => 'order_num',
-                    'pageSummary' => 'Page Total',
-                    'vAlign'=>'middle',
-                    'headerOptions'=>['class'=>'kv-sticky-column'],
-                    'contentOptions'=>['class'=>'kv-sticky-column'],
-                    'editableOptions'=>['header'=>'sorrend', 'size'=>'md']
-                ],*/
+                [
+                    'attribute'       => 'order_num',
+                    'hAlign'          => 'center',
+                    'vAlign'          => 'middle',
+                    'format' => 'raw',
+                    'headerOptions'   => ['class' => 'text-center'],
+                    'value'           => function($model, $index, $widget){
+                            if ($model->post_type == 'MENU'){
+                                return Editable::select('order_num', $model->id, $model->order_num, $model->order_num, ['/cms/posts/updatebyeditable'], Posts::getOrdersSourceArray());
+                            }else{
+                                return 'Nem módosítható!';
+                            }
+                        },
+                ],
                 [
                     'attribute'     => 'post_type',
                     'hAlign'        => 'center',
@@ -72,8 +88,9 @@
                     'hAlign'        => 'center',
                     'vAlign'        => 'middle',
                     'headerOptions' => ['class' => 'text-center'],
-                    'value'         => function ($model, $index, $widget) {
-                            return DataProvider::items('yesno', $model['commentable'], false);
+                    'format' => 'raw',
+                    'value'           => function($model, $index, $widget){
+                            return Editable::select('commentable', $model->id, $model->commentable, DataProvider::items('yesno', $model->commentable, false), ['/cms/posts/updatebyeditable'], DataProvider::items('yesno'));
                         },
                     'filter'        => DataProvider::items('yesno'),
                 ],
@@ -83,7 +100,7 @@
                     'vAlign'        => 'middle',
                     'headerOptions' => ['class' => 'text-center'],
                     'value'         => function ($model, $index, $widget) {
-                            return $model['date_show'];
+                            return Date::reformatDateTime($model['date_show']);
                         },
                 ],
                 [
@@ -91,8 +108,9 @@
                     'hAlign'        => 'center',
                     'vAlign'        => 'middle',
                     'headerOptions' => ['class' => 'text-center'],
-                    'value'         => function ($model, $index, $widget) {
-                            return DataProvider::items('status', $model['status'], false);
+                    'format' => 'raw',
+                    'value'           => function($model, $index, $widget){
+                            return Editable::select('status', $model->id, $model->status, DataProvider::items('status', $model->status, false), ['/cms/posts/updatebyeditable'], DataProvider::items('status'));
                         },
                     'filter'        => DataProvider::items('status'),
                 ],

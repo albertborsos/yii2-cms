@@ -9,6 +9,7 @@ use albertborsos\yii2cms\components\DataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Posts */
+/* @var $tags string */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -29,7 +30,7 @@ use albertborsos\yii2cms\components\DataProvider;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 160]) ?>
 
-    <?= Tags::Widget() ?>
+    <?= Tags::Widget('tags', $tags) ?>
 
     <?php if($model->post_type == 'BLOG'):?>
     <?= $form->field($model, 'content_preview')->widget('\yii\imperavi\Widget', [
