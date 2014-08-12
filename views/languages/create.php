@@ -1,18 +1,20 @@
 <?php
 
-use yii\helpers\Html;
+   use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Languages */
+/* @var $searchModel albertborsos\yii2cms\models\LanguagesSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Új nyelv létrehozása';
 ?>
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-4">
 <div class="languages-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <legend><?= Html::encode($this->title) ?></legend>
 
     <?= $this->render('_form', [
         'model' => $model,
@@ -20,4 +22,11 @@ $this->title = 'Új nyelv létrehozása';
 
 </div>
 </div>
+    <div class="col-md-8">
+            <?= $this->render('index.php', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ])  ?>
+        </div>
+    </div>
 </div>

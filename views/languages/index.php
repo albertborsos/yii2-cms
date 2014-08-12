@@ -8,11 +8,9 @@
     /* @var $searchModel albertborsos\yii2cms\models\LanguagesSearch */
     /* @var $dataProvider yii\data\ActiveDataProvider */
 
-    $this->title = 'Nyelvek';
 ?>
 <div class="languages-index">
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <legend>Nyelvek áttekintése</legend>
 
     <?=
         GridView::widget([
@@ -20,7 +18,7 @@
             'panel'        => [
                 'heading'    => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Nyelvek</h3>',
                 'type'       => 'default',
-                'before'     => Html::a('<i class="glyphicon glyphicon-plus"></i> Új Nyelv', ['create'], ['class' => 'btn btn-success']),
+                //'before'     => Html::a('<i class="glyphicon glyphicon-plus"></i> Új Nyelv', ['create'], ['class' => 'btn btn-success']),
                 'after'      => Html::a('<i class="glyphicon glyphicon-repeat"></i> Szűrések törlése', ['index'], ['class' => 'btn btn-info']),
                 'showFooter' => false
             ],

@@ -62,6 +62,8 @@ class LanguagesController extends Controller
      */
     public function actionIndex()
     {
+        return $this->redirect('create');
+
         $searchModel = new LanguagesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -107,8 +109,14 @@ class LanguagesController extends Controller
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
+
+        $searchModel = new LanguagesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('create', [
-        'model' => $model,
+            'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -137,8 +145,14 @@ class LanguagesController extends Controller
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
+
+        $searchModel = new LanguagesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('update', [
             'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
