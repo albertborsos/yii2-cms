@@ -8,15 +8,22 @@ use yii\helpers\Html;
 $this->title = 'Nyelv módosítása: ' . ' ' . $model->name;
 ?>
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-4">
 <div class="languages-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <legend><?= Html::encode($this->title) ?></legend>
 
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 
 </div>
+</div>
+    <div class="col-md-8">
+        <?= $this->render('index.php', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ])  ?>
+    </div>
 </div>
 </div>
