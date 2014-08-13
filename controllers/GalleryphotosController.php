@@ -10,6 +10,7 @@ use albertborsos\yii2cms\models\GalleryPhotos;
 use albertborsos\yii2cms\models\GalleryPhotosSearch;
 use albertborsos\yii2lib\web\Controller;
 use yii\image\drivers\Image_GD;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -85,28 +86,17 @@ class GalleryphotosController extends Controller
                         $photo->gallery_id = $gallery->id;
                         $photo->status = 'a';
                         if ($photo->validate()){
-                            $path_o = $photo->path.'/'.$photo->filename;
-                            if (!is_dir($photo->path)) {
-                                mkdir($photo->path, 0777, true);
-                                chmod($photo->path, 0777);
-                            }
-                            if ($uploaded->saveAs($path_o)){
-                                chmod($path_o, 0777);
-                                $photo->save();
-                            }
-                            $photo->savePhoto($path_o, 1280);
-                            $photo->savePhoto($path_o, 320, false, true);
-
+                            $photo->saveUploadedFile($uploaded);
+                            $photo->savePhoto($photo->getPathFull(), 1280);
+                            $photo->savePhoto($photo->getPathFull(), 320, false, true);
                             //Now we return our json
-                            Yii::$app->response->getHeaders()->set('Vary', 'Accept');
-                            Yii::$app->response->format = Response::FORMAT_JSON;
                             $response['files'][] = [
                                 'name' => $photo->filename,
                                 'type' => $uploaded->type,
                                 'size' => $uploaded->size,
-                                'url' => $photo->publicPath.'/'.$photo->filename,
-                                'thumbnailUrl' => $photo->publicPath.'/s/'.$photo->filename,
-                                'deleteUrl' => '#',
+                                'url' => $photo->getUrlFull(),
+                                'thumbnailUrl' => $photo->getUrlFull(true),
+                                'deleteUrl' => $photo->getUrlDelete(),
                                 'deleteType' => 'POST'
                             ];
                         }else{
@@ -213,11 +203,18 @@ class GalleryphotosController extends Controller
      */
     public function actionDelete($id)
     {
+        $galleryID = null;
         try{
-            $this->findModel($id)
-            ->delete();
+            $model = $this->findModel($id);
+            $galleryID = $model->gallery_id;
+            if ($model->deleteFiles()){
+                $model->delete();
+            }
         }catch (Exception $e){
             Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        if (!is_null($galleryID)){
+            return $this->redirect(['/cms/galleryphotos/index', 'gallery' => $galleryID]);
         }
         return $this->redirect(['index']);
     }
@@ -235,6 +232,26 @@ class GalleryphotosController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionUpdatebyeditable(){;
+        $id        = Yii::$app->request->post('pk');
+        $attribute = Yii::$app->request->post('name');
+        $value     = Yii::$app->request->post('value');
+
+        $model = $this->findModel($id);
+        try{
+            if (!is_null($model)){
+                $model->$attribute = $value;
+                if (!$model->save()){
+                    throw new Exception('Nem sikerült menteni!');
+                }
+            }else{
+                throw new Exception('Nem létezik ilyen rekord!');
+            }
+        }catch (Exception $e){
+            throw new HttpException(400,$e->getMessage());
         }
     }
 }

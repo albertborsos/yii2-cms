@@ -35,16 +35,63 @@ class GalleryPhotos extends ActiveRecord
     const STATUS_INACTIVE = 'i';
     const STATUS_DELETED  = 'd';
 
-    public $path;
-    public $publicPath;
-    public $watermark;
+    public $pathBase;
+    public $pathFile;
+    public $pathWatermark;
+    public $urlBase;
+    public $pathSavedFile;
 
     public function init()
     {
         parent::init();
-        $this->watermark  = Yii::$app->getBasePath().'/web/images/watermark-TL.png';
-        $this->path       = Yii::$app->getBasePath()."/web/uploads/images";
-        $this->publicPath = Yii::$app->urlManager->getBaseUrl()."/uploads/images";
+        $this->pathWatermark = Yii::$app->getBasePath().'/web/images/watermark-TL.png';
+        $this->pathBase      = Yii::$app->getBasePath()."/web/uploads/images";
+        $this->urlBase       = Yii::$app->urlManager->getBaseUrl()."/uploads/images";
+    }
+
+    public function getPathFull($thumbnail = false){
+        if (!$thumbnail){
+            return $this->pathBase.'/'.$this->filename;
+        }else{
+            return $this->pathBase.'/s/'.$this->filename;
+        }
+    }
+
+    public function getUrlFull($thumbnail = false){
+        if (!$thumbnail){
+            return $this->urlBase.'/'.$this->filename;
+        }else{
+            return $this->urlBase.'/s/'.$this->filename;
+        }
+    }
+
+    public function getUrlDelete(){
+        return Yii::$app->urlManager->createAbsoluteUrl(['/cms/gallaryphotos/delete', 'id' => $this->id]);
+    }
+
+    public function deleteFiles(){
+        $files[] = $this->getPathFull(true);
+        $files[] = $this->getPathFull();
+        foreach($files as $file){
+            if (file_exists($file)){
+                unlink($file);
+            }
+        }
+        return true;
+    }
+
+    public function saveUploadedFile(UploadedFile $uploaded){
+        $pathFull = $this->getPathFull();
+        if (!is_dir($this->pathBase)) {
+            mkdir($this->pathBase, 0777, true);
+            chmod($this->pathBase, 0777);
+        }
+        if ($uploaded->saveAs($pathFull)){
+            chmod($pathFull, 0777);
+            if (!$this->save()){
+                $this->throwNewException('Nem sikerült menteni az adatbázisba!');
+            }
+        }
     }
 
     /**
@@ -179,9 +226,9 @@ class GalleryPhotos extends ActiveRecord
             //$image->watermark($this->watermark);
         }
         if ($thumbnail){
-            $pathToSave = $this->path.'/s/'.$this->filename;
+            $pathToSave = $this->getPathFull(true);
         }else{
-            $pathToSave = $this->path.'/'.$this->filename;
+            $pathToSave = $this->getPathFull();
         }
         return $image->save($pathToSave, 90);
     }

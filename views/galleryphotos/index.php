@@ -1,5 +1,6 @@
 <?php
 
+    use albertborsos\yii2lib\wrappers\Editable;
     use yii\helpers\Html;
     use kartik\grid\GridView;
     use albertborsos\yii2cms\components\DataProvider;
@@ -47,6 +48,16 @@
 //                        },
 //                ],
                 [
+                    'header'        => 'Előnézet',
+                    'headerOptions' => ['class' => 'text-center'],
+                    'hAlign'        => 'center',
+                    'vAlign'        => 'middle',
+                    'format'        => 'raw',
+                    'value'         => function($model, $index, $widget){
+                            return Html::img($model->getUrlFull(true), ['width' => 120]);
+                        }
+                ],
+                [
                     'attribute'     => 'title',
                     'hAlign'        => 'center',
                     'vAlign'        => 'middle',
@@ -65,23 +76,25 @@
                         },
                 ],
                 [
-                    'attribute'     => 'status',
-                    'hAlign'        => 'center',
-                    'vAlign'        => 'middle',
-                    'headerOptions' => ['class' => 'text-center'],
-                    'value'         => function ($model, $index, $widget) {
-                            return DataProvider::items('status', $model['status'], false);
+                    'attribute'      => 'status',
+                    'hAlign'=>'center',
+                    'vAlign'=>'middle',
+                    'headerOptions'  => ['class' => 'text-center'],
+                    'format' => 'raw',
+                    'value'          => function($model, $index, $widget){
+                            return Editable::select('status', $model['id'], $model['status'], DataProvider::items('status', $model['status'], false), ['updatebyeditable'], DataProvider::items('status'));
                         },
-                    'filter'        => DataProvider::items('status'),
+                    'filter' => DataProvider::items('status'),
                 ],
                 [
                     'class'         => 'kartik\grid\ActionColumn',
                     'template'      => '{update} {delete}',
+                    'header'        => '',
                     //'dropdown' => true,
                     'viewOptions'   => ['title' => 'Áttekintés', 'class' => 'btn btn-sm btn-default'],
                     'updateOptions' => ['title' => 'Módosítás', 'class' => 'btn btn-sm btn-default'],
                     'deleteOptions' => ['title' => 'Törlés', 'class' => 'btn btn-sm btn-default'],
-                    'width'         => '80px',
+                    'width'         => '45px',
                 ],
             ],
         ]); ?>
