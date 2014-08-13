@@ -13,10 +13,6 @@ use albertborsos\yii2cms\components\DataProvider;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'gallery_id')->textInput() ?>
-
-    <?= $form->field($model, 'filename')->textInput(['maxlength' => 255]) ?>
-
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'description')->widget('\yii\imperavi\Widget', [

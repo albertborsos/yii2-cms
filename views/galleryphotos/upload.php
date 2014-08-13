@@ -25,6 +25,7 @@
         <?= $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'gallery' => $gallery,
         ])?>
     </div>
 </div>

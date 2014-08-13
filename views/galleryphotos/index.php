@@ -22,7 +22,7 @@
                 'heading'    => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Gallery Photos</h3>',
                 'type'       => 'default',
                 //'before'=>Html::a('<i class="glyphicon glyphicon-plus"></i> Új Gallery Photos', ['create'], ['class' => 'btn btn-success']),
-                'after'      => Html::a('<i class="glyphicon glyphicon-repeat"></i> Szűrések törlése', ['index'], ['class' => 'btn btn-info']),
+                'after'      => Html::a('<i class="glyphicon glyphicon-repeat"></i> Szűrések törlése', ['index', 'gallery' => $gallery->id], ['class' => 'btn btn-info']),
                 'showFooter' => false
             ],
             'export'       => false,
@@ -61,15 +61,17 @@
                     'attribute'     => 'title',
                     'hAlign'        => 'center',
                     'vAlign'        => 'middle',
+                    'format'        => 'raw',
                     'headerOptions' => ['class' => 'text-center'],
                     'value'         => function ($model, $index, $widget) {
-                            return $model['title'];
+                            return Editable::input('title', $model['id'], $model['title'], ['updatebyeditable']);
                         },
                 ],
                 [
                     'attribute'     => 'description',
                     'hAlign'        => 'center',
                     'vAlign'        => 'middle',
+                    'format'        => 'html',
                     'headerOptions' => ['class' => 'text-center'],
                     'value'         => function ($model, $index, $widget) {
                             return $model['description'];
