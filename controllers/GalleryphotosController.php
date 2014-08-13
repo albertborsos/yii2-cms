@@ -13,6 +13,7 @@ use yii\image\drivers\Image_GD;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -67,10 +68,14 @@ class GalleryphotosController extends Controller
      */
     public function actionIndex($gallery = null)
     {
+        $this->layout = '//fluid';
         if (!is_null($gallery)){
             $gallery = Galleries::findOne(['id' => $gallery]);
             if (Yii::$app->request->isPost){
                 try{
+                    Yii::$app->response->getHeaders()->set('Vary', 'Accept');
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    $response = [];
                     $uploaded = UploadedFile::getInstanceByName('filename');
                     if (!is_null($uploaded)){
                         $photo = new GalleryPhotos();
@@ -93,21 +98,17 @@ class GalleryphotosController extends Controller
                             $photo->savePhoto($path_o, 320, false, true);
 
                             //Now we return our json
-                            Yii::$app->response->format = 'json';
-                            $response = [[
-                                "name" => $photo->filename,
-                                "type" => $uploaded->type,
-                                "size" => $uploaded->size,
-                                //Add the title
-                                "title" => $photo->filename,
-                                //And the description
-                                "description" => $photo->description,
-                                "url" => $photo->publicPath . $photo->filename,
-                                "thumbnail_url" => $photo->publicPath . '/s/' . $photo->filename,
-                                //"delete_url" => $this->createUrl("/cms/galleries/deletePhoto/" . $photo->id),
-                                "delete_type" => "POST"
-                            ]];
-                            return $response;
+                            Yii::$app->response->getHeaders()->set('Vary', 'Accept');
+                            Yii::$app->response->format = Response::FORMAT_JSON;
+                            $response['files'][] = [
+                                'name' => $photo->filename,
+                                'type' => $uploaded->type,
+                                'size' => $uploaded->size,
+                                'url' => $photo->publicPath.'/'.$photo->filename,
+                                'thumbnailUrl' => $photo->publicPath.'/s/'.$photo->filename,
+                                'deleteUrl' => '#',
+                                'deleteType' => 'POST'
+                            ];
                         }else{
                             $photo->throwNewException('Hibás kép attribútum!');
                         }
@@ -116,9 +117,9 @@ class GalleryphotosController extends Controller
                     }
 
                 }catch (Exception $e){
-                    Yii::$app->response->format = 'json';
-                    return [["error" => $e->getMessage()]];
+                    $response[] = ["error" => $e->getMessage()];
                 }
+                return $response;
             }
         }else{
             return $this->redirect(['/cms/galleries/index']);

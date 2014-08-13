@@ -171,8 +171,7 @@ class GalleryPhotos extends ActiveRecord
     }
 
     public function savePhoto($file, $width, $watermark = true, $thumbnail = false){
-        $image = \xj\kohanaimage\Image::load($file);
-        S::dump($image);
+        $image = \yii\image\drivers\Image::factory($file);
         if ($image->width > $width){
             $image->resize($width, null);
         }
