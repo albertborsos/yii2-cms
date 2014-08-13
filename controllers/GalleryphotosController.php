@@ -2,13 +2,18 @@
 
 namespace albertborsos\yii2cms\controllers;
 
+use albertborsos\yii2cms\models\Galleries;
+use albertborsos\yii2lib\helpers\S;
+use Exception;
 use Yii;
 use albertborsos\yii2cms\models\GalleryPhotos;
 use albertborsos\yii2cms\models\GalleryPhotosSearch;
 use albertborsos\yii2lib\web\Controller;
+use yii\image\drivers\Image_GD;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * GalleryphotosController implements the CRUD actions for GalleryPhotos model.
@@ -19,7 +24,7 @@ class GalleryphotosController extends Controller
     {
         parent::init();
         $this->defaultAction = 'index';
-        $this->name = 'GalleryPhotos';
+        $this->name = 'Galéria Képek';
         $this->layout = '//center';
     }
 
@@ -60,12 +65,69 @@ class GalleryphotosController extends Controller
      * Lists all GalleryPhotos models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($gallery = null)
     {
+        if (!is_null($gallery)){
+            $gallery = Galleries::findOne(['id' => $gallery]);
+            if (Yii::$app->request->isPost){
+                try{
+                    $uploaded = UploadedFile::getInstanceByName('filename');
+                    if (!is_null($uploaded)){
+                        $photo = new GalleryPhotos();
+                        $extension =  $photo->setExtension($uploaded);
+                        $photo->filename = $uploaded->baseName;
+                        $photo->generateUniqueName($extension);
+                        $photo->gallery_id = $gallery->id;
+                        $photo->status = 'a';
+                        if ($photo->validate()){
+                            $path_o = $photo->path.'/'.$photo->filename;
+                            if (!is_dir($photo->path)) {
+                                mkdir($photo->path, 0777, true);
+                                chmod($photo->path, 0777);
+                            }
+                            if ($uploaded->saveAs($path_o)){
+                                chmod($path_o, 0777);
+                                $photo->save();
+                            }
+                            $photo->savePhoto($path_o, 1280);
+                            $photo->savePhoto($path_o, 320, false, true);
+
+                            //Now we return our json
+                            Yii::$app->response->format = 'json';
+                            $response = [[
+                                "name" => $photo->filename,
+                                "type" => $uploaded->type,
+                                "size" => $uploaded->size,
+                                //Add the title
+                                "title" => $photo->filename,
+                                //And the description
+                                "description" => $photo->description,
+                                "url" => $photo->publicPath . $photo->filename,
+                                "thumbnail_url" => $photo->publicPath . '/s/' . $photo->filename,
+                                //"delete_url" => $this->createUrl("/cms/galleries/deletePhoto/" . $photo->id),
+                                "delete_type" => "POST"
+                            ]];
+                            return $response;
+                        }else{
+                            $photo->throwNewException('Hibás kép attribútum!');
+                        }
+                    }else{
+                        throw new Exception('Nem érkezett kép!');
+                    }
+
+                }catch (Exception $e){
+                    Yii::$app->response->format = 'json';
+                    return [["error" => $e->getMessage()]];
+                }
+            }
+        }else{
+            return $this->redirect(['/cms/galleries/index']);
+        }
         $searchModel = new GalleryPhotosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('upload', [
+            'gallery' => $gallery,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -102,7 +164,7 @@ class GalleryphotosController extends Controller
                 }else{
                     Yii::$app->session->setFlash('error', '<h4>GalleryPhotos mentése nem sikerült!</h4>');
                 }
-            }catch (\Exception $e){
+            }catch (Exception $e){
                 $transaction->rollBack();
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
@@ -132,7 +194,7 @@ class GalleryphotosController extends Controller
                 }else{
                     Yii::$app->session->setFlash('error', '<h4>GalleryPhotos módosítása nem sikerült!</h4>');
                 }
-            }catch (\Exception $e){
+            }catch (Exception $e){
                 $transaction->rollBack();
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
@@ -153,7 +215,7 @@ class GalleryphotosController extends Controller
         try{
             $this->findModel($id)
             ->delete();
-        }catch (\Exception $e){
+        }catch (Exception $e){
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect(['index']);

@@ -1,6 +1,7 @@
 <?php
 
-use yii\helpers\Html;
+    use albertborsos\yii2lib\helpers\Glyph;
+    use yii\helpers\Html;
 use kartik\grid\GridView;
 use albertborsos\yii2cms\components\DataProvider;
 
@@ -19,7 +20,7 @@ $this->title = 'Galleries';
         'panel' => [
             'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Galleries</h3>',
             'type' => 'default',
-            'before'=>Html::a('<i class="glyphicon glyphicon-plus"></i> Új Galleries', ['create'], ['class' => 'btn btn-success']),
+            //'before'=>Html::a('<i class="glyphicon glyphicon-plus"></i> Új Galleries', ['create'], ['class' => 'btn btn-success']),
             'after'=>Html::a('<i class="glyphicon glyphicon-repeat"></i> Szűrések törlése', ['index'], ['class' => 'btn btn-info']),
             'showFooter'=>false
         ],
@@ -33,8 +34,9 @@ $this->title = 'Galleries';
               'hAlign'=>'center',
               'vAlign'=>'middle',
               'headerOptions'  => ['class' => 'text-center'],
+              'format' => 'raw',
               'value'          => function($model, $index, $widget){
-                                      return $model['replace_id'];
+                                      return Html::input('text', $model['replace_id'], $model['replace_id'], ['class' => 'form-control']);
                                   },
           ],
           [
@@ -58,12 +60,17 @@ $this->title = 'Galleries';
           ],
             [
                 'class' => 'kartik\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => '{upload} {update} {delete}',
                 //'dropdown' => true,
+                'buttons' => [
+                    'upload' => function($url, $model, $key){
+                            return Html::a(Glyph::icon(Glyph::ICON_PLUS), ['/cms/galleryphotos/index?gallery='.$model['id']], ['class'=>'btn btn-sm btn-default']);
+                        },
+                ],
                 'viewOptions'=>['title'=>'Áttekintés', 'class'=>'btn btn-sm btn-default'],
                 'updateOptions'=>['title'=>'Módosítás', 'class'=>'btn btn-sm btn-default'],
                 'deleteOptions'=>['title'=>'Törlés', 'class'=>'btn btn-sm btn-default'],
-                'width' => '80px',
+                'width' => '130px',
             ],
         ],
     ]); ?>

@@ -4,6 +4,8 @@ namespace albertborsos\yii2cms\models;
 
 use albertborsos\yii2lib\db\ActiveRecord;
 use Yii;
+use yii\base\Model;
+use yii\db\BaseActiveRecord;
 
 /**
  * This is the model class for table "tbl_cms_galleries".
@@ -41,6 +43,7 @@ class Galleries extends ActiveRecord
         return [
             [['created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
             [['replace_id'], 'string', 'max' => 50],
+            [['replace_id'], 'unique'],
             [['name'], 'string', 'max' => 100],
             [['status'], 'string', 'max' => 1]
         ];
@@ -97,6 +100,13 @@ class Galleries extends ActiveRecord
         }else{
             return false;
         }
+    }
+
+    public function getReplaceID(){
+        if (is_null($this->replace_id)){
+            $this->replace_id = '[#gallery-'.$this->getNextID().'#]';
+        }
+        return $this->replace_id;
     }
 
 }

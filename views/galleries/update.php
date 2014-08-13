@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Galleries */
 
-$this->title = 'Galleries módosítása: ' . ' ' . $model->name;
+$this->title = 'Galéria módosítása: ' . ' ' . $model->name;
 ?>
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-4">
 <div class="galleries-update">
 
     <legend><?= Html::encode($this->title) ?></legend>
@@ -19,4 +19,10 @@ $this->title = 'Galleries módosítása: ' . ' ' . $model->name;
 
 </div>
 </div>
+    <div class="col-md-8">
+        <?= $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ])?>
+    </div>
 </div>

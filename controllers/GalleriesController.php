@@ -2,6 +2,7 @@
 
 namespace albertborsos\yii2cms\controllers;
 
+use albertborsos\yii2lib\helpers\S;
 use Yii;
 use albertborsos\yii2cms\models\Galleries;
 use albertborsos\yii2cms\models\GalleriesSearch;
@@ -19,7 +20,7 @@ class GalleriesController extends Controller
     {
         parent::init();
         $this->defaultAction = 'index';
-        $this->name = 'Galleries';
+        $this->name = 'Galériák';
         $this->layout = '//center';
     }
 
@@ -62,6 +63,7 @@ class GalleriesController extends Controller
      */
     public function actionIndex()
     {
+        $this->redirect('create');
         $searchModel = new GalleriesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -91,6 +93,7 @@ class GalleriesController extends Controller
     public function actionCreate()
     {
         $model = new Galleries();
+        $model->getReplaceID();
 
         if ($model->load(Yii::$app->request->post())) {
             $transaction = Yii::$app->db->beginTransaction();
@@ -107,8 +110,14 @@ class GalleriesController extends Controller
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
+
+        $searchModel = new GalleriesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('create', [
-        'model' => $model,
+            'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -137,8 +146,14 @@ class GalleriesController extends Controller
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
+
+        $searchModel = new GalleriesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('update', [
             'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
