@@ -150,10 +150,10 @@ class GalleryphotosController extends Controller
             try{
                 if ($model->save()){
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', '<h4>GalleryPhotos sikeresen létrehozva!</h4>');
+                    Yii::$app->session->setFlash('success', '<h4>Kép sikeresen létrehozva!</h4>');
                     return $this->redirect(['index']);
                 }else{
-                    Yii::$app->session->setFlash('error', '<h4>GalleryPhotos mentése nem sikerült!</h4>');
+                    Yii::$app->session->setFlash('error', '<h4>Kép mentése nem sikerült!</h4>');
                 }
             }catch (Exception $e){
                 $transaction->rollBack();
@@ -180,10 +180,10 @@ class GalleryphotosController extends Controller
             try{
                 if ($model->save()){
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', '<h4>GalleryPhotos sikeresen módosítva!</h4>');
-                    return $this->redirect(['update', 'id' => $model->id]);
+                    Yii::$app->session->setFlash('success', '<h4>Kép sikeresen módosítva!</h4>');
+                    return $this->redirect(['index', 'gallery' => $model->gallery_id]);
                 }else{
-                    Yii::$app->session->setFlash('error', '<h4>GalleryPhotos módosítása nem sikerült!</h4>');
+                    Yii::$app->session->setFlash('error', '<h4>Kép módosítása nem sikerült!</h4>');
                 }
             }catch (Exception $e){
                 $transaction->rollBack();
