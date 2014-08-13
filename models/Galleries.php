@@ -2,7 +2,9 @@
 
 namespace albertborsos\yii2cms\models;
 
+use albertborsos\yii2cms\components\DataProvider;
 use albertborsos\yii2lib\db\ActiveRecord;
+use dosamigos\gallery\Gallery;
 use Yii;
 use yii\base\Model;
 use yii\db\BaseActiveRecord;
@@ -107,6 +109,36 @@ class Galleries extends ActiveRecord
             $this->replace_id = '[#gallery-'.$this->getNextID().'#]';
         }
         return $this->replace_id;
+    }
+
+    public static function insertGallery($content){
+        $galleries = Galleries::findAll(['status' => DataProvider::STATUS_ACTIVE]);
+        foreach($galleries as $gallery){
+            if (strpos($content, $gallery->replace_id) !== false){
+                $content = str_replace($gallery->replace_id, $gallery->generate(), $content);
+            }
+        }
+        return $content;
+    }
+
+    public function generate(){
+        $items = [];
+        $photos = GalleryPhotos::findAll([
+            'gallery_id' => $this->id,
+            'status' => DataProvider::STATUS_ACTIVE,
+        ]);
+        foreach($photos as $photo){
+            $items[] = [
+                'url' => $photo->getUrlFull(),
+                'src' => $photo->getUrlFull(true),
+                'options' => [
+                    'title' => $photo->title,
+                    'style' => 'width:160px;',
+                ]
+            ];
+        }
+
+        return Gallery::widget(['items' => $items]);
     }
 
 }

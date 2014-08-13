@@ -3,6 +3,7 @@
 namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2cms\components\DataProvider;
+use albertborsos\yii2cms\models\Galleries;
 use albertborsos\yii2cms\models\Posts;
 use albertborsos\yii2lib\helpers\S;
 use albertborsos\yii2lib\web\Controller;
@@ -22,6 +23,7 @@ class DefaultController extends Controller
 
     public function actionIndex($title = null, $id = null)
     {
+        $this->setTheme('page');
         if (!is_null($id)){
             // menu or blog posts
             $post = Posts::findOne([
@@ -33,6 +35,8 @@ class DefaultController extends Controller
                 // set SEO values @todo
                 $content = $post->setContent();
                 // $content .= disqus
+
+                $content = Galleries::insertGallery($content);
 
                 return $this->render('index', [
                     'content' => $content,
