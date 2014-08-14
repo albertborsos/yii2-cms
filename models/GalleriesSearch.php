@@ -19,7 +19,7 @@ class GalleriesSearch extends Galleries
     {
         return [
             [['id', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
-            [['replace_id', 'name', 'status'], 'safe'],
+            [['replace_id', 'name', 'status', 'order'], 'safe'],
         ];
     }
 
@@ -53,6 +53,7 @@ class GalleriesSearch extends Galleries
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'order' => $this->order,
             'created_at' => $this->created_at,
             'created_user' => $this->created_user,
             'updated_at' => $this->updated_at,

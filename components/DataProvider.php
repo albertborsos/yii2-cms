@@ -31,6 +31,12 @@ class DataProvider {
                     '0' => 'Nem',
                 ];
                 break;
+            case 'order':
+                $array = [
+                    'ASC'  => 'Régebbiek elöl',
+                    'DESC' => 'Frissek elöl',
+                ];
+                break;
         }
         if (is_null($id) && $returnArray) {
             return $array;

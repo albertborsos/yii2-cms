@@ -17,7 +17,9 @@ use albertborsos\yii2cms\components\DataProvider;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 100]) ?>
 
-      <?= $form->field($model, 'status')->dropDownList(DataProvider::items('status')) ?>
+    <?= $form->field($model, 'order')->dropDownList(DataProvider::items('order')) ?>
+
+    <?= $form->field($model, 'status')->dropDownList(DataProvider::items('status')) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Létrehoz' : 'Módosít', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -15,6 +15,7 @@ use yii\db\BaseActiveRecord;
  * @property integer $id
  * @property string $replace_id
  * @property string $name
+ * @property string $order
  * @property integer $created_at
  * @property integer $created_user
  * @property integer $updated_at
@@ -46,6 +47,7 @@ class Galleries extends ActiveRecord
             [['created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
             [['replace_id'], 'string', 'max' => 50],
             [['replace_id'], 'unique'],
+            [['order'], 'string', 'max' => 5],
             [['name'], 'string', 'max' => 100],
             [['status'], 'string', 'max' => 1]
         ];
@@ -60,6 +62,7 @@ class Galleries extends ActiveRecord
             'id' => 'ID',
             'replace_id' => 'Beillesztő kód',
             'name' => 'Név',
+            'order' => 'Sorrend',
             'created_at' => 'Létrehozva',
             'created_user' => 'Létrehozta',
             'updated_at' => 'Módosítva',
@@ -122,23 +125,11 @@ class Galleries extends ActiveRecord
     }
 
     public function generate(){
-        $items = [];
-        $photos = GalleryPhotos::findAll([
-            'gallery_id' => $this->id,
-            'status' => DataProvider::STATUS_ACTIVE,
+        return \albertborsos\yii2gallery\Gallery::widget([
+            'id' => 'gallery-'.$this->id,
+            'header' => $this->name,
+            'galleryId' => $this->id,
         ]);
-        foreach($photos as $photo){
-            $items[] = [
-                'url' => $photo->getUrlFull(),
-                'src' => $photo->getUrlFull(true),
-                'options' => [
-                    'title' => $photo->title,
-                    'style' => 'width:160px;',
-                ]
-            ];
-        }
-
-        return Gallery::widget(['items' => $items]);
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
     use albertborsos\yii2lib\helpers\Glyph;
+    use albertborsos\yii2lib\wrappers\Editable;
     use yii\helpers\Html;
 use kartik\grid\GridView;
 use albertborsos\yii2cms\components\DataProvider;
@@ -36,7 +37,7 @@ $this->title = 'Galleries';
               'headerOptions'  => ['class' => 'text-center'],
               'format' => 'raw',
               'value'          => function($model, $index, $widget){
-                                      return Html::input('text', $model['replace_id'], $model['replace_id'], ['class' => 'form-control']);
+                                      return Html::input('text', $model['replace_id'], $model['replace_id'], ['class' => 'form-control', 'readonly' => 'readonly']);
                                   },
           ],
           [
@@ -49,12 +50,23 @@ $this->title = 'Galleries';
                                   },
           ],
           [
+              'attribute'      => 'order',
+              'hAlign'=>'center',
+              'vAlign'=>'middle',
+              'format'=>'raw',
+              'headerOptions'  => ['class' => 'text-center'],
+              'value'          => function($model, $index, $widget){
+                                    return Editable::select('order', $model['id'], $model['order'], DataProvider::items('order', $model['order'], false), ['updatebyeditable'], DataProvider::items('order'));
+                                  },
+          ],
+          [
               'attribute'      => 'status',
               'hAlign'=>'center',
               'vAlign'=>'middle',
+              'format'=>'raw',
               'headerOptions'  => ['class' => 'text-center'],
               'value'          => function($model, $index, $widget){
-                                      return DataProvider::items('status', $model['status'], false);
+                                    return Editable::select('status', $model['id'], $model['status'], DataProvider::items('status', $model['status'], false), ['updatebyeditable'], DataProvider::items('status'));
                                   },
               'filter' => DataProvider::items('status'),
           ],

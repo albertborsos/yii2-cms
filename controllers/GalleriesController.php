@@ -3,10 +3,12 @@
 namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2lib\helpers\S;
+use Exception;
 use Yii;
 use albertborsos\yii2cms\models\Galleries;
 use albertborsos\yii2cms\models\GalleriesSearch;
 use albertborsos\yii2lib\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -30,28 +32,29 @@ class GalleriesController extends Controller
             'access' => [
                 'class' => AccessControl::className(),
                 'only'  => ['index', 'view', // reader
-                            'create', 'update', 'delete'], // editor+
+                    'create', 'update', 'delete', 'updatebyeditable'], // editor+
                 'rules' => [
                     [
                         'actions' => ['index', 'view'],
                         'allow'   => true,
                         'matchCallback' => function(){
-                            return Yii::$app->user->can('reader');
+                                return Yii::$app->user->can('reader');
                             }
                     ],
                     [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['create', 'update', 'delete', 'updatebyeditable'],
                         'allow' => true,
                         'matchCallback' => function(){
-                            return Yii::$app->user->can('editor');
-                        }
+                                return Yii::$app->user->can('editor');
+                            }
                     ],
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete'           => ['post'],
+                    'updatebyeditable' => ['post'],
                 ],
             ],
         ];
@@ -187,6 +190,26 @@ class GalleriesController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionUpdatebyeditable(){
+        $id        = Yii::$app->request->post('pk');
+        $attribute = Yii::$app->request->post('name');
+        $value     = Yii::$app->request->post('value');
+
+        $model = $this->findModel($id);
+        try{
+            if (!is_null($model)){
+                $model->$attribute = $value;
+                if (!$model->save()){
+                    throw new Exception('Nem sikerült menteni!');
+                }
+            }else{
+                throw new Exception('Nem létezik ilyen rekord!');
+            }
+        }catch (Exception $e){
+            throw new HttpException(400,$e->getMessage());
         }
     }
 }
