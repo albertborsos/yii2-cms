@@ -67,120 +67,75 @@ class DataProvider {
         return $slug;
     }
 
-    /**
-     * legfeljebb 3 szinten működik
-     *
-     * 1.) Lekérdezek minden menüpontot aminek nincs őse
-     * 2.) Lekérdezem azokat a menüpontokat, amiknek van őse és elmentem az őseit a $parents tömbbe
-     * 3.) Kiíratom az első szintet
-     *      - ha valamelyiknek van gyermeke, akkor kiíratom a 2.szintet
-     * 4.) Lekérdezem ehhez az őshöz tartozó gyermekeket
-     *
-     * @return array
-     */
-    public static function generateMenuItems(){
-        $menuItems    = [];
-        $printedItems = [];
-
-        $firstLevelMenus = self::getFirstLevelMenus();
-        $parents = self::getParentMenuIDs();
-
-        foreach($firstLevelMenus as $menu){
-            if (is_null($menu['parent_post_id']) && array_key_exists($menu['id'], $parents) && !array_key_exists($menu['id'], $printedItems)){
-                // ha nincs szülője és ő szülő, akkor a hozzá tartozó menüpontokat kell kiíratni
-                $children = self::getSecondLevelMenus($menu['id']);
-                $items = [];
-                foreach($children as $child){
-                    $items2 = [];
-                    if (!is_null($child['parent_post_id']) && array_key_exists($child['id'], $parents) && !array_key_exists($child['id'], $printedItems)){
-                        $children2 = self::getSecondLevelMenus($child['id']);
-                        foreach($children2 as $child2){
-                            $items2[] = [
-                                'label' => $child2['name'],
-                                'url' => Posts::generateUrl($child2['id']),
-                            ];
-                        }
-                    }
-                    if (empty($items2)){
-                        $items[] = [
-                            'label' => $child['name'],
-                            'url' => Posts::generateUrl($child['id']),
-                        ];
-                    }else{
-                        $items[] = [
-                            'label' => $child['name'],
-                            'url' => '#',
-                            'items' => $items2,
-                        ];
-                    }
-                }
-                $menuItems[] = [
-                    'label' => $menu['name'],
-                    'url' => '#',
-                    'linkOptions' => [
-                        'class' => 'dropdown-toggle',
-                        'data-toggle' => 'dropdown',
-                    ],
-                    'items' => $items,
-                ];
+    public static function renderItems($menus = [], $parents = [], &$printedItems = [], $level = 0){
+        $level++;
+        $menuItems = [];
+        if (empty($menus)) $menus = self::getMenusByType('main');
+        if (empty($parents)) $parents = self::getMenusByType('parents');
+        foreach($menus as $menu){
+            if (array_key_exists($menu['id'], $parents) && !array_key_exists($menu['id'], $printedItems)){
                 $printedItems[$menu['id']] = 'printed';
+                // ha szülő és még nem volt kiírva, akkor le kell generálni a gyermekeit
+                $children = self::getMenusByType('belongsTo', $menu['id']);
+                if ($level == 1){
+                    $menuItems[] = [
+                        'label' => $menu['name'],
+                        'url' => '#',
+                        'linkOptions' => [
+                            'class' => 'dropdown-toggle',
+                            'data-toggle' => 'dropdown',
+                        ],
+                        'items' => self::renderItems($children, $parents, $printedItems, $level),
+                    ];
+                }else{
+                    $menuItems[] = [
+                            'label' => $menu['name'],
+                            'url' => '#',
+                            'items' => self::renderItems($children, $parents, $printedItems, $level),
+                        ];
+                }
             }else{
-                // ha nincs hozzá tartozó elem, akkor csak kiíratom
+                // ha nem szülő, akkor nem lesz hozzá dropdown
                 $menuItems[] = [
                     'label' => $menu['name'],
                     'url' => Posts::generateUrl($menu['id']),
                 ];
             }
         }
+
         return $menuItems;
     }
 
-    public static function getFirstLevelMenus(){
-        // lekérdezem a szülő menüpontokat
+    public static function getMenusByType($type = 'main', $belongsTo = null){
         $sql  = 'SELECT * FROM '.Posts::tableName();
         $sql .= ' WHERE (post_type=:type_MENU OR post_type=:type_DROP)';
         $sql .= ' AND status=:status_a';
-        $sql .= ' AND parent_post_id IS NULL';
+
+        switch($type){
+            case 'main':
+                $sql .= ' AND parent_post_id IS NULL';
+                break;
+            case 'belongsTo':
+                $sql .= ' AND parent_post_id=:belongs_to';
+                break;
+            case 'parents':
+                $sql .= ' AND parent_post_id IS NOT NULL';
+                break;
+        }
+
         $sql .= ' ORDER BY order_num ASC';
 
         $cmd = Yii::$app->db->createCommand($sql);
         $cmd->bindValue(':type_MENU', 'MENU');
         $cmd->bindValue(':type_DROP', 'DROP');
         $cmd->bindValue(':status_a', DataProvider::STATUS_ACTIVE);
-
-        return $cmd->queryAll();
-    }
-
-    public static function getSecondLevelMenus($belongsTo){
-        // lekérdezem a szülő menüpontokat
-        $sql  = 'SELECT * FROM '.Posts::tableName();
-        $sql .= ' WHERE (post_type=:type_MENU OR post_type=:type_DROP)';
-        $sql .= ' AND status=:status_a';
-        $sql .= ' AND parent_post_id=:belongs_to';
-        $sql .= ' ORDER BY order_num ASC';
-
-        $cmd = Yii::$app->db->createCommand($sql);
-        $cmd->bindValue(':type_MENU', 'MENU');
-        $cmd->bindValue(':type_DROP', 'DROP');
-        $cmd->bindValue(':status_a', DataProvider::STATUS_ACTIVE);
-        $cmd->bindParam(':belongs_to', $belongsTo);
-
-        return $cmd->queryAll();
-    }
-
-    public static function getParentMenuIDs(){
-        // lekérdezem a szülő menüpontokat
-        $sql  = 'SELECT * FROM '.Posts::tableName();
-        $sql .= ' WHERE (post_type=:type_MENU OR post_type=:type_DROP)';
-        $sql .= ' AND status=:status_a';
-        $sql .= ' AND parent_post_id IS NOT NULL';
-        $sql .= ' ORDER BY order_num ASC';
-
-        $cmd = Yii::$app->db->createCommand($sql);
-        $cmd->bindValue(':type_MENU', 'MENU');
-        $cmd->bindValue(':type_DROP', 'DROP');
-        $cmd->bindValue(':status_a', DataProvider::STATUS_ACTIVE);
-
-        return ArrayHelper::map($cmd->queryAll(), 'parent_post_id', 'parent_post_id');
+        if ($type == 'belongsTo'){
+            $cmd->bindParam(':belongs_to', $belongsTo);
+        }
+        if ($type !== 'parents'){
+            return $cmd->queryAll();
+        }else{
+            return ArrayHelper::map($cmd->queryAll(), 'parent_post_id', 'parent_post_id');
+        }
     }
 } 
