@@ -49,6 +49,11 @@ class DataProvider {
                     $array[$i] = $i;
                 }
                 break;
+            case 'itemsinarow':
+                for($i = 1; $i <= 12; $i++){
+                    $array[$i] = $i;
+                }
+                break;
         }
         if (is_null($id) && $returnArray) {
             return $array;

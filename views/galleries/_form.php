@@ -22,6 +22,8 @@ use albertborsos\yii2cms\components\DataProvider;
 
     <?= $form->field($model, 'pagesize')->dropDownList(DataProvider::items('pagesize')) ?>
 
+    <?= $form->field($model, 'itemsinarow')->dropDownList(DataProvider::items('itemsinarow')) ?>
+
     <?= $form->field($model, 'status')->dropDownList(DataProvider::items('status')) ?>
 
     <div class="form-group">

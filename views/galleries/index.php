@@ -60,6 +60,16 @@ $this->title = 'Galleries';
                                   },
           ],
           [
+              'attribute'      => 'itemsinarow',
+              'hAlign'=>'center',
+              'vAlign'=>'middle',
+              'format'=>'raw',
+              'headerOptions'  => ['class' => 'text-center'],
+              'value'          => function($model, $index, $widget){
+                                    return Editable::select('itemsinarow', $model['id'], $model['itemsinarow'], DataProvider::items('itemsinarow', $model['itemsinarow'], false), ['updatebyeditable'], DataProvider::items('itemsinarow'));
+                                  },
+          ],
+          [
               'attribute'      => 'order',
               'hAlign'=>'center',
               'vAlign'=>'middle',

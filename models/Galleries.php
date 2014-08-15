@@ -17,6 +17,7 @@ use yii\db\BaseActiveRecord;
  * @property string $name
  * @property string $order
  * @property string $pagesize
+ * @property string $itemsinarow
  * @property integer $created_at
  * @property integer $created_user
  * @property integer $updated_at
@@ -45,7 +46,7 @@ class Galleries extends ActiveRecord
     public function rules()
     {
         return [
-            [['pagesize', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
+            [['pagesize','itemsinarow', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
             [['replace_id'], 'string', 'max' => 50],
             [['replace_id'], 'unique'],
             [['order'], 'string', 'max' => 5],
@@ -64,6 +65,7 @@ class Galleries extends ActiveRecord
             'replace_id' => 'Beillesztő kód',
             'name' => 'Név',
             'order' => 'Sorrend',
+            'itemsinarow' => 'Képek száma egy sorban',
             'pagesize' => 'Oldalméret',
             'created_at' => 'Létrehozva',
             'created_user' => 'Létrehozta',
@@ -134,6 +136,7 @@ class Galleries extends ActiveRecord
             'page' => $page,
             'pageSize' => $this->pagesize,
             'order' => $this->order,
+            'itemNumInRow' => $this->itemsinarow,
         ]);
     }
 
