@@ -42,7 +42,7 @@
                     ], // editor+
                     'rules' => [
                         [
-                            'actions'       => ['index', 'view'],
+                            'actions'       => ['index', 'view', 'menu', 'blog'],
                             'allow'         => true,
                             'matchCallback' => function () {
                                     return Yii::$app->user->can('reader');
@@ -77,6 +77,34 @@
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             return $this->render('index', [
+                'searchModel'  => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        /**
+         * Lists all Posts models.
+         * @return mixed
+         */
+        public function actionMenu()
+        {
+            $searchModel  = new PostsSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'menu');
+
+            return $this->render('menu', [
+                'searchModel'  => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        /**
+         * Lists all Posts models.
+         * @return mixed
+         */
+        public function actionBlog()
+        {
+            $searchModel  = new PostsSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'blog');
+
+            return $this->render('blog', [
                 'searchModel'  => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
