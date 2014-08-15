@@ -209,14 +209,13 @@ class Posts extends ActiveRecord
     }
 
     public static function getSelectParentMenu($actual = null, $addNull = false){
-        $sql  = 'SELECT * FROM '.self::tableName().' WHERE status=:status_a AND (post_type=:type_MENU OR post_type=:type_DROP)';
+        $sql  = 'SELECT * FROM '.self::tableName().' WHERE status=:status_a AND post_type=:type_DROP';
         if (!is_null($actual)){
             $sql .= ' AND id<>:id';
         }
         $sql .= ' ORDER BY order_num ASC';
         $cmd = Yii::$app->db->createCommand($sql);
         $cmd->bindValue(':status_a', DataProvider::STATUS_ACTIVE);
-        $cmd->bindValue(':type_MENU', 'MENU');
         $cmd->bindValue(':type_DROP', 'DROP');
         if (!is_null($actual)){
             $cmd->bindParam(':id', $actual);
