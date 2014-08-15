@@ -18,7 +18,7 @@ class GalleriesSearch extends Galleries
     public function rules()
     {
         return [
-            [['id', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
+            [['id', 'pagesize','created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
             [['replace_id', 'name', 'status', 'order'], 'safe'],
         ];
     }
@@ -54,6 +54,7 @@ class GalleriesSearch extends Galleries
         $query->andFilterWhere([
             'id' => $this->id,
             'order' => $this->order,
+            'pagesize' => $this->pagesize,
             'created_at' => $this->created_at,
             'created_user' => $this->created_user,
             'updated_at' => $this->updated_at,

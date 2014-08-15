@@ -79,7 +79,7 @@
                     'headerOptions'   => ['class' => 'text-center'],
                     'value'           => function($model, $index, $widget){
                             if ($model->post_type == 'MENU' || $model->post_type == 'DROP'){
-                                return Editable::select('order_num', $model->id, $model->order_num, $model->order_num, ['/cms/posts/updatebyeditable'], Posts::getOrdersSourceArray());
+                                return Editable::select('order_num', $model->id, $model->order_num, $model->order_num, ['/cms/posts/updatebyeditable'], DataProvider::items('orderNumbers'));
                             }else{
                                 return 'Nem módosítható!';
                             }

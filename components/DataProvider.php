@@ -43,6 +43,12 @@ class DataProvider {
                     'DESC' => 'Frissek elöl',
                 ];
                 break;
+            case 'pagesize':
+            case 'orderNumbers':
+                for($i = 1; $i <= 99; $i++){
+                    $array[$i] = $i;
+                }
+                break;
         }
         if (is_null($id) && $returnArray) {
             return $array;

@@ -2,16 +2,21 @@
 
 namespace albertborsos\yii2cms\controllers;
 
+use albertborsos\yii2cms\models\GalleryPhotos;
+use albertborsos\yii2gallery\Gallery;
 use albertborsos\yii2lib\helpers\S;
 use Exception;
 use Yii;
 use albertborsos\yii2cms\models\Galleries;
 use albertborsos\yii2cms\models\GalleriesSearch;
 use albertborsos\yii2lib\web\Controller;
+use yii\data\ActiveDataProvider;
+use yii\helpers\Json;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\Response;
 
 /**
  * GalleriesController implements the CRUD actions for Galleries model.
@@ -53,8 +58,10 @@ class GalleriesController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete'           => ['post'],
-                    'updatebyeditable' => ['post'],
+                    'delete'            => ['post'],
+                    'updatebyeditable'  => ['post'],
+                    'renderajaxgallery' => ['post'],
+                    //'loadotherimages'   => ['post'],
                 ],
             ],
         ];
@@ -211,5 +218,44 @@ class GalleriesController extends Controller
         }catch (Exception $e){
             throw new HttpException(400,$e->getMessage());
         }
+    }
+
+    public function actionRenderajaxgallery($id, $page = null){
+        $model = $this->findModel($id);
+
+        return $model->generate($page);
+    }
+
+    public function actionLoadotherimages($id, $activePage){
+        Yii::$app->response->getHeaders()->set('Vary', 'Accept');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $gallery = $this->findModel($id);
+
+        $query = GalleryPhotos::find()->where(['status' => 'a', 'gallery_id' => $id]);
+        $totalNum = $query->count();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query->limit($activePage*$gallery->pagesize)->offset(0),
+            'pagination' => false,
+            'sort' => [
+                'defaultOrder' => 'id '.$gallery->order,
+            ],
+        ]);
+
+        $links['before'] = Gallery::renderLinksOnly($dataProvider);
+        // lekérdezem azokat a képeket, amik az aktuális oldal után vannak
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query->limit(null)->offset(($activePage+1)*$gallery->pagesize),
+            'pagination' => false,
+            'sort' => [
+                'defaultOrder' => 'id '.$gallery->order,
+            ],
+        ]);
+
+        $links['after'] = Gallery::renderLinksOnly($dataProvider);
+
+        return Json::encode($links);
+
     }
 }

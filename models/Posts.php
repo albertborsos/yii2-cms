@@ -200,14 +200,6 @@ class Posts extends ActiveRecord
         return false;
     }
 
-    public static function getOrdersSourceArray(){
-        $sourceArray = [];
-        for($i = 1; $i <= 20; $i++){
-            $sourceArray[$i] = $i;
-        }
-        return $sourceArray;
-    }
-
     public static function getSelectParentMenu($actual = null, $addNull = false){
         $sql  = 'SELECT * FROM '.self::tableName().' WHERE status=:status_a AND post_type=:type_DROP';
         if (!is_null($actual)){

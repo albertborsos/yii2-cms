@@ -50,6 +50,16 @@ $this->title = 'Galleries';
                                   },
           ],
           [
+              'attribute'      => 'pagesize',
+              'hAlign'=>'center',
+              'vAlign'=>'middle',
+              'format'=>'raw',
+              'headerOptions'  => ['class' => 'text-center'],
+              'value'          => function($model, $index, $widget){
+                                    return Editable::select('pagesize', $model['id'], $model['pagesize'], DataProvider::items('pagesize', $model['pagesize'], false), ['updatebyeditable'], DataProvider::items('pagesize'));
+                                  },
+          ],
+          [
               'attribute'      => 'order',
               'hAlign'=>'center',
               'vAlign'=>'middle',

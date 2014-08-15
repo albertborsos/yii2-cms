@@ -16,6 +16,7 @@ use yii\db\BaseActiveRecord;
  * @property string $replace_id
  * @property string $name
  * @property string $order
+ * @property string $pagesize
  * @property integer $created_at
  * @property integer $created_user
  * @property integer $updated_at
@@ -44,7 +45,7 @@ class Galleries extends ActiveRecord
     public function rules()
     {
         return [
-            [['created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
+            [['pagesize', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
             [['replace_id'], 'string', 'max' => 50],
             [['replace_id'], 'unique'],
             [['order'], 'string', 'max' => 5],
@@ -63,6 +64,7 @@ class Galleries extends ActiveRecord
             'replace_id' => 'Beillesztő kód',
             'name' => 'Név',
             'order' => 'Sorrend',
+            'pagesize' => 'Oldalméret',
             'created_at' => 'Létrehozva',
             'created_user' => 'Létrehozta',
             'updated_at' => 'Módosítva',
@@ -124,11 +126,14 @@ class Galleries extends ActiveRecord
         return $content;
     }
 
-    public function generate(){
+    public function generate($page = 0){
         return \albertborsos\yii2gallery\Gallery::widget([
             'id' => 'gallery-'.$this->id,
             'header' => $this->name,
             'galleryId' => $this->id,
+            'page' => $page,
+            'pageSize' => $this->pagesize,
+            'order' => $this->order,
         ]);
     }
 
