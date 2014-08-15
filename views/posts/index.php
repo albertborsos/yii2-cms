@@ -26,12 +26,18 @@
                 'heading'    => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Bejegyzések</h3>',
                 'type'       => 'default',
                 'before'     => Html::a('<i class="glyphicon glyphicon-plus"></i> Új Menüpont', ['create?type=MENU'], ['class' => 'btn btn-success'])
+                    .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Legördülő Menü', ['create?type=DROP'], ['class' => 'btn btn-success'])
                     .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Blog bejegyzés', ['create?type=BLOG'], ['class' => 'btn btn-success']),
                 'after'      => Html::a('<i class="glyphicon glyphicon-repeat"></i> Szűrések törlése', ['index'], ['class' => 'btn btn-info']),
                 'showFooter' => false
             ],
             'export'       => false,
             'filterModel'  => $searchModel,
+            'rowOptions' => function($model, $key, $index, $grid){
+                if ($model->post_type == 'DROP'){
+                    return ['class' => 'info'];
+                }
+                },
             'columns'      => [
                 ['class' => 'kartik\grid\SerialColumn'],
                 [
@@ -49,6 +55,21 @@
                                 return $language->name;
                             }
                         },
+                    'filter' => \albertborsos\yii2cms\models\Languages::getLanguages(),
+                ],
+                [
+                    'attribute'       => 'parent_post_id',
+                    'hAlign'          => 'center',
+                    'vAlign'          => 'middle',
+                    'format' => 'raw',
+                    'headerOptions'   => ['class' => 'text-center'],
+                    'value'           => function($model, $index, $widget){
+                            if ($model->post_type == 'MENU' || $model->post_type == 'DROP'){
+                                return Editable::select('parent_post_id', $model->id, $model->parent_post_id, Posts::getPostName($model->parent_post_id), ['/cms/posts/updatebyeditable'], Posts::getSelectParentMenu($model->id, true));
+                            }else{
+                                return 'Nem módosítható!';
+                            }
+                        },
                 ],
                 [
                     'attribute'       => 'order_num',
@@ -57,11 +78,20 @@
                     'format' => 'raw',
                     'headerOptions'   => ['class' => 'text-center'],
                     'value'           => function($model, $index, $widget){
-                            if ($model->post_type == 'MENU'){
+                            if ($model->post_type == 'MENU' || $model->post_type == 'DROP'){
                                 return Editable::select('order_num', $model->id, $model->order_num, $model->order_num, ['/cms/posts/updatebyeditable'], Posts::getOrdersSourceArray());
                             }else{
                                 return 'Nem módosítható!';
                             }
+                        },
+                ],
+                [
+                    'attribute'     => 'name',
+                    'hAlign'        => 'center',
+                    'vAlign'        => 'middle',
+                    'headerOptions' => ['class' => 'text-center'],
+                    'value'         => function ($model, $index, $widget) {
+                            return $model['name'];
                         },
                 ],
                 [
@@ -73,15 +103,6 @@
                             return DataProvider::items('post_type', $model['post_type'], false);
                         },
                     'filter'        => DataProvider::items('post_type'),
-                ],
-                [
-                    'attribute'     => 'name',
-                    'hAlign'        => 'center',
-                    'vAlign'        => 'middle',
-                    'headerOptions' => ['class' => 'text-center'],
-                    'value'         => function ($model, $index, $widget) {
-                            return $model['name'];
-                        },
                 ],
                 [
                     'attribute'     => 'commentable',

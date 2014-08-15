@@ -1,5 +1,7 @@
 <?php
 
+    use albertborsos\yii2cms\models\Languages;
+    use albertborsos\yii2cms\models\Posts;
     use albertborsos\yii2lib\helpers\Widgets;
     use albertborsos\yii2tagger\models\Tags;
     use kartik\widgets\DateTimePicker;
@@ -17,18 +19,19 @@ use albertborsos\yii2cms\components\DataProvider;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'language_id')->dropDownList(\albertborsos\yii2cms\models\Languages::getLanguages()) ?>
+    <?= $form->field($model, 'language_id')->dropDownList(Languages::getLanguages()) ?>
 
-    <?php switch($model->post_type){
-        case 'BLOG':
-        case 'MENU':
-            break;
-        default:
+    <?php
+        if(!array_key_exists($model->post_type, DataProvider::items('post_type'))){
             print $form->field($model, 'post_type')->dropDownList(DataProvider::items('post_type'), ['prompt' => 'Válassz típust!']);
-            break;
-    }?>
+        }
+    ?>
+
+    <?= $form->field($model, 'parent_post_id')->dropDownList(Posts::getSelectParentMenu($model->id), ['prompt' => 'Válassz! (nem kötelező)']) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 160]) ?>
+
+    <?php if($model->post_type !== 'DROP'): ?>
 
     <?= Tags::Widget('tags', $tags) ?>
 
@@ -54,6 +57,8 @@ use albertborsos\yii2cms\components\DataProvider;
             'autoclose' => true
         ]
     ]) ?>
+
+    <?php endif ?>
 
     <?= $form->field($model, 'status')->dropDownList(DataProvider::items('status')) ?>
 

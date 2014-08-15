@@ -45,6 +45,12 @@ class PostsSearch extends Posts
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 100,
+            ],
+            'sort' => [
+                'defaultOrder' => 'order_num ASC',
+            ],
         ]);
 
         if (!($this->load($params) && $this->validate())) {
@@ -62,12 +68,20 @@ class PostsSearch extends Posts
             'updated_user' => $this->updated_user,
         ]);
 
-        $query->andFilterWhere(['like', 'post_type', $this->post_type])
-            ->andFilterWhere(['like', 'name', $this->name])
+        if ($this->post_type == 'DROP' || $this->post_type == 'MENU'){
+            $query->andFilterWhere(['like', 'post_type', 'DROP'])->orFilterWhere(['like', 'post_type', 'MENU']);
+        }else{
+            $query->andFilterWhere(['like', 'post_type', 'BLOG']);
+        }
+        $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'content_preview', $this->content_preview])
             ->andFilterWhere(['like', 'content_main', $this->content_main])
             ->andFilterWhere(['like', 'commentable', $this->commentable])
             ->andFilterWhere(['like', 'status', $this->status]);
+
+        $query->orderBy([
+            'order_num' => SORT_ASC,
+        ]);
 
         return $dataProvider;
     }
