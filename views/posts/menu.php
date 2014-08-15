@@ -26,8 +26,7 @@
                 'heading'    => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Bejegyzések</h3>',
                 'type'       => 'default',
                 'before'     => Html::a('<i class="glyphicon glyphicon-plus"></i> Új Menüpont', ['create?type=MENU'], ['class' => 'btn btn-success'])
-                    .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Legördülő Menü', ['create?type=DROP'], ['class' => 'btn btn-success'])
-                    .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Blog bejegyzés', ['create?type=BLOG'], ['class' => 'btn btn-success']),
+                    .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Legördülő Menü', ['create?type=DROP'], ['class' => 'btn btn-success']),
                 'after'      => Html::a('<i class="glyphicon glyphicon-repeat"></i> Szűrések törlése', ['index'], ['class' => 'btn btn-info']),
                 'showFooter' => false
             ],
@@ -39,7 +38,21 @@
                 }
                 },
             'columns'      => [
-                ['class' => 'kartik\grid\SerialColumn'],
+                [
+                    'attribute'       => 'order_num',
+                    'hAlign'          => 'center',
+                    'vAlign'          => 'middle',
+                    'format' => 'raw',
+                    'headerOptions'   => ['class' => 'text-center'],
+                    'value'           => function($model, $index, $widget){
+                            if ($model->post_type == 'MENU' || $model->post_type == 'DROP'){
+                                return Editable::select('order_num', $model->id, $model->order_num, $model->order_num, ['/cms/posts/updatebyeditable'], Posts::getOrdersSourceArray());
+                            }else{
+                                return 'Nem módosítható!';
+                            }
+                        },
+                    'filter' => false,
+                ],
                 [
                     'attribute'     => 'language_id',
                     'hAlign'        => 'center',
@@ -72,20 +85,6 @@
                         },
                 ],
                 [
-                    'attribute'       => 'order_num',
-                    'hAlign'          => 'center',
-                    'vAlign'          => 'middle',
-                    'format' => 'raw',
-                    'headerOptions'   => ['class' => 'text-center'],
-                    'value'           => function($model, $index, $widget){
-                            if ($model->post_type == 'MENU' || $model->post_type == 'DROP'){
-                                return Editable::select('order_num', $model->id, $model->order_num, $model->order_num, ['/cms/posts/updatebyeditable'], Posts::getOrdersSourceArray());
-                            }else{
-                                return 'Nem módosítható!';
-                            }
-                        },
-                ],
-                [
                     'attribute'     => 'name',
                     'hAlign'        => 'center',
                     'vAlign'        => 'middle',
@@ -102,7 +101,7 @@
                     'value'         => function ($model, $index, $widget) {
                             return DataProvider::items('post_type', $model['post_type'], false);
                         },
-                    'filter'        => DataProvider::items('post_type'),
+                    'filter'        => false,
                 ],
                 [
                     'attribute'     => 'commentable',

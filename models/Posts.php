@@ -4,8 +4,10 @@ namespace albertborsos\yii2cms\models;
 
 use albertborsos\yii2cms\components\DataProvider;
 use albertborsos\yii2lib\db\ActiveRecord;
+use albertborsos\yii2lib\helpers\S;
 use albertborsos\yii2tagger\models\Tags;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "tbl_cms_posts".
@@ -13,6 +15,7 @@ use Yii;
  * @property string $id
  * @property string $language_id
  * @property string $post_type
+ * @property integer $parent_post_id
  * @property string $name
  * @property string $content_preview
  * @property string $content_main
@@ -49,7 +52,7 @@ class Posts extends ActiveRecord
     {
         return [
             [['language_id'], 'required'],
-            [['language_id', 'order_num', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
+            [['language_id', 'parent_post_id', 'order_num', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
             [['content_preview', 'content_main'], 'string'],
             [['date_show'], 'safe'],
             [['post_type'], 'string', 'max' => 100],
@@ -68,6 +71,7 @@ class Posts extends ActiveRecord
             'language_id' => 'Nyelv',
             'post_type' => 'Típus',
             'name' => 'Főcím',
+            'parent_post_id' => 'Szülő menüpont',
             'content_preview' => 'Előnézet',
             'content_main' => 'Tartalom',
             'order_num' => 'Sorrend',
@@ -100,6 +104,9 @@ class Posts extends ActiveRecord
     public function beforeValidate()
     {
         if (parent::beforeValidate()){
+            if ($this->parent_post_id == ''){
+                $this->parent_post_id = null;
+            }
             return true;
         }else{
             return false;
@@ -199,6 +206,39 @@ class Posts extends ActiveRecord
             $sourceArray[$i] = $i;
         }
         return $sourceArray;
+    }
+
+    public static function getSelectParentMenu($actual = null, $addNull = false){
+        $sql  = 'SELECT * FROM '.self::tableName().' WHERE status=:status_a AND (post_type=:type_MENU OR post_type=:type_DROP)';
+        if (!is_null($actual)){
+            $sql .= ' AND id<>:id';
+        }
+        $sql .= ' ORDER BY order_num ASC';
+        $cmd = Yii::$app->db->createCommand($sql);
+        $cmd->bindValue(':status_a', DataProvider::STATUS_ACTIVE);
+        $cmd->bindValue(':type_MENU', 'MENU');
+        $cmd->bindValue(':type_DROP', 'DROP');
+        if (!is_null($actual)){
+            $cmd->bindParam(':id', $actual);
+        }
+
+        $menus = $cmd->queryAll();
+
+        $return = ArrayHelper::map($menus, 'id', 'name');
+        if ($addNull){
+            $return[''] = 'Nincs';
+        }
+        return $return;
+    }
+
+    public static function getPostName($id){
+        if (!is_null($id)){
+            $post = Posts::findOne(['id' => $id]);
+            if (!is_null($post)){
+                return $post->name;
+            }
+        }
+        return 'Nincs';
     }
 
 }

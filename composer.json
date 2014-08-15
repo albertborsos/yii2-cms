@@ -17,7 +17,8 @@
     "require": {
         "albertborsos/yii2-lib": "*",
         "albertborsos/yii2-tagger": "*",
-        "albertborsos/yii2-user": "*"
+        "albertborsos/yii2-user": "*",
+        "kartik-v/yii2-nav-x": "*"
     },
     "autoload": {
         "psr-4": {

@@ -39,13 +39,34 @@ class PostsSearch extends Posts
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $type = null)
     {
         $query = Posts::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 100,
+            ],
+            'sort' => [
+                'defaultOrder' => 'order_num ASC',
+            ],
         ]);
+
+        switch($type){
+            case 'menu':
+                $query->andFilterWhere(['like', 'post_type', 'DROP'])->orFilterWhere(['like', 'post_type', 'MENU']);
+                $query->orderBy([
+                    'order_num' => SORT_ASC,
+                ]);
+                break;
+            case 'blog':
+                $query->andFilterWhere(['like', 'post_type', 'BLOG']);
+                $query->orderBy([
+                    'id' => SORT_DESC,
+                ]);
+                break;
+        }
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -62,12 +83,12 @@ class PostsSearch extends Posts
             'updated_user' => $this->updated_user,
         ]);
 
-        $query->andFilterWhere(['like', 'post_type', $this->post_type])
-            ->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'content_preview', $this->content_preview])
             ->andFilterWhere(['like', 'content_main', $this->content_main])
             ->andFilterWhere(['like', 'commentable', $this->commentable])
             ->andFilterWhere(['like', 'status', $this->status]);
+
 
         return $dataProvider;
     }
