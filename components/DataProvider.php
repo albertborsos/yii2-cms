@@ -43,11 +43,19 @@ class DataProvider {
                     'DESC' => 'Frissek elöl',
                 ];
                 break;
-            case 'pagesize':
             case 'orderNumbers':
                 for($i = 1; $i <= 99; $i++){
                     $array[$i] = $i;
                 }
+                break;
+            case 'pagesize':
+                $sizes = self::items('itemsinarow');
+                for($i = 1; $i <5; $i++){
+                    foreach($sizes as $size){
+                        $array[$size*$i] = $size*$i;
+                    }
+                }
+                asort($array);
                 break;
             case 'itemsinarow':
                 $array = [
