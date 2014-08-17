@@ -50,9 +50,14 @@ class DataProvider {
                 }
                 break;
             case 'itemsinarow':
-                for($i = 1; $i <= 12; $i++){
-                    $array[$i] = $i;
-                }
+                $array = [
+                    1 => 1,
+                    2 => 2,
+                    3 => 3,
+                    4 => 4,
+                    6 => 6,
+                    12 => 12,
+                ];
                 break;
         }
         if (is_null($id) && $returnArray) {
