@@ -40,7 +40,8 @@
                     ],
             ]);
         ?>
-        <?= Html::submitButton('Mentés') ?>
+        <br />
+        <?= Html::submitButton('Mentés',['class' => 'btn btn-primary']) ?>
         <?= Html::endForm() ?>
     </div>
 </div>

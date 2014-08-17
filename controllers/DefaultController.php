@@ -13,6 +13,7 @@ use Yii;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\YiiAsset;
 
 class DefaultController extends Controller
@@ -23,6 +24,9 @@ class DefaultController extends Controller
         $this->defaultAction = 'index';
         $this->name          = 'Alap';
         $this->layout        = '//center';
+        $this->actionName = ArrayHelper::merge($this->actionName, [
+            'themeeditor' => 'Téma Szerkesztő',
+        ]);
     }
 
     public function behaviors()
