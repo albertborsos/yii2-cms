@@ -2,6 +2,7 @@
 
 namespace albertborsos\yii2cms\components;
 
+use albertborsos\yii2cms\models\Languages;
 use albertborsos\yii2cms\models\Posts;
 use albertborsos\yii2lib\helpers\S;
 use Yii;
@@ -131,9 +132,14 @@ class DataProvider {
     }
 
     public static function getMenusByType($type = 'main', $belongsTo = null){
+        $language = Languages::findOne(['code' => Yii::$app->language]);
+
         $sql  = 'SELECT * FROM '.Posts::tableName();
         $sql .= ' WHERE (post_type=:type_MENU OR post_type=:type_DROP)';
         $sql .= ' AND status=:status_a';
+        if (!is_null($language)){
+            $sql .= ' AND language_id=:language_id';
+        }
 
         switch($type){
             case 'main':
@@ -153,6 +159,9 @@ class DataProvider {
         $cmd->bindValue(':type_MENU', 'MENU');
         $cmd->bindValue(':type_DROP', 'DROP');
         $cmd->bindValue(':status_a', DataProvider::STATUS_ACTIVE);
+        if (!is_null($language)){
+            $cmd->bindValue(':language_id', $language->id);
+        }
         if ($type == 'belongsTo'){
             $cmd->bindParam(':belongs_to', $belongsTo);
         }
