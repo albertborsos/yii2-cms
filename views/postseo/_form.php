@@ -1,6 +1,7 @@
 <?php
 
-use yii\helpers\Html;
+    use albertborsos\yii2cms\models\Posts;
+    use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use albertborsos\yii2cms\components\DataProvider;
 
@@ -17,14 +18,13 @@ use albertborsos\yii2cms\components\DataProvider;
     ]); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 70]) ?>
+    <?= $form->field($model, 'meta_description')->textInput(['maxlength' => 255, 'placeholder' => 'Alapértelmezetten az Előnézet vagy a Főcím']) ?>
 
-    <?= $form->field($model, 'meta_description')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'meta_keywords')->textInput(['maxlength' => 100, 'placeholder' => 'Alapértelmezetten a Cimkék']) ?>
 
-    <?= $form->field($model, 'meta_keywords')->textInput(['maxlength' => 100]) ?>
+    <?= $form->field($model, 'meta_robots')->dropDownList(DataProvider::items('meta-robots')) ?>
 
-    <?= $form->field($model, 'meta_robots')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'url')->textInput(['maxlength' => 512]) ?>
+    <?= $form->field($model, 'url')->textarea(['maxlength' => '512', 'rows' => '4', 'placeholder' => Posts::generateUrl($model->post_id)]) ?>
 
     <?= $form->field($model, 'canonical_post_id')->dropDownList($model->getCanonicalPosts()) ?>
 

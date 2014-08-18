@@ -68,6 +68,13 @@ class DataProvider {
                     12 => 12,
                 ];
                 break;
+            case 'meta-robots':
+                $array = [
+                    'INDEX'             => 'INDEX',
+                    'NOINDEX'           => 'NOINDEX',
+                    'NOINDEX, NOFOLLOW' => 'NOINDEX, NOFOLLOW',
+                ];
+                break;
         }
         if (is_null($id) && $returnArray) {
             return $array;
