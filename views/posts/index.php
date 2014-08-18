@@ -34,9 +34,16 @@
             'export'       => false,
             'filterModel'  => $searchModel,
             'rowOptions' => function($model, $key, $index, $grid){
-                if ($model->post_type == 'DROP'){
-                    return ['class' => 'info'];
-                }
+                    if ($model->post_type == 'DROP'){
+                        return ['class' => 'info'];
+                    }elseif($model->status == DataProvider::STATUS_ACTIVE){
+                        return ['class' => 'success'];
+                    }elseif($model->status == DataProvider::STATUS_DELETED){
+                        return ['class' => 'danger'];
+                    }elseif($model->status == DataProvider::STATUS_INACTIVE){
+                        return ['class' => 'warning'];
+                    }
+
                 },
             'columns'      => [
                 ['class' => 'kartik\grid\SerialColumn'],
