@@ -142,12 +142,11 @@
                     if ($model->save()) {
                         Tags::saveTo($model, $tags);
                         // create seo setting
-                        $seo = $model->createSeo();
-                        if ($seo->save()){
+                        if ($model->createSeo()){
                             $transaction->commit();
                             Yii::$app->session->setFlash('success', '<h4>'.DataProvider::items('post_type', $model->post_type, false).' sikeresen létrehozva!</h4>');
                         }else{
-                            $seo->throwNewException('SEO beállítások mentése nem sikerült!');
+                            $model->throwNewException('SEO beállítások mentése nem sikerült!');
                         }
                         return $this->redirect(['update?id='.$model->id]);
                     } else {
@@ -194,7 +193,6 @@
                     Yii::$app->session->setFlash('error', $e->getMessage());
                 }
             }
-
             return $this->render('update', [
                 'model' => $model,
                 'tags' => $tags,
@@ -231,6 +229,10 @@
         protected function findModel($id)
         {
             if (($model = Posts::findOne($id)) !== null) {
+                if ($model->seo === null){
+                    $model->createSeo();
+                    $model = $this->findModel($id);
+                }
                 return $model;
             } else {
                 throw new NotFoundHttpException('The requested page does not exist.');

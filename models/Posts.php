@@ -88,8 +88,7 @@ class Posts extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSeo()
-    {
+    public function getSeo(){
         return $this->hasOne(PostSeo::className(), ['post_id' => 'id']);
     }
 
@@ -140,7 +139,7 @@ class Posts extends ActiveRecord
         $seo->title             = $this->name;
         $seo->status            = DataProvider::STATUS_ACTIVE;
 
-        return $seo;
+        return $seo->save();
     }
 
     public function checkUrlIsCorrect(){
@@ -157,7 +156,7 @@ class Posts extends ActiveRecord
         if (!is_null($postId)){
             $post = Posts::findOne(['id' => $postId]);
             if (!is_null($post)){
-                if (!is_null($post->seo->url)){
+                if (isset($post->seo) && !is_null($post->seo->url)){
                     return Yii::$app->urlManager->createAbsoluteUrl($post->seo->url);
                 }else{
                     switch($post->post_type){
