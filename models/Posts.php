@@ -136,7 +136,7 @@ class Posts extends ActiveRecord
         $seo                    = new PostSeo();
         $seo->post_id           = $this->id;
         $seo->canonical_post_id = $this->id;
-        $seo->title             = $this->name;
+        $seo->meta_robots       = 'INDEX';
         $seo->status            = DataProvider::STATUS_ACTIVE;
 
         return $seo->save();
