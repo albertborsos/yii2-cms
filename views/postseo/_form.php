@@ -17,7 +17,8 @@ use albertborsos\yii2cms\components\DataProvider;
         'action' => Yii::$app->urlManager->getBaseUrl().'/cms/postseo/update?id='.$model->id,
     ]); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 70]) ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => 70, 'placeholder' => 'Alapértelmezetten a Főcím']) ?>
+    
     <?= $form->field($model, 'meta_description')->textInput(['maxlength' => 255, 'placeholder' => 'Alapértelmezetten az Előnézet vagy a Főcím']) ?>
 
     <?= $form->field($model, 'meta_keywords')->textInput(['maxlength' => 100, 'placeholder' => 'Alapértelmezetten a Cimkék']) ?>
