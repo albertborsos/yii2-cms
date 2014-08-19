@@ -10,7 +10,7 @@
 ?>
 <div class="content">
     <div class="header">
-        <h2><?= Html::a($post->name, Posts::generateUrl($post->id))?></h2>
+        <h3><?= Html::a($post->name, Posts::generateUrl($post->id))?></h3>
 
         <div class="description">
             <span class="author"><?= Glyph::icon(Glyph::ICON_USER) ?> Szerző: <?= Users::findIdentity($post->created_user)->getFullname() ?></span>
