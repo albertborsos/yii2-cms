@@ -112,14 +112,17 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function actionThemeeditor($fileName = null, $theme = 'page'){
-
+    public function actionThemeeditor($filePath = null){
         $fileContent = null;
-        $path = Yii::$app->getBasePath().'/../common/themes/'.$theme.'/views/layouts';
+        $extension = 'php';
+        $paths = [
+            Yii::$app->getBasePath().'/../common/themes/page/views/layouts',
+            Yii::$app->getBasePath().'/../css',
+        ];
 
         if (Yii::$app->request->isPost){
             $newContent = Yii::$app->request->post('file-editor');
-            $result = File::setContent($path.'/'.$fileName, $newContent);
+            $result = File::setContent($filePath, $newContent);
             if ($result === true){
                 Yii::$app->session->setFlash('success', '<h4>Fájl tartalma sikeresen módosítva!</h4>');
             }else{
@@ -127,23 +130,24 @@ class DefaultController extends Controller
             }
         }
 
-        if (!is_null($fileName)){
+        if (!is_null($filePath)){
             // ha választott ki filet
-            $options = ['only' => [$fileName]];
-
-            $editedFile = $path . '/' . $fileName;
+            $editedFile = $filePath;
+            $exploded = explode('.', $filePath);
+            $extension = S::get($exploded, count($exploded)-1);
 
             if (is_file($editedFile)) {
                 $fileContent = file_get_contents($editedFile);
             }
         }
-        $options = ['only' => ['tpl_footer*', 'tpl_sidebar*']];
-        $filesDataProvider = File::dirContentToDataProvider($path, $options);
+        $options = ['only' => ['tpl_footer*', 'tpl_sidebar*', '*.css']];
+        $filesDataProvider = File::dirsContentToDataProvider($paths, $options);
 
 
         return $this->render('themeeditor', [
             'filesDataProvider' => $filesDataProvider,
             'fileContent' => $fileContent,
+            'extension' => $extension,
         ]);
     }
 }
