@@ -19,7 +19,7 @@
                     'updateOptions' => ['title' => 'Módosítás', 'class' => 'btn btn-sm btn-default'],
                     'buttons' => [
                         'update' => function($url, $model, $key){
-                                return Html::a(Glyph::icon(Glyph::ICON_EDIT), ['/cms/default/themeeditor?fileName='.$model['fileName']], ['class'=>'btn btn-sm btn-default']);
+                                return Html::a(Glyph::icon(Glyph::ICON_EDIT), ['/cms/default/themeeditor?filePath='.$model['filePath']], ['class'=>'btn btn-sm btn-default']);
                             },
                     ],
                 ],
@@ -31,7 +31,7 @@
         <?= trntv\aceeditor\Widget::widget([
                 'name' => 'file-editor',
                 'value' => $fileContent,
-                'mode'=>'php', // programing language mode. Default "html"
+                'mode'=>$extension, // programing language mode. Default "html"
                 'theme'=>'eclipse', // editor theme. Default "github"
                 // Editor container options
                 'containerOptions' => [
