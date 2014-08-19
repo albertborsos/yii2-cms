@@ -44,8 +44,8 @@ class GalleryPhotos extends ActiveRecord
     public function init()
     {
         parent::init();
-        $this->pathWatermark = Yii::$app->getBasePath().'/web/images/watermark-TL.png';
-        $this->pathBase      = Yii::$app->getBasePath()."/web/uploads/images";
+        $this->pathWatermark = Yii::$app->getBasePath().'/images/watermark-TL.png';
+        $this->pathBase      = Yii::$app->getBasePath()."/../uploads/images";
         $this->urlBase       = Yii::$app->urlManager->getBaseUrl()."/uploads/images";
     }
 
