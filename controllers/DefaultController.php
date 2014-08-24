@@ -71,6 +71,7 @@ class DefaultController extends Controller
                 // $content .= disqus
 
                 $content = Galleries::insertGallery($content);
+                $content = Posts::insertForm('contactUs', $content);
 
                 return $this->render('index', [
                     'content' => $content,
@@ -149,14 +150,6 @@ class DefaultController extends Controller
             'filesDataProvider' => $filesDataProvider,
             'fileContent' => $fileContent,
             'extension' => $extension,
-        ]);
-    }
-
-    public function actionContact(){
-        $model = new ContactForm();
-
-        return $this->render('contact', [
-            'model' => $model
         ]);
     }
 }

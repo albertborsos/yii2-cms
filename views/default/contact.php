@@ -7,26 +7,27 @@ use yii\captcha\Captcha;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $model \albertborsos\yii2cms\models\ContactForm */
 ?>
-<div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-    </p>
-
-    <div class="row">
-        <div class="col-lg-5 well">
-            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
-                <?= $form->field($model, 'nameFirst') ?>
-                <?= $form->field($model, 'nameLast') ?>
-                <?= $form->field($model, 'email') ?>
-                <?= $form->field($model, 'subject') ?>
-                <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
-                <div class="form-group">
-                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 well">
+        <?php $form = ActiveForm::begin(['id' => 'contact-form', 'options' => [
+                'class' => 'form-horizontal'
+             ],
+             'fieldConfig' => [
+                 'template' => '{label}<div class="col-sm-9">{input}</div><div class="col-sm-9 col-sm-offset-3">{error}</div>',
+                 'labelOptions' => ['class' => 'col-sm-3 control-label'],
+             ]]); ?>
+            <?= $form->field($model, 'nameFirst') ?>
+            <?= $form->field($model, 'nameLast') ?>
+            <?= $form->field($model, 'email') ?>
+            <?= $form->field($model, 'phone') ?>
+            <?= $form->field($model, 'subject') ?>
+            <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
+            <?= $form->field($model, 'verifyCode')->textInput(['placeholder' => 'eredmény számmal vagy betűvel'])->label($model->getVerifyCodePlaceholder()) ?>
+            <div class="form-group">
+                <div class="col-sm-9 col-sm-offset-3">
+                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
                 </div>
-            <?php ActiveForm::end(); ?>
-        </div>
+            </div>
+        <?php ActiveForm::end(); ?>
     </div>
-
 </div>
