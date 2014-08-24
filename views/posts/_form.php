@@ -45,7 +45,7 @@ use albertborsos\yii2cms\components\DataProvider;
 
     <?= $form->field($model, 'content_main')->widget('\yii\imperavi\Widget', [
         'model' => $model,
-        'attribute' => 'content_preview',
+        'attribute' => 'content_main',
         'options' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
     ]) ?>
 
