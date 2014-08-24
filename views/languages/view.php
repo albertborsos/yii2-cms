@@ -6,9 +6,6 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Languages */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Languages', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="languages-view">
 

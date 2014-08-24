@@ -11,9 +11,6 @@
     /* @var $this yii\web\View */
     /* @var $searchModel albertborsos\yii2cms\models\PostsSearch */
     /* @var $dataProvider yii\data\ActiveDataProvider */
-
-    $this->title = 'Posts';
-    $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="posts-index">
 

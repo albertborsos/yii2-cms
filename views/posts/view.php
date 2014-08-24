@@ -6,9 +6,6 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Posts */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="posts-view">
 

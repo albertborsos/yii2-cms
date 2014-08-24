@@ -5,7 +5,6 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Languages */
 
-$this->title = 'Nyelv módosítása: ' . ' ' . $model->name;
 ?>
 <div class="row">
 <div class="col-md-4">

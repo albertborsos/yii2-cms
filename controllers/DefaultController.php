@@ -66,6 +66,7 @@ class DefaultController extends Controller
             ]);
             if (!is_null($post)){
                 $post->checkUrlIsCorrect();
+                $post->setSEOValues();
                 // set SEO values @todo
                 $content = $post->setContent();
                 // $content .= disqus
@@ -90,6 +91,7 @@ class DefaultController extends Controller
      */
     public function actionBlog(){
         $this->setTheme('page');
+        Yii::$app->getView()->title = 'Blog | '.Yii::$app->name;
 
         $this->breadcrumbs = ['Blog'];
         $posts = Posts::findBySql('SELECT * FROM '.Posts::tableName().' WHERE post_type=:type_blog AND status=:status_a ORDER BY date_show DESC', [

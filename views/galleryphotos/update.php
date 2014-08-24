@@ -5,7 +5,6 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\GalleryPhotos */
 
-$this->title = 'Gallery Photos módosítása: ' . ' ' . $model->title;
 ?>
 <div class="row">
 <div class="col-md-6">

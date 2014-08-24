@@ -9,7 +9,6 @@
     /* @var $searchModel albertborsos\yii2cms\models\GalleryPhotosSearch */
     /* @var $dataProvider yii\data\ActiveDataProvider */
 
-    $this->title = 'Gallery Photos';
 ?>
 <div class="gallery-photos-index">
 

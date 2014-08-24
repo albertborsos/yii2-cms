@@ -6,7 +6,6 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Galleries */
 
-$this->title = $model->name;
 ?>
 <div class="galleries-view">
 

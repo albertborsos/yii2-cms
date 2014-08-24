@@ -8,7 +8,6 @@
 /* @var $searchModel albertborsos\yii2cms\models\LanguagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Új nyelv létrehozása';
 ?>
 <div class="row">
 <div class="col-md-4">

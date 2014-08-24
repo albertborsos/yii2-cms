@@ -6,7 +6,6 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\GalleryPhotos */
 
-$this->title = 'Új Gallery Photos létrehozása';
 ?>
 <div class="row">
 <div class="col-md-6">

@@ -10,7 +10,6 @@ use albertborsos\yii2cms\components\DataProvider;
 /* @var $searchModel albertborsos\yii2cms\models\GalleriesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Galleries';
 ?>
 <div class="galleries-index">
 

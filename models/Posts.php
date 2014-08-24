@@ -255,4 +255,32 @@ class Posts extends ActiveRecord
         return $content;
     }
 
+    public function setSEOValues(){
+        $values = [];
+        if (!is_null($this->seo)){
+            $values['title']       = !is_null($this->seo->title) ? $this->seo->title : $this->name;
+            $values['description'] = !is_null($this->seo->meta_description) ? $this->seo->meta_description : (!is_null($this->content_preview) ? strip_tags($this->content_preview) : $this->name);
+            $values['keywords']    = !is_null($this->seo->meta_keywords) ? $this->seo->meta_keywords : Tags::getAssignedTags($this, true, 'string');
+            $values['robots']      = !is_null($this->seo->meta_robots) ? $this->seo->meta_robots : ($this->status==DataProvider::STATUS_ACTIVE ? 'INDEX' : 'NOINDEX');
+            $values['canonical']   = !is_null($this->seo->canonical_post_id) ? Posts::generateUrl($this->seo->canonical_post_id) : Posts::generateUrl($this->id);
+            $values['url']         = Posts::generateUrl($this->id);
+        }else{
+            $values['title']       = $this->name.' | '.Yii::$app->name;
+            $values['description'] = !is_null($this->content_preview) ? strip_tags($this->content_preview) : $this->name;
+            $values['keywords']    = Tags::getAssignedTags($this, true, 'string');
+            $values['robots']      = $this->status==DataProvider::STATUS_ACTIVE ? 'INDEX' : 'NOINDEX';
+            $values['canonical']   = Posts::generateUrl($this->id);
+            $values['url']         = Posts::generateUrl($this->id);
+        }
+
+        $view = Yii::$app->getView();
+        $view->title = $values['title'];
+
+        $view->registerMetaTag(['name' => 'description', 'content'=> $values['description']]);
+        $view->registerMetaTag(['name' => 'keywords', 'content'=> $values['keywords']]);
+        $view->registerMetaTag(['name' => 'robots', 'content'=> $values['robots']]);
+
+        $view->registerLinkTag(['rel' => 'canonical', 'href' => $values['canonical']]);
+    }
+
 }
