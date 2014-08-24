@@ -3,6 +3,7 @@
 namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2cms\components\DataProvider;
+use albertborsos\yii2cms\models\ContactForm;
 use albertborsos\yii2cms\models\Galleries;
 use albertborsos\yii2cms\models\Posts;
 use albertborsos\yii2lib\helpers\File;
@@ -148,6 +149,14 @@ class DefaultController extends Controller
             'filesDataProvider' => $filesDataProvider,
             'fileContent' => $fileContent,
             'extension' => $extension,
+        ]);
+    }
+
+    public function actionContact(){
+        $model = new ContactForm();
+
+        return $this->render('contact', [
+            'model' => $model
         ]);
     }
 }
