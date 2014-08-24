@@ -2,6 +2,7 @@
 
 namespace albertborsos\yii2cms\models;
 
+use albertborsos\yii2historizer\Historizer;
 use albertborsos\yii2lib\db\ActiveRecord;
 use albertborsos\yii2lib\helpers\S;
 use Exception;
@@ -154,6 +155,7 @@ class GalleryPhotos extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)){
+            Historizer::createArchive($this);
             $this->setOwnerAndTime();
             return true;
         }else{
@@ -164,6 +166,7 @@ class GalleryPhotos extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()){
+            Historizer::createArchive($this);
             return true;
         }else{
             return false;

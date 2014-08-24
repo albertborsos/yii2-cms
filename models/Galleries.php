@@ -3,6 +3,7 @@
 namespace albertborsos\yii2cms\models;
 
 use albertborsos\yii2cms\components\DataProvider;
+use albertborsos\yii2historizer\Historizer;
 use albertborsos\yii2lib\db\ActiveRecord;
 use dosamigos\gallery\Gallery;
 use Yii;
@@ -95,6 +96,7 @@ class Galleries extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)){
+            Historizer::createArchive($this);
             $this->setOwnerAndTime();
             return true;
         }else{
@@ -105,6 +107,7 @@ class Galleries extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()){
+            Historizer::createArchive($this);
             return true;
         }else{
             return false;

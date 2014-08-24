@@ -3,6 +3,7 @@
 namespace albertborsos\yii2cms\models;
 
 use albertborsos\yii2cms\components\DataProvider;
+use albertborsos\yii2historizer\Historizer;
 use albertborsos\yii2lib\db\ActiveRecord;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -111,6 +112,7 @@ class PostSeo extends ActiveRecord
             if ($this->meta_keywords == '') $this->meta_keywords = null;
             if ($this->meta_description == '') $this->meta_description = null;
             if ($this->title == '') $this->title = null;
+            Historizer::createArchive($this);
             $this->setOwnerAndTime();
             return true;
         }else{
@@ -121,6 +123,7 @@ class PostSeo extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()){
+            Historizer::createArchive($this);
             return true;
         }else{
             return false;
