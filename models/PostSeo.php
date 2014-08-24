@@ -107,6 +107,9 @@ class PostSeo extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)){
+            if ($this->url == ''){
+                $this->url = null;
+            }
             $this->setOwnerAndTime();
             return true;
         }else{
