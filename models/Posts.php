@@ -159,7 +159,11 @@ class Posts extends ActiveRecord
             $post = Posts::findOne(['id' => $postId]);
             if (!is_null($post)){
                 if (isset($post->seo) && !is_null($post->seo->url)){
-                    return Yii::$app->urlManager->createAbsoluteUrl($post->seo->url);
+                    if (strpos($post->seo->url, '//')){
+                        return $post->seo->url;
+                    }else{
+                        return Yii::$app->urlManager->createAbsoluteUrl($post->seo->url);
+                    }
                 }else{
                     switch($post->post_type){
                         case 'MENU':

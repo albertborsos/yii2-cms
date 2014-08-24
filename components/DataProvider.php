@@ -4,7 +4,6 @@ namespace albertborsos\yii2cms\components;
 
 use albertborsos\yii2cms\models\Languages;
 use albertborsos\yii2cms\models\Posts;
-use albertborsos\yii2lib\helpers\S;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -128,9 +127,16 @@ class DataProvider {
                 }
             }else{
                 // ha nem szülő, akkor nem lesz hozzá dropdown
+                $url = Posts::generateUrl($menu['id']);
+                $linkOptions = ['target' => 'self'];
+                if (strpos($url, Yii::$app->urlManager->baseUrl) === false){
+                    $linkOptions = ['target' => '_blank'];
+                }
+
                 $menuItems[] = [
                     'label' => $menu['name'],
-                    'url' => Posts::generateUrl($menu['id']),
+                    'url' => $url,
+                    'linkOptions' => $linkOptions,
                 ];
             }
         }
