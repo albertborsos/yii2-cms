@@ -10,6 +10,7 @@
     use albertborsos\yii2cms\models\Posts;
     use albertborsos\yii2cms\models\PostsSearch;
     use albertborsos\yii2lib\web\Controller;
+    use yii\helpers\ArrayHelper;
     use yii\web\HttpException;
     use yii\web\NotFoundHttpException;
     use yii\filters\VerbFilter;
@@ -25,6 +26,10 @@
             $this->defaultAction = 'index';
             $this->name          = 'Bejegyzések';
             $this->layout        = '//center';
+            $this->actionName = ArrayHelper::merge($this->actionName, [
+                'menu' => 'Menüpontok',
+                'blog' => 'Cikkek',
+            ]);
         }
 
         public function behaviors()
