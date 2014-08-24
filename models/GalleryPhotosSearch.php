@@ -5,7 +5,6 @@ namespace albertborsos\yii2cms\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use albertborsos\yii2cms\models\GalleryPhotos;
 
 /**
  * GalleryPhotosSearch represents the model behind the search form about `albertborsos\yii2cms\models\GalleryPhotos`.
@@ -19,7 +18,7 @@ class GalleryPhotosSearch extends GalleryPhotos
     {
         return [
             [['id', 'gallery_id', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
-            [['filename', 'title', 'description', 'status'], 'safe'],
+            [['filename', 'title', 'description', 'status', 'gallery_id'], 'safe'],
         ];
     }
 
@@ -46,7 +45,6 @@ class GalleryPhotosSearch extends GalleryPhotos
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }

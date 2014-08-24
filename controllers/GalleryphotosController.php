@@ -69,9 +69,10 @@ class GalleryphotosController extends Controller
      */
     public function actionIndex($gallery = null)
     {
+        $gallery_id = $gallery;
         $this->layout = '//fluid';
-        if (!is_null($gallery)){
-            $gallery = Galleries::findOne(['id' => $gallery]);
+        if (!is_null($gallery_id)){
+            $gallery = Galleries::findOne(['id' => $gallery_id]);
             if (Yii::$app->request->isPost){
                 try{
                     Yii::$app->response->getHeaders()->set('Vary', 'Accept');
@@ -115,7 +116,7 @@ class GalleryphotosController extends Controller
             return $this->redirect(['/cms/galleries/index']);
         }
         $searchModel = new GalleryPhotosSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(['GalleryPhotosSearch' => ['gallery_id' => (int)$gallery_id]]);
 
         return $this->render('upload', [
             'gallery' => $gallery,
