@@ -14,10 +14,17 @@
             "email": "blog@borsosalbert.hu"
         }
     ],
+    "repositories":[
+        {
+            "type":"vcs",
+            "url":"git@github.com:albertborsos/yii2-historizer.git"
+        }
+    ],
     "require": {
         "albertborsos/yii2-lib": "*",
         "albertborsos/yii2-tagger": "*",
         "albertborsos/yii2-user": "*",
+        "albertborsos/yii2-historizer": "*",
         "kartik-v/yii2-nav-x": "*"
     },
     "autoload": {
