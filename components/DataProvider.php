@@ -128,7 +128,7 @@ class DataProvider {
             }else{
                 // ha nem szülő, akkor nem lesz hozzá dropdown
                 $url = Posts::generateUrl($menu['id']);
-                $linkOptions = ['target' => 'self'];
+                $linkOptions = [];
                 if (strpos($url, Yii::$app->urlManager->baseUrl) === false){
                     $linkOptions = ['target' => '_blank'];
                 }
