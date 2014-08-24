@@ -7,7 +7,9 @@ use albertborsos\yii2lib\db\ActiveRecord;
 use albertborsos\yii2lib\helpers\S;
 use albertborsos\yii2tagger\models\Tags;
 use Yii;
+use yii\base\View;
 use yii\helpers\ArrayHelper;
+use yii\web\Controller;
 
 /**
  * This is the model class for table "tbl_cms_posts".
@@ -229,6 +231,28 @@ class Posts extends ActiveRecord
             }
         }
         return 'Nincs';
+    }
+
+    public static function insertForm($type, $content){
+        switch($type){
+            case 'contactUs':
+                $model = new ContactForm();
+
+                if (Yii::$app->request->isPost){
+                    if ($model->load(Yii::$app->request->post()) && $model->validate()){
+                        $model->sendEmail(Yii::$app->params['adminEmail']);
+                        return Yii::$app->controller->redirect(Yii::$app->request->url);
+                    }
+                }
+
+                $form = Yii::$app->controller->renderPartial('contact', [
+                    'model' => $model
+                ]);
+
+                $content = str_replace('[#contactUs]', $form, $content);
+            break;
+        }
+        return $content;
     }
 
 }

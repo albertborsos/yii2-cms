@@ -3,6 +3,7 @@
 namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2cms\components\DataProvider;
+use albertborsos\yii2cms\models\ContactForm;
 use albertborsos\yii2cms\models\Galleries;
 use albertborsos\yii2cms\models\Posts;
 use albertborsos\yii2lib\helpers\File;
@@ -70,6 +71,7 @@ class DefaultController extends Controller
                 // $content .= disqus
 
                 $content = Galleries::insertGallery($content);
+                $content = Posts::insertForm('contactUs', $content);
 
                 return $this->render('index', [
                     'content' => $content,
