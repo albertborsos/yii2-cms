@@ -90,6 +90,17 @@
                         },
                 ],
                 [
+                    'attribute'     => 'updated_at',
+                    //'header'        => 'Utolsó módosítás',
+                    'hAlign'        => 'center',
+                    'vAlign'        => 'middle',
+                    'format'        => 'raw',
+                    'headerOptions' => ['class' => 'text-center'],
+                    'value'         => function ($model, $index, $widget) {
+                            return \albertborsos\yii2lib\db\ActiveRecord::showLastModifiedInfo($model);
+                        },
+                ],
+                [
                     'attribute'     => 'status',
                     'hAlign'        => 'center',
                     'vAlign'        => 'middle',
