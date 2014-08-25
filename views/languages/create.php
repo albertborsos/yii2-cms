@@ -13,7 +13,7 @@
 <div class="col-md-4">
 <div class="languages-create">
 
-    <legend><?= Html::encode($this->title) ?></legend>
+    <legend>Új nyelv létrehozása</legend>
 
     <?= $this->render('_form', [
         'model' => $model,

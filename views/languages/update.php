@@ -10,7 +10,7 @@ use yii\helpers\Html;
 <div class="col-md-4">
 <div class="languages-update">
 
-    <legend><?= Html::encode($this->title) ?></legend>
+    <legend>Nyelv módosítása</legend>
 
     <?= $this->render('_form', [
         'model' => $model,
