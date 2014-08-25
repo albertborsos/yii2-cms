@@ -158,4 +158,9 @@ class DefaultController extends Controller
             'extension' => $extension,
         ]);
     }
+
+    public function actionRedirecttohome(){
+        Yii::$app->session->setFlash('info', 'info', '<h4>Szia! A régi weboldalam megszűnt!</h4><p>Az a tartalom, amit kerestél már nem létezik. De azért nézz körbe hátha találsz néhány hasznos információt!</p>');
+        return $this->redirect('/', 301);
+    }
 }
