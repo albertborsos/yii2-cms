@@ -28,8 +28,6 @@ class LanguagesController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['index', 'view', // reader
-                            'create', 'update', 'delete'], // editor+
                 'rules' => [
                     [
                         'actions' => ['index', 'view'],

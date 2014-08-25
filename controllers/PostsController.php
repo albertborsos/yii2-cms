@@ -37,14 +37,6 @@
             return [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only'  => [
-                        'index',
-                        'view', // reader
-                        'create',
-                        'update',
-                        'delete',
-                        'Updatebyeditable',
-                    ], // editor+
                     'rules' => [
                         [
                             'actions'       => ['index', 'view', 'menu', 'blog'],

@@ -46,14 +46,18 @@ class DefaultController extends Controller
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete'            => ['post']
-                ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
             ],
         ];
     }
+
 
     public function actionIndex($title = null, $id = null)
     {

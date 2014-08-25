@@ -36,8 +36,6 @@ class GalleriesController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['index', 'view', // reader
-                    'create', 'update', 'delete', 'updatebyeditable'], // editor+
                 'rules' => [
                     [
                         'actions' => ['index', 'view'],

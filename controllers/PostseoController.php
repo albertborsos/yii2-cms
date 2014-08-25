@@ -28,7 +28,6 @@ class PostseoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['update'], // editor+
                 'rules' => [
                     [
                         'actions' => ['update'],
