@@ -7,6 +7,7 @@ use albertborsos\yii2historizer\Historizer;
 use albertborsos\yii2lib\db\ActiveRecord;
 use albertborsos\yii2lib\helpers\S;
 use albertborsos\yii2tagger\models\Tags;
+use frontend\models\ContactForm;
 use Yii;
 use yii\base\View;
 use yii\helpers\ArrayHelper;
@@ -252,7 +253,7 @@ class Posts extends ActiveRecord
                     }
                 }
 
-                $form = Yii::$app->controller->renderPartial('contact', [
+                $form = Yii::$app->controller->renderPartial('@frontend/views/contact', [
                     'model' => $model
                 ]);
 
