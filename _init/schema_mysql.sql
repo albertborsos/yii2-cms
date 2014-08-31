@@ -33,17 +33,6 @@ CREATE TABLE `auth_assignment` (
   CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `auth_assignment` WRITE;
-/*!40000 ALTER TABLE `auth_assignment` DISABLE KEYS */;
-
-INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`)
-VALUES
-	('admin','1',1406725195);
-
-/*!40000 ALTER TABLE `auth_assignment` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 # Dump of table auth_item
 # ------------------------------------------------------------
 
@@ -216,16 +205,6 @@ CREATE TABLE `tbl_cms_languages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `tbl_cms_languages` WRITE;
-/*!40000 ALTER TABLE `tbl_cms_languages` DISABLE KEYS */;
-
-INSERT INTO `tbl_cms_languages` (`id`, `code`, `name`, `created_at`, `created_user`, `updated_at`, `updated_user`, `status`)
-VALUES
-	(1,'hu','Magyar',1407413318,1,1407844112,1,'a');
-
-/*!40000 ALTER TABLE `tbl_cms_languages` ENABLE KEYS */;
-UNLOCK TABLES;
-
 
 # Dump of table tbl_cms_post_seo
 # ------------------------------------------------------------
@@ -322,16 +301,6 @@ CREATE TABLE `tbl_user_userdetails` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `tbl_user_userdetails` WRITE;
-/*!40000 ALTER TABLE `tbl_user_userdetails` DISABLE KEYS */;
-
-INSERT INTO `tbl_user_userdetails` (`id`, `user_id`, `name_first`, `name_last`, `sex`, `country`, `county`, `postal_code`, `city`, `email`, `phone_1`, `phone_2`, `website`, `comment_private`, `google_profile`, `facebook_profile`, `status`)
-VALUES
-	(1,1,'Albert','Borsos','','HU','','','','','','','',NULL,'','','a');
-
-/*!40000 ALTER TABLE `tbl_user_userdetails` ENABLE KEYS */;
-UNLOCK TABLES;
-
 
 # Dump of table tbl_user_users
 # ------------------------------------------------------------
@@ -351,16 +320,6 @@ CREATE TABLE `tbl_user_users` (
   `status` varchar(1) DEFAULT NULL COMMENT 'Státusz',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `tbl_user_users` WRITE;
-/*!40000 ALTER TABLE `tbl_user_users` DISABLE KEYS */;
-
-INSERT INTO `tbl_user_users` (`id`, `email`, `password_hash`, `auth_key`, `password_reset_token`, `username`, `created_at`, `activated_at`, `updated_at`, `status`)
-VALUES
-	(1,'albertborsos@me.com','$2y$13$ATfxN7nHdGIC.eZj5THf5.BRh0toZ51/4p5DtUTCanA/VMgLsweW.',NULL,NULL,'albertborsos','2014-04-30 22:41:27','2014-04-30 22:41:28','2014-04-30 22:41:28','a');
-
-/*!40000 ALTER TABLE `tbl_user_users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table tbl_user_usersessions
