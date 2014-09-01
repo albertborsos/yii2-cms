@@ -69,6 +69,8 @@ class DefaultController extends Controller
                 'status' => DataProvider::STATUS_ACTIVE,
             ]);
             if (!is_null($post)){
+                $this->breadcrumbs = [$post->name];
+
                 $post->checkUrlIsCorrect();
                 $post->setSEOValues();
                 // set SEO values @todo
@@ -98,6 +100,7 @@ class DefaultController extends Controller
         Yii::$app->getView()->title = 'Blog | '.Yii::$app->name;
 
         $this->breadcrumbs = ['Blog'];
+
         $posts = Posts::findBySql('SELECT * FROM '.Posts::tableName().' WHERE post_type=:type_blog AND status=:status_a ORDER BY date_show DESC', [
             ':type_blog' => 'BLOG',
             ':status_a' => DataProvider::STATUS_ACTIVE,
