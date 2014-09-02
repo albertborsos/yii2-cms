@@ -68,27 +68,31 @@ class DefaultController extends Controller
                 'id' => $id,
                 'status' => DataProvider::STATUS_ACTIVE,
             ]);
-            if (!is_null($post)){
-                $this->breadcrumbs = [$post->name];
-
-                $post->checkUrlIsCorrect();
-                $post->setSEOValues();
-                // set SEO values @todo
-                $content = $post->setContent();
-                // $content .= disqus
-
-                $content = Galleries::insertGallery($content);
-                $content = Posts::insertForm('contactUs', $content);
-
-                return $this->render('index', [
-                    'content' => $content,
-                ]);
-            }else{
-                Yii::$app->session->setFlash('error', '<h4>Ilyen bejegyzés nem létezik!</h4>');
-                return $this->goBack(['/']);
-            }
         }else{
-            return $this->goHome();
+            // ha a kezdőlap az első oldal
+            $post = Posts::find([
+                'lang' => 'hu',
+                'status' => DataProvider::STATUS_ACTIVE,
+            ])->orderBy(['order_num' => 'ASC'])->one();
+        }
+        if (!is_null($post)){ /** @var $post Posts */
+            $this->breadcrumbs = [$post->name];
+
+            $post->checkUrlIsCorrect();
+            $post->setSEOValues();
+            // set SEO values @todo
+            $content = $post->setContent();
+            // $content .= disqus
+
+            $content = Galleries::insertGallery($content);
+            $content = Posts::insertForm('contactUs', $content);
+
+            return $this->render('index', [
+                'content' => $content,
+            ]);
+        }else{
+            Yii::$app->session->setFlash('error', '<h4>Ilyen bejegyzés nem létezik!</h4>');
+            return $this->goBack(['/']);
         }
     }
 
