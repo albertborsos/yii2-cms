@@ -46,7 +46,7 @@
                                 }
                         ],
                         [
-                            'actions'       => ['create', 'update', 'delete', 'Updatebyeditable'],
+                            'actions'       => ['create', 'update', 'delete', 'updatebyeditable'],
                             'allow'         => true,
                             'matchCallback' => function () {
                                     return Yii::$app->user->can('editor');
