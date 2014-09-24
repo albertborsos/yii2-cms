@@ -43,6 +43,19 @@ class PostsSearch extends Posts
     {
         $query = Posts::find();
 
+        switch($type){
+            case 'menu':
+                $query->andFilterWhere(['like', 'post_type', 'DROP'])->orFilterWhere(['like', 'post_type', 'MENU']);
+                break;
+            case 'blog':
+                $query->andFilterWhere(['like', 'post_type', 'BLOG']);
+                break;
+        }
+
+        $query->orderBy([
+            'order_num' => SORT_ASC,
+        ]);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -52,21 +65,6 @@ class PostsSearch extends Posts
                 'defaultOrder' => 'order_num ASC',
             ],
         ]);
-
-        switch($type){
-            case 'menu':
-                $query->andFilterWhere(['like', 'post_type', 'DROP'])->orFilterWhere(['like', 'post_type', 'MENU']);
-                $query->orderBy([
-                    'order_num' => SORT_ASC,
-                ]);
-                break;
-            case 'blog':
-                $query->andFilterWhere(['like', 'post_type', 'BLOG']);
-                $query->orderBy([
-                    'id' => SORT_DESC,
-                ]);
-                break;
-        }
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
