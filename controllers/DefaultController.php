@@ -84,8 +84,7 @@ class DefaultController extends Controller
             $content = $post->setContent();
             // $content .= disqus
 
-            $content = Galleries::insertGallery($content);
-            $content = Posts::insertForm('contactUs', $content);
+            $content = $this->module->replaceItems($content);
 
             return $this->render('index', [
                 'content' => $content,

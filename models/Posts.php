@@ -241,24 +241,25 @@ class Posts extends ActiveRecord
         return 'Nincs';
     }
 
-    public static function insertForm($type, $content){
-        switch($type){
-            case 'contactUs':
-                $model = new ContactForm();
+    public static function insertForms($content){
+        $forms = Yii::$app->getModule('cms')->forms;
+        foreach($forms as $formID => $formClass){
+            if (strpos($content, $formID) !== false){
+                $model = new $formClass(); /* @var $model \yii\web\Model */
 
                 if (Yii::$app->request->isPost){
                     if ($model->load(Yii::$app->request->post()) && $model->validate()){
-                        $model->sendEmail(Yii::$app->params['adminEmail']);
+                        $model->process(Yii::$app->params['adminEmail']);
                         return Yii::$app->controller->redirect(Yii::$app->request->url);
                     }
                 }
 
-                $form = Yii::$app->controller->renderPartial('@frontend/views/contact', [
+                $form = Yii::$app->controller->renderPartial($model->view, [
                     'model' => $model
                 ]);
 
-                $content = str_replace('[#contactUs]', $form, $content);
-            break;
+                $content = str_replace($formID, $form, $content);
+            }
         }
         return $content;
     }
