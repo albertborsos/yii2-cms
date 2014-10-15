@@ -25,7 +25,7 @@ class ContactForm extends Model
     private $operand = '+';
     private $result = [16, 'tizenhat'];
 
-    public $view = '@vendor/albertborsos/yii2cms/views/contact';
+    public $view = '@vendor/albertborsos/yii2-cms/views/contact';
 
     public function init()
     {
