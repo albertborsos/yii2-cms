@@ -28,6 +28,7 @@ class DefaultController extends Controller
         $this->actionName = ArrayHelper::merge($this->actionName, [
             'themeeditor' => 'Téma Szerkesztő',
         ]);
+        $this->setTheme('page');
     }
 
     public function behaviors()
