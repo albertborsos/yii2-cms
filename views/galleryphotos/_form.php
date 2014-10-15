@@ -3,8 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use albertborsos\yii2cms\components\DataProvider;
+use zyx\widgets\Redactor;
 
-/* @var $this yii\web\View */
+    /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\GalleryPhotos */
 /* @var $form yii\widgets\ActiveForm */
 ?>
@@ -15,7 +16,7 @@ use albertborsos\yii2cms\components\DataProvider;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'description')->widget('\yii\imperavi\Widget', [
+    <?= $form->field($model, 'description')->widget(Redactor::className(), [
                 'model' => $model,
                 'attribute' => 'content_preview',
                 'options' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),

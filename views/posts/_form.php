@@ -2,14 +2,13 @@
 
     use albertborsos\yii2cms\models\Languages;
     use albertborsos\yii2cms\models\Posts;
-    use albertborsos\yii2lib\helpers\Widgets;
     use albertborsos\yii2tagger\models\Tags;
     use kartik\widgets\DateTimePicker;
     use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use albertborsos\yii2cms\components\DataProvider;
+    use yii\widgets\ActiveForm;
+    use albertborsos\yii2cms\components\DataProvider;
 
-/* @var $this yii\web\View */
+    /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Posts */
 /* @var $tags string */
 /* @var $form yii\widgets\ActiveForm */
@@ -36,17 +35,17 @@ use albertborsos\yii2cms\components\DataProvider;
     <?= Tags::Widget('tags', $tags) ?>
 
     <?php if($model->post_type == 'BLOG'):?>
-    <?= $form->field($model, 'content_preview')->widget('\yii\imperavi\Widget', [
+    <?= $form->field($model, 'content_preview')->widget('zyx\widgets\Redactor', [
         'model' => $model,
         'attribute' => 'content_preview',
-        'options' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
+        'clientOptions' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
     ]) ?>
     <?php endif ?>
 
-    <?= $form->field($model, 'content_main')->widget('\yii\imperavi\Widget', [
+    <?= $form->field($model, 'content_main')->widget('zyx\widgets\Redactor', [
         'model' => $model,
         'attribute' => 'content_main',
-        'options' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
+        'clientOptions' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
     ]) ?>
 
     <?= $form->field($model, 'commentable')->dropDownList(DataProvider::items('yesno')) ?>
