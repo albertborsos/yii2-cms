@@ -51,6 +51,11 @@ class GalleriesController extends Controller
                                 return Yii::$app->user->can('editor');
                             }
                     ],
+                    [
+                        'actions' => ['loadotherimages'],
+                        'allow'   => true,
+                    ],
+
                 ],
             ],
             'verbs' => [
