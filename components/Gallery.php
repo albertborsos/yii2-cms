@@ -74,7 +74,6 @@ class Gallery extends Widget {
             echo Html::tag('h3', $this->header, ['style' => 'text-align:center;']);
         }
         $this->renderLinks();
-        $this->registerClientScripts();
         echo Html::beginTag('div', ['id' => 'gallery-'.$this->galleryId.'-after', 'style' => 'display:none;']);
         echo Html::endTag('div');
         echo Html::endTag('div');
@@ -144,11 +143,6 @@ class Gallery extends Widget {
             ]);
         }
         return $this->pager;
-    }
-
-    private function registerClientScripts(){
-        $view = $this->getView();
-        GalleryAsset::register($view);
     }
 
     public static function renderLinksOnly($dataProvider){
