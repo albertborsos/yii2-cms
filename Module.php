@@ -46,6 +46,15 @@ class Module extends \yii\base\Module
     public $listForms = [];
 
     /**
+     * override defauélt subscribe form with other Form
+     *
+     *  'listForms' => [
+     *      //'1' => '\frontend\models\ContactForm',
+     *   ]
+     */
+    public $campaignForms = [];
+
+    /**
      * Module specific urlManager
      * @param $app
      */
