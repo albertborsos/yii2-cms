@@ -26,10 +26,14 @@ class CMSAsset extends AssetBundle
 
         $this->css = [
             //'css/style.css'.$this->time,
+            'css/style.css'.$this->time,
+            'vendor/Magnific-Popup/magnific-popup.css'.$this->time,
         ];
 
         $this->js = [
-            'js/cms.js'.$this->time,
+            //'js/cms.js'.$this->time,
+            'js/controller.js'.$this->time,
+            'vendor/Magnific-Popup/jquery.magnific-popup.min.js'.$this->time,
         ];
     }
 

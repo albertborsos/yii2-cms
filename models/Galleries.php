@@ -132,7 +132,7 @@ class Galleries extends ActiveRecord
     }
 
     public function generate($page = 0){
-        return \albertborsos\yii2gallery\Gallery::widget([
+        return \albertborsos\yii2cms\components\Gallery::widget([
             'id' => 'gallery-'.$this->id,
             'header' => $this->name,
             'galleryId' => $this->id,
