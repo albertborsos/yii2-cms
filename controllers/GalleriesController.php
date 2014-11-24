@@ -52,7 +52,7 @@ class GalleriesController extends Controller
                             }
                     ],
                     [
-                        'actions' => ['loadotherimages'],
+                        'actions' => ['loadotherimages', 'renderajaxgallery'],
                         'allow'   => true,
                     ],
 
