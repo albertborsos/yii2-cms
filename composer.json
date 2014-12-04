@@ -14,11 +14,18 @@
             "email": "blog@borsosalbert.hu"
         }
     ],
+	"respositories":[
+		{
+			"type":"vcs",
+			"url":"git@github.com:albertborsos/yii2-fontawesome.git"
+		}
+	],
     "require": {
         "albertborsos/yii2-lib": "*",
         "albertborsos/yii2-tagger": "*",
         "albertborsos/yii2-user": "*",
         "albertborsos/yii2-historizer": "*",
+        "albertborsos/yii2-fontawesome": "*",
         "kartik-v/yii2-nav-x": "*"
     },
     "autoload": {
