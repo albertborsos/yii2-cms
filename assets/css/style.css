@@ -8,6 +8,10 @@ and open the template in the editor.
     Author     : borsosalbert
 */
 
+.syntaxhighlighter .toolbar{
+    display:none;
+}
+
 .photo-item{
     text-align:center !important;
 }
