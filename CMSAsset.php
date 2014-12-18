@@ -33,7 +33,7 @@ class CMSAsset extends AssetBundle
         ];
 
         $this->js = [
-            //'js/cms.js'.$this->time,
+            'js/cms.js'.$this->time,
             'js/images.js'.$this->time,
             'vendor/Magnific-Popup/jquery.magnific-popup.min.js'.$this->time,
             'vendor/syntaxHighlighter/shCore.js'.$this->time,
