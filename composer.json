@@ -26,7 +26,8 @@
         "albertborsos/yii2-user": "*",
         "albertborsos/yii2-historizer": "*",
         "rmrevin/yii2-fontawesome": "*",
-        "kartik-v/yii2-nav-x": "*"
+        "kartik-v/yii2-nav-x": "*",
+        "kartik-v/yii2-social": "*"
     },
     "autoload": {
         "psr-4": {

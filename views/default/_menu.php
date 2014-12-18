@@ -14,4 +14,9 @@
         <?= $post->content_main ?>
     </div>
     <div class="body separator">&nbsp;</div>
+	<?php if($post->commentable){?>
+		<div id="comments">
+			<?= \kartik\social\Disqus::widget(); ?>
+		</div>
+	<?php }?>
 </div>
