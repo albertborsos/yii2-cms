@@ -237,7 +237,8 @@
         }
 
         public function actionUpdatebyeditable(){
-            $id        = Yii::$app->request->post('pk');
+            $key       = Yii::$app->request->post('pk');
+			$id        = unserialize(base64_decode($key));
             $attribute = Yii::$app->request->post('name');
             $value     = Yii::$app->request->post('value');
 
