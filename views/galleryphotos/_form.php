@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use albertborsos\yii2cms\components\DataProvider;
-use zyx\widgets\Redactor;
+use vova07\imperavi\Widget as Redactor;
 
     /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\GalleryPhotos */

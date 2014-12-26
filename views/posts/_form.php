@@ -7,6 +7,7 @@
     use yii\helpers\Html;
     use yii\widgets\ActiveForm;
     use albertborsos\yii2cms\components\DataProvider;
+    use vova07\imperavi\Widget as Redactor;
 
     /* @var $this yii\web\View */
 /* @var $model albertborsos\yii2cms\models\Posts */
@@ -35,14 +36,14 @@
     <?= Tags::Widget('tags', $tags) ?>
 
     <?php if($model->post_type == 'BLOG'):?>
-    <?= $form->field($model, 'content_preview')->widget('zyx\widgets\Redactor', [
+    <?= $form->field($model, 'content_preview')->widget(Redactor::className(), [
         'model' => $model,
         'attribute' => 'content_preview',
         'clientOptions' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
     ]) ?>
     <?php endif ?>
 
-    <?= $form->field($model, 'content_main')->widget('zyx\widgets\Redactor', [
+    <?= $form->field($model, 'content_main')->widget(Redactor::className(), [
         'model' => $model,
         'attribute' => 'content_main',
         'clientOptions' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
