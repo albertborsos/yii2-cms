@@ -39,14 +39,14 @@
     <?= $form->field($model, 'content_preview')->widget(Redactor::className(), [
         'model' => $model,
         'attribute' => 'content_preview',
-        'clientOptions' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
+        'settings' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
     ]) ?>
     <?php endif ?>
 
     <?= $form->field($model, 'content_main')->widget(Redactor::className(), [
         'model' => $model,
         'attribute' => 'content_main',
-        'clientOptions' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
+        'settings' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
     ]) ?>
 
     <?= $form->field($model, 'commentable')->dropDownList(DataProvider::items('yesno')) ?>
