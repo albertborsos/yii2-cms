@@ -37,9 +37,10 @@ use yii\web\Controller;
  */
 class Posts extends ActiveRecord
 {
-    const STATUS_ACTIVE   = 'a';
-    const STATUS_INACTIVE = 'i';
-    const STATUS_DELETED  = 'd';
+    const STATUS_ACTIVE     = 'a';
+    const STATUS_NOT_LISTED = 'n';
+    const STATUS_INACTIVE   = 'i';
+    const STATUS_DELETED    = 'd';
 
     /**
      * @inheritdoc
