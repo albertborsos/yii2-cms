@@ -25,9 +25,6 @@ class DefaultController extends Controller
         $this->defaultAction = 'index';
         $this->name          = 'Alap';
         $this->layout        = '//center';
-        $this->actionName = ArrayHelper::merge($this->actionName, [
-            'themeeditor' => 'Téma Szerkesztő',
-        ]);
         $this->setTheme('page');
     }
 
@@ -36,16 +33,6 @@ class DefaultController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['themeeditor'], // editor+
-                'rules' => [
-                    [
-                        'actions' => ['themeeditor'],
-                        'allow'   => true,
-                        'matchCallback' => function(){
-                                return Yii::$app->user->can('editor');
-                            }
-                    ],
-                ],
             ],
         ];
     }
