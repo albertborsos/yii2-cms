@@ -29,6 +29,8 @@ use albertborsos\yii2cms\components\DataProvider;
 
     <?= $form->field($model, 'canonical_post_id')->dropDownList($model->getCanonicalPosts()) ?>
 
+    <?= $form->field($model, 'url')->textInput(['value' => Posts::generateUrl($model->post_id), 'disabled' => 'disabled']) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Létrehoz' : 'Módosít', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
