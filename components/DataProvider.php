@@ -24,6 +24,13 @@ class DataProvider {
                     self::STATUS_DELETED  => 'Törölt',
                 ];
                 break;
+            case 'post_status':
+                $array = [
+                    Posts::STATUS_ACTIVE   => 'Aktív',
+                    Posts::STATUS_INACTIVE => 'Nem listázott',
+                    Posts::STATUS_DELETED  => 'Törölt',
+                ];
+                break;
             case 'post_type':
                 $array = [
                     Posts::TYPE_BLOG     => 'Blog bejegyzés',

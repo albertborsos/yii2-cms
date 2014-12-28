@@ -11,6 +11,8 @@
     /* @var $this yii\web\View */
     /* @var $searchModel albertborsos\yii2cms\models\PostsSearch */
     /* @var $dataProvider yii\data\ActiveDataProvider */
+
+
 ?>
 <div class="posts-index">
 
@@ -20,7 +22,7 @@
         GridView::widget([
             'dataProvider' => $dataProvider,
             'panel'        => [
-                'heading'    => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Bejegyzések</h3>',
+                'heading'    => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Menüpontok</h3>',
                 'type'       => 'default',
                 'before'     => Html::a('<i class="glyphicon glyphicon-plus"></i> Új Menüpont', ['create?type='.Posts::TYPE_MENU], ['class' => 'btn btn-success'])
                     .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Legördülő Menü', ['create?type='.Posts::TYPE_DROPDOWN], ['class' => 'btn btn-success']),
@@ -141,7 +143,7 @@
                     'headerOptions' => ['class' => 'text-center'],
                     'format' => 'raw',
                     'value'           => function($model, $index, $widget){
-                            return Editable::select('status', $model->id, $model->status, DataProvider::items('status', $model->status, false), ['/cms/posts/updatebyeditable'], DataProvider::items('status'));
+                            return Editable::select('status', $model->id, $model->status, DataProvider::items('post_status', $model->status, false), ['/cms/posts/updatebyeditable'], DataProvider::items('post_status'));
                         },
                     'filter'        => DataProvider::items('status'),
                 ],

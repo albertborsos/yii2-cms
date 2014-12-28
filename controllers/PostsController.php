@@ -87,6 +87,14 @@
             $searchModel  = new PostsSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'menu');
 
+            $this->breadcrumbs[1] = [
+                'label' => 'Menüpontok',
+                'url' => ['posts/menu'],
+            ];
+            $this->breadcrumbs[2] = [
+                'label' => 'Áttekintés',
+            ];
+
             return $this->render('menu', [
                 'searchModel'  => $searchModel,
                 'dataProvider' => $dataProvider,
@@ -100,6 +108,14 @@
         {
             $searchModel  = new PostsSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'blog');
+
+            $this->breadcrumbs[1] = [
+                'label' => 'Blog bejegyzések',
+                'url' => ['posts/blog'],
+            ];
+            $this->breadcrumbs[2] = [
+                'label' => 'Áttekintés',
+            ];
 
             return $this->render('blog', [
                 'searchModel'  => $searchModel,
@@ -155,6 +171,16 @@
                 }
             }
 
+            if($model->post_type !== Posts::TYPE_DROPDOWN){
+                $this->breadcrumbs[1] = [
+                    'label' => DataProvider::items('post_type', $model->post_type, false),
+                    'url' => ['posts/'.strtolower($model->post_type)],
+                ];
+            }
+            $this->breadcrumbs[2] = [
+                'label' => 'Új ' . strtolower(DataProvider::items('post_type', $model->post_type, false)).' létrehozása',
+            ];
+
             return $this->render('create', [
                 'model' => $model,
                 'tags' => $tags,
@@ -190,6 +216,17 @@
                     Yii::$app->session->setFlash('error', $e->getMessage());
                 }
             }
+
+            if($model->post_type !== Posts::TYPE_DROPDOWN){
+                $this->breadcrumbs[1] = [
+                    'label' => DataProvider::items('post_type', $model->post_type, false),
+                    'url' => ['posts/'.strtolower($model->post_type)],
+                ];
+            }
+            $this->breadcrumbs[2] = [
+                'label' => DataProvider::items('post_type', $model->post_type, false).' módosítása',
+            ];
+
             return $this->render('update', [
                 'model' => $model,
                 'tags' => $tags,

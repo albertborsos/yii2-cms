@@ -37,10 +37,9 @@ use yii\web\Controller;
  */
 class Posts extends ActiveRecord
 {
-    const STATUS_ACTIVE     = 'a';
-    const STATUS_NOT_LISTED = 'n';
-    const STATUS_INACTIVE   = 'i';
-    const STATUS_DELETED    = 'd';
+    const STATUS_ACTIVE   = 'a';
+    const STATUS_INACTIVE = 'i';
+    const STATUS_DELETED  = 'd';
 
     const TYPE_DROPDOWN = 'DROP';
     const TYPE_BLOG = 'BLOG';
@@ -275,7 +274,7 @@ class Posts extends ActiveRecord
             $values['title']       = !is_null($this->seo->title) ? $this->seo->title : $this->name;
             $values['description'] = !is_null($this->seo->meta_description) ? $this->seo->meta_description : (!is_null($this->content_preview) ? strip_tags($this->content_preview) : $this->name);
             $values['keywords']    = !is_null($this->seo->meta_keywords) ? $this->seo->meta_keywords : Tags::getAssignedTags($this, true, 'string');
-            $values['robots']      = !is_null($this->seo->meta_robots) ? $this->seo->meta_robots : (($this->status==Posts::STATUS_ACTIVE || $this->status == Posts::STATUS_NOT_LISTED) ? 'INDEX' : 'NOINDEX');
+            $values['robots']      = !is_null($this->seo->meta_robots) ? $this->seo->meta_robots : (($this->status==Posts::STATUS_ACTIVE || $this->status == Posts::STATUS_INACTIVE) ? 'INDEX' : 'NOINDEX');
             $values['canonical']   = !is_null($this->seo->canonical_post_id) ? Posts::generateUrl($this->seo->canonical_post_id) : Posts::generateUrl($this->id);
             $values['url']         = Posts::generateUrl($this->id);
         }else{
