@@ -22,16 +22,16 @@
             'panel'        => [
                 'heading'    => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Bejegyzések</h3>',
                 'type'       => 'default',
-                'before'     => Html::a('<i class="glyphicon glyphicon-plus"></i> Új Menüpont', ['create?type=MENU'], ['class' => 'btn btn-success'])
-                    .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Legördülő Menü', ['create?type=DROP'], ['class' => 'btn btn-success'])
-                    .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Blog bejegyzés', ['create?type=BLOG'], ['class' => 'btn btn-success']),
+                'before'     => Html::a('<i class="glyphicon glyphicon-plus"></i> Új Menüpont', ['create?type='.Posts::TYPE_MENU], ['class' => 'btn btn-success'])
+                    .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Legördülő Menü', ['create?type='.Posts::TYPE_DROPDOWN], ['class' => 'btn btn-success'])
+                    .' '.Html::a('<i class="glyphicon glyphicon-plus"></i> Új Blog bejegyzés', ['create?type='.Posts::TYPE_BLOG], ['class' => 'btn btn-success']),
                 'after'      => Html::a('<i class="glyphicon glyphicon-repeat"></i> Szűrések törlése', ['index'], ['class' => 'btn btn-info']),
                 'showFooter' => false
             ],
             'export'       => false,
             'filterModel'  => $searchModel,
             'rowOptions' => function($model, $key, $index, $grid){
-                    if ($model->post_type == 'DROP'){
+                    if ($model->post_type == Posts::TYPE_DROPDOWN){
                         return ['class' => 'info'];
                     }elseif($model->status == DataProvider::STATUS_ACTIVE){
                         return ['class' => 'success'];
@@ -68,7 +68,7 @@
                     'format' => 'raw',
                     'headerOptions'   => ['class' => 'text-center'],
                     'value'           => function($model, $index, $widget){
-                            if ($model->post_type == 'MENU' || $model->post_type == 'DROP'){
+                            if ($model->post_type == Posts::TYPE_MENU || $model->post_type == Posts::TYPE_DROPDOWN){
                                 return Editable::select('parent_post_id', $model->id, $model->parent_post_id, Posts::getPostName($model->parent_post_id), ['/cms/posts/updatebyeditable'], Posts::getSelectParentMenu($model->id, true));
                             }else{
                                 return 'Nem módosítható!';
@@ -82,7 +82,7 @@
                     'format' => 'raw',
                     'headerOptions'   => ['class' => 'text-center'],
                     'value'           => function($model, $index, $widget){
-                            if ($model->post_type == 'MENU' || $model->post_type == 'DROP'){
+                            if ($model->post_type == Posts::TYPE_MENU || $model->post_type == Posts::TYPE_DROPDOWN){
                                 return Editable::select('order_num', $model->id, $model->order_num, $model->order_num, ['/cms/posts/updatebyeditable'], DataProvider::items('orderNumbers'));
                             }else{
                                 return 'Nem módosítható!';
@@ -146,7 +146,7 @@
                     'headerOptions' => ['class' => 'text-center'],
                     'format' => 'raw',
                     'value'           => function($model, $index, $widget){
-                            return Editable::select('status', $model->id, $model->status, DataProvider::items('status', $model->status, false), ['/cms/posts/updatebyeditable'], DataProvider::items('status'));
+                            return Editable::select('status', $model->id, $model->status, DataProvider::items('post_status', $model->status, false), ['/cms/posts/updatebyeditable'], DataProvider::items('post_status'));
                         },
                     'filter'        => DataProvider::items('status'),
                 ],

@@ -25,7 +25,7 @@
             'panel'        => [
                 'heading'    => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> Bejegyzések</h3>',
                 'type'       => 'default',
-                'before'     => Html::a('<i class="glyphicon glyphicon-plus"></i> Új Blog bejegyzés', ['create?type=BLOG'], ['class' => 'btn btn-success']),
+                'before'     => Html::a('<i class="glyphicon glyphicon-plus"></i> Új Blog bejegyzés', ['create?type='.Posts::TYPE_BLOG], ['class' => 'btn btn-success']),
                 'after'      => Html::a('<i class="glyphicon glyphicon-repeat"></i> Szűrések törlése', ['index'], ['class' => 'btn btn-info']),
                 'showFooter' => false
             ],
@@ -107,7 +107,7 @@
                     'headerOptions' => ['class' => 'text-center'],
                     'format' => 'raw',
                     'value'           => function($model, $index, $widget){
-                            return Editable::select('status', $model->id, $model->status, DataProvider::items('status', $model->status, false), ['/cms/posts/updatebyeditable'], DataProvider::items('status'));
+                            return Editable::select('status', $model->id, $model->status, DataProvider::items('post_status', $model->status, false), ['/cms/posts/updatebyeditable'], DataProvider::items('post_status'));
                         },
                     'filter'        => DataProvider::items('status'),
                 ],

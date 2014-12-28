@@ -31,11 +31,11 @@
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 160]) ?>
 
-    <?php if($model->post_type !== 'DROP'): ?>
+    <?php if($model->post_type !== Posts::TYPE_DROPDOWN): ?>
 
     <?= Tags::Widget('tags', $tags) ?>
 
-    <?php if($model->post_type == 'BLOG'):?>
+    <?php if($model->post_type == Posts::TYPE_BLOG):?>
     <?= $form->field($model, 'content_preview')->widget(Redactor::className(), [
         'model' => $model,
         'attribute' => 'content_preview',

@@ -25,9 +25,6 @@ class DefaultController extends Controller
         $this->defaultAction = 'index';
         $this->name          = 'Alap';
         $this->layout        = '//center';
-        $this->actionName = ArrayHelper::merge($this->actionName, [
-            'themeeditor' => 'Téma Szerkesztő',
-        ]);
         $this->setTheme('page');
     }
 
@@ -36,15 +33,14 @@ class DefaultController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['themeeditor'], // editor+
                 'rules' => [
                     [
-                        'actions' => ['themeeditor'],
+                        'actions' => ['index', 'blog', 'redirecttohome'],
                         'allow'   => true,
                         'matchCallback' => function(){
-                                return Yii::$app->user->can('editor');
-                            }
-                    ],
+                            return Yii::$app->user->can('guest');
+                        }
+                    ]
                 ],
             ],
         ];
@@ -67,10 +63,13 @@ class DefaultController extends Controller
             // menu or blog posts
             $post = Posts::findOne([
                 'id' => $id,
-                'status' => DataProvider::STATUS_ACTIVE,
+                'status' => [
+                    DataProvider::STATUS_ACTIVE,
+                    DataProvider::STATUS_INACTIVE,
+                ],
             ]);
         }else{
-            // ha a kezdőlap az első oldal
+            // ha nincs ID, akkor a kezdőlap az első oldal
             $post = Posts::find([
                 'lang' => 'hu',
                 'status' => DataProvider::STATUS_ACTIVE,
@@ -81,9 +80,7 @@ class DefaultController extends Controller
 
             $post->checkUrlIsCorrect();
             $post->setSEOValues();
-            // set SEO values @todo
             $content = $post->setContent();
-            // $content .= disqus
 
             $content = $this->module->replaceItems($content);
 
@@ -105,9 +102,11 @@ class DefaultController extends Controller
 
         $this->breadcrumbs = ['Blog'];
 
-        $posts = Posts::findBySql('SELECT * FROM '.Posts::tableName().' WHERE post_type=:type_blog AND status=:status_a ORDER BY date_show DESC', [
-            ':type_blog' => 'BLOG',
-            ':status_a' => DataProvider::STATUS_ACTIVE,
+        $posts = Posts::find()->where([
+            'post_type' => Posts::TYPE_BLOG,
+            'status' => DataProvider::STATUS_ACTIVE,
+        ])->orderBy([
+            'date_show' => SORT_ASC,
         ])->all();
 
         $content = '';
@@ -124,45 +123,6 @@ class DefaultController extends Controller
 
         return $this->render('index', [
             'content' => $content,
-        ]);
-    }
-
-    public function actionThemeeditor($filePath = null){
-        $fileContent = null;
-        $extension = 'php';
-        $paths = [
-            Yii::$app->getBasePath().'/../common/themes/page/views/layouts',
-            Yii::$app->getBasePath().'/../css',
-        ];
-
-        if (Yii::$app->request->isPost){
-            $newContent = Yii::$app->request->post('file-editor');
-            $result = File::setContent($filePath, $newContent);
-            if ($result === true){
-                Yii::$app->session->setFlash('success', '<h4>Fájl tartalma sikeresen módosítva!</h4>');
-            }else{
-                Yii::$app->session->setFlash('error', '<h4>'.$result.'</h4>');
-            }
-        }
-
-        if (!is_null($filePath)){
-            // ha választott ki filet
-            $editedFile = $filePath;
-            $exploded = explode('.', $filePath);
-            $extension = S::get($exploded, count($exploded)-1);
-
-            if (is_file($editedFile)) {
-                $fileContent = file_get_contents($editedFile);
-            }
-        }
-        $options = ['only' => ['tpl_footer*', 'tpl_sidebar*', '*.css']];
-        $filesDataProvider = File::dirsContentToDataProvider($paths, $options);
-
-
-        return $this->render('themeeditor', [
-            'filesDataProvider' => $filesDataProvider,
-            'fileContent' => $fileContent,
-            'extension' => $extension,
         ]);
     }
 

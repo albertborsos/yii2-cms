@@ -4,6 +4,7 @@ namespace albertborsos\yii2cms\components;
 
 use albertborsos\yii2cms\models\Languages;
 use albertborsos\yii2cms\models\Posts;
+use rmrevin\yii\fontawesome\FA;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -24,11 +25,18 @@ class DataProvider {
                     self::STATUS_DELETED  => 'Törölt',
                 ];
                 break;
+            case 'post_status':
+                $array = [
+                    Posts::STATUS_ACTIVE   => 'Aktív',
+                    Posts::STATUS_INACTIVE => 'Nem listázott',
+                    Posts::STATUS_DELETED  => 'Törölt',
+                ];
+                break;
             case 'post_type':
                 $array = [
-                    'BLOG' => 'Blog bejegyzés',
-                    'MENU' => 'Menüpont',
-                    'DROP' => 'Legördülő Menü',
+                    Posts::TYPE_BLOG     => 'Blog bejegyzés',
+                    Posts::TYPE_MENU     => 'Menüpont',
+                    Posts::TYPE_DROPDOWN => 'Legördülő Menü',
                 ];
                 break;
             case 'yesno':
@@ -169,8 +177,8 @@ class DataProvider {
         $sql .= ' ORDER BY order_num ASC';
 
         $cmd = Yii::$app->db->createCommand($sql);
-        $cmd->bindValue(':type_MENU', 'MENU');
-        $cmd->bindValue(':type_DROP', 'DROP');
+        $cmd->bindValue(':type_MENU', Posts::TYPE_MENU);
+        $cmd->bindValue(':type_DROP', Posts::TYPE_DROPDOWN);
         $cmd->bindValue(':status_a', DataProvider::STATUS_ACTIVE);
         if (!is_null($language)){
             $cmd->bindValue(':language_id', $language->id);
@@ -183,5 +191,23 @@ class DataProvider {
         }else{
             return ArrayHelper::map($cmd->queryAll(), 'parent_post_id', 'parent_post_id');
         }
+    }
+
+    public static function adminMenuItems(){
+        return [
+            'label' => FA::icon(FA::_BOOK) . ' Tartalomkezelő',
+            'items' => [
+                ['label' => 'Nyelvek', 'url' => ['/cms/languages/index']],
+                ['label' => 'Menüpontok', 'url' => ['/cms/posts/menu']],
+                ['label' => 'Blog Bejegyzések', 'url' => ['/cms/posts/blog']],
+                ['label' => 'Galéria', 'url' => ['/cms/galleries/index']],
+            ],
+            'url' => '#',
+            'linkOptions' => [
+                'class' => 'dropdown-toggle',
+                'data-toggle' => 'dropdown',
+            ],
+            'visible' => Yii::$app->getUser()->can('editor'),
+        ];
     }
 } 

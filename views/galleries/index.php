@@ -1,7 +1,7 @@
 <?php
 
-    use albertborsos\yii2lib\helpers\Glyph;
     use albertborsos\yii2lib\wrappers\Editable;
+    use rmrevin\yii\fontawesome\FA;
     use yii\helpers\Html;
     use kartik\grid\GridView;
     use albertborsos\yii2cms\components\DataProvider;
@@ -109,7 +109,7 @@
                     //'dropdown' => true,
                     'buttons'       => [
                         'upload' => function ($url, $model, $key) {
-                                return Html::a(Glyph::icon(Glyph::ICON_PLUS), ['/cms/galleryphotos/index?gallery=' . $model['id']], ['class' => 'btn btn-sm btn-default']);
+                                return Html::a(FA::icon(FA_PLUS), ['/cms/galleryphotos/index?gallery=' . $model['id']], ['class' => 'btn btn-sm btn-default']);
                             },
                     ],
                     'viewOptions'   => ['title' => 'Áttekintés', 'class' => 'btn btn-sm btn-default'],
