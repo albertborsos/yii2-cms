@@ -207,6 +207,7 @@ class DataProvider {
                 'class' => 'dropdown-toggle',
                 'data-toggle' => 'dropdown',
             ],
+            'visible' => Yii::$app->getUser()->can('editor'),
         ];
     }
 } 
