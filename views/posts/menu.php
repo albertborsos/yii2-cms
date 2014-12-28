@@ -49,7 +49,7 @@
                     'format' => 'raw',
                     'headerOptions'   => ['class' => 'text-center'],
                     'value'           => function($model, $index, $widget){
-                            return Editable::select('order_num', $model->id, $model->order_num, $model->order_num, ['/cms/posts/updatebyeditable'], DataProvider::items('pagesize'));
+                            return Editable::select('order_num', $model->id, $model->order_num, $model->order_num, ['/cms/posts/updatebyeditable'], DataProvider::items('orderNumbers'));
                         },
                     'filter' => false,
                 ],
