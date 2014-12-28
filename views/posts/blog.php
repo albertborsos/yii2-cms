@@ -107,7 +107,7 @@
                     'headerOptions' => ['class' => 'text-center'],
                     'format' => 'raw',
                     'value'           => function($model, $index, $widget){
-                            return Editable::select('status', $model->id, $model->status, DataProvider::items('status', $model->status, false), ['/cms/posts/updatebyeditable'], DataProvider::items('status'));
+                            return Editable::select('status', $model->id, $model->status, DataProvider::items('post_status', $model->status, false), ['/cms/posts/updatebyeditable'], DataProvider::items('post_status'));
                         },
                     'filter'        => DataProvider::items('status'),
                 ],
