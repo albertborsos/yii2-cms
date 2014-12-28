@@ -106,7 +106,7 @@ class DefaultController extends Controller
         $this->breadcrumbs = ['Blog'];
 
         $posts = Posts::findBySql('SELECT * FROM '.Posts::tableName().' WHERE post_type=:type_blog AND status=:status_a ORDER BY date_show DESC', [
-            ':type_blog' => 'BLOG',
+            ':type_blog' => Posts::TYPE_BLOG,
             ':status_a' => DataProvider::STATUS_ACTIVE,
         ])->all();
 

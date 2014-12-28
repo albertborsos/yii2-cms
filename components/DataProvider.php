@@ -26,9 +26,9 @@ class DataProvider {
                 break;
             case 'post_type':
                 $array = [
-                    'BLOG' => 'Blog bejegyzés',
-                    'MENU' => 'Menüpont',
-                    'DROP' => 'Legördülő Menü',
+                    Posts::TYPE_BLOG     => 'Blog bejegyzés',
+                    Posts::TYPE_MENU     => 'Menüpont',
+                    Posts::TYPE_DROPDOWN => 'Legördülő Menü',
                 ];
                 break;
             case 'yesno':
@@ -169,8 +169,8 @@ class DataProvider {
         $sql .= ' ORDER BY order_num ASC';
 
         $cmd = Yii::$app->db->createCommand($sql);
-        $cmd->bindValue(':type_MENU', 'MENU');
-        $cmd->bindValue(':type_DROP', 'DROP');
+        $cmd->bindValue(':type_MENU', Posts::TYPE_MENU);
+        $cmd->bindValue(':type_DROP', Posts::TYPE_DROPDOWN);
         $cmd->bindValue(':status_a', DataProvider::STATUS_ACTIVE);
         if (!is_null($language)){
             $cmd->bindValue(':language_id', $language->id);

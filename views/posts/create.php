@@ -1,5 +1,6 @@
 <?php
 
+use albertborsos\yii2cms\models\Posts;
 use yii\helpers\Html;
 
 
@@ -7,10 +8,10 @@ use yii\helpers\Html;
 /* @var $model albertborsos\yii2cms\models\Posts */
 
     switch($model->post_type){
-        case 'BLOG':
+        case Posts::TYPE_BLOG:
             $this->title = 'Új blog bejegyzés létrehozása';
             break;
-        case 'MENU':
+        case Posts::TYPE_MENU:
             $this->title = 'Új menüpont létrehozása';
             break;
         default:

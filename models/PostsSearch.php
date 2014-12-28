@@ -45,10 +45,10 @@ class PostsSearch extends Posts
 
         switch($type){
             case 'menu':
-                $query->andFilterWhere(['like', 'post_type', 'DROP'])->orFilterWhere(['like', 'post_type', 'MENU']);
+                $query->andFilterWhere(['like', 'post_type', Posts::TYPE_DROPDOWN])->orFilterWhere(['like', 'post_type', Posts::TYPE_MENU]);
                 break;
             case 'blog':
-                $query->andFilterWhere(['like', 'post_type', 'BLOG']);
+                $query->andFilterWhere(['like', 'post_type', Posts::TYPE_BLOG]);
                 break;
         }
 

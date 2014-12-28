@@ -135,7 +135,7 @@ class PostSeo extends ActiveRecord
         if ($active){
             $sql .= ' WHERE status=:status_active';
             $cmd = Yii::$app->db->createCommand($sql);
-            $cmd->bindValue(':status_active', DataProvider::STATUS_ACTIVE);
+            $cmd->bindValue(':status_active', Posts::STATUS_ACTIVE);
         }else{
 
             $cmd = Yii::$app->db->createCommand($sql);
