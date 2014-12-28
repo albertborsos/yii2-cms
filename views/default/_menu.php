@@ -1,10 +1,5 @@
 <?php
-    use albertborsos\yii2cms\models\Posts;
-    use albertborsos\yii2lib\helpers\Date;
-    use albertborsos\yii2lib\helpers\Glyph;
-    use albertborsos\yii2user\models\Users;
 	use kartik\social\FacebookPlugin;
-	use yii\helpers\Html;
 
     /* @var albertborsos\yii2cms\models\Posts $post */
     /* @var string $tags */

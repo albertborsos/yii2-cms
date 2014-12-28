@@ -127,45 +127,6 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function actionThemeeditor($filePath = null){
-        $fileContent = null;
-        $extension = 'php';
-        $paths = [
-            Yii::$app->getBasePath().'/../common/themes/page/views/layouts',
-            Yii::$app->getBasePath().'/../css',
-        ];
-
-        if (Yii::$app->request->isPost){
-            $newContent = Yii::$app->request->post('file-editor');
-            $result = File::setContent($filePath, $newContent);
-            if ($result === true){
-                Yii::$app->session->setFlash('success', '<h4>Fájl tartalma sikeresen módosítva!</h4>');
-            }else{
-                Yii::$app->session->setFlash('error', '<h4>'.$result.'</h4>');
-            }
-        }
-
-        if (!is_null($filePath)){
-            // ha választott ki filet
-            $editedFile = $filePath;
-            $exploded = explode('.', $filePath);
-            $extension = S::get($exploded, count($exploded)-1);
-
-            if (is_file($editedFile)) {
-                $fileContent = file_get_contents($editedFile);
-            }
-        }
-        $options = ['only' => ['tpl_footer*', 'tpl_sidebar*', '*.css']];
-        $filesDataProvider = File::dirsContentToDataProvider($paths, $options);
-
-
-        return $this->render('themeeditor', [
-            'filesDataProvider' => $filesDataProvider,
-            'fileContent' => $fileContent,
-            'extension' => $extension,
-        ]);
-    }
-
     public function actionRedirecttohome(){
         Yii::$app->session->setFlash('info','<h4>Szia! A régi weboldalam megszűnt!</h4><p>Az a tartalom, amit kerestél már nem létezik. De azért nézz körbe hátha találsz néhány hasznos információt!</p>');
         return $this->redirect('/', 301);
