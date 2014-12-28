@@ -63,10 +63,13 @@ class DefaultController extends Controller
             // menu or blog posts
             $post = Posts::findOne([
                 'id' => $id,
-                'status' => DataProvider::STATUS_ACTIVE,
+                'status' => [
+                    DataProvider::STATUS_ACTIVE,
+                    DataProvider::STATUS_INACTIVE,
+                ],
             ]);
         }else{
-            // ha a kezdőlap az első oldal
+            // ha nincs ID, akkor a kezdőlap az első oldal
             $post = Posts::find([
                 'lang' => 'hu',
                 'status' => DataProvider::STATUS_ACTIVE,
@@ -77,9 +80,7 @@ class DefaultController extends Controller
 
             $post->checkUrlIsCorrect();
             $post->setSEOValues();
-            // set SEO values @todo
             $content = $post->setContent();
-            // $content .= disqus
 
             $content = $this->module->replaceItems($content);
 
@@ -101,9 +102,11 @@ class DefaultController extends Controller
 
         $this->breadcrumbs = ['Blog'];
 
-        $posts = Posts::findBySql('SELECT * FROM '.Posts::tableName().' WHERE post_type=:type_blog AND status=:status_a ORDER BY date_show DESC', [
-            ':type_blog' => Posts::TYPE_BLOG,
-            ':status_a' => DataProvider::STATUS_ACTIVE,
+        $posts = Posts::find()->where([
+            'post_type' => Posts::TYPE_BLOG,
+            'status' => DataProvider::STATUS_ACTIVE,
+        ])->orderBy([
+            'date_show' => SORT_ASC,
         ])->all();
 
         $content = '';
