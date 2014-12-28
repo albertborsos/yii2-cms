@@ -42,6 +42,10 @@ class Posts extends ActiveRecord
     const STATUS_INACTIVE   = 'i';
     const STATUS_DELETED    = 'd';
 
+    const TYPE_DROPDOWN = 'DROP';
+    const TYPE_BLOG = 'BLOG';
+    const TYPE_MENU = 'MENU';
+
     /**
      * @inheritdoc
      */
@@ -144,7 +148,7 @@ class Posts extends ActiveRecord
         $seo->post_id           = $this->id;
         $seo->canonical_post_id = $this->id;
         $seo->meta_robots       = 'INDEX';
-        $seo->status            = DataProvider::STATUS_ACTIVE;
+        $seo->status            = PostSeo::STATUS_ACTIVE;
 
         return $seo->save();
     }
@@ -171,14 +175,14 @@ class Posts extends ActiveRecord
                     }
                 }else{
                     switch($post->post_type){
-                        case 'MENU':
+                        case Posts::TYPE_MENU:
                             if ($post->order_num === 1){
                                 $link = ['/'];
                             }else{
                                 $link = ['/'.DataProvider::replaceCharsToUrl($post->name).'-'.$post->id.'.html'];
                             }
                             break;
-                        case 'BLOG':
+                        case Posts::TYPE_BLOG:
                             $link = ['/blog/'.DataProvider::replaceCharsToUrl($post->name).'-'.$post->id.'.html'];
                             break;
                     }
@@ -194,13 +198,13 @@ class Posts extends ActiveRecord
 
     public function setContent(){
         switch($this->post_type){
-            case 'BLOG':
+            case Posts::TYPE_BLOG:
                 return Yii::$app->controller->renderPartial('_blog', [
                     'post' => $this,
                     'tags' => Tags::getAssignedTags($this, true, 'link'),
                 ]);
                 break;
-            case 'MENU':
+            case Posts::TYPE_MENU:
                 return Yii::$app->controller->renderPartial('_menu', [
                     'post' => $this,
                     'tags' => Tags::getAssignedTags($this, true, 'link'),
@@ -217,8 +221,8 @@ class Posts extends ActiveRecord
         }
         $sql .= ' ORDER BY order_num ASC';
         $cmd = Yii::$app->db->createCommand($sql);
-        $cmd->bindValue(':status_a', DataProvider::STATUS_ACTIVE);
-        $cmd->bindValue(':type_DROP', 'DROP');
+        $cmd->bindValue(':status_a', Posts::STATUS_ACTIVE);
+        $cmd->bindValue(':type_DROP', Posts::TYPE_DROPDOWN);
         if (!is_null($actual)){
             $cmd->bindParam(':id', $actual);
         }
@@ -271,7 +275,7 @@ class Posts extends ActiveRecord
             $values['title']       = !is_null($this->seo->title) ? $this->seo->title : $this->name;
             $values['description'] = !is_null($this->seo->meta_description) ? $this->seo->meta_description : (!is_null($this->content_preview) ? strip_tags($this->content_preview) : $this->name);
             $values['keywords']    = !is_null($this->seo->meta_keywords) ? $this->seo->meta_keywords : Tags::getAssignedTags($this, true, 'string');
-            $values['robots']      = !is_null($this->seo->meta_robots) ? $this->seo->meta_robots : ($this->status==DataProvider::STATUS_ACTIVE ? 'INDEX' : 'NOINDEX');
+            $values['robots']      = !is_null($this->seo->meta_robots) ? $this->seo->meta_robots : (($this->status==Posts::STATUS_ACTIVE || $this->status == Posts::STATUS_NOT_LISTED) ? 'INDEX' : 'NOINDEX');
             $values['canonical']   = !is_null($this->seo->canonical_post_id) ? Posts::generateUrl($this->seo->canonical_post_id) : Posts::generateUrl($this->id);
             $values['url']         = Posts::generateUrl($this->id);
         }else{
