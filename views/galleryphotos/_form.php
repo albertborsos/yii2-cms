@@ -19,7 +19,7 @@ use vova07\imperavi\Widget as Redactor;
     <?= $form->field($model, 'description')->widget(Redactor::className(), [
                 'model' => $model,
                 'attribute' => 'content_preview',
-                'options' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
+                'settings' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
             ]) ?>
 
       <?= $form->field($model, 'status')->dropDownList(DataProvider::items('status')) ?>
