@@ -1,3 +1,5 @@
 $(function(){
-	SyntaxHighlighter.all();
+	if (typeof SyntaxHighlighter !== 'undefined') {
+		SyntaxHighlighter.all();
+	}
 });
