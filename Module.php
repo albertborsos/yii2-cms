@@ -54,6 +54,8 @@ class Module extends \yii\base\Module
      */
     public $campaignForms = [];
 
+    public $enableSyntaxHighlighter = false;
+
     /**
      * Module specific urlManager
      * @param $app
@@ -72,11 +74,15 @@ class Module extends \yii\base\Module
     {
         parent::init();
         // custom initialization code goes here
-        CMSAsset::register(\Yii::$app->view);
+        $view = \Yii::$app->view;
+        CMSAsset::register($view);
+
+        if($this->enableSyntaxHighlighter){
+            SyntaxHighlighterAsset::register($view);
+        }
 
         $this->setReplaceableContents();
         $this->setForms();
-
     }
 
     private function setForms(){
