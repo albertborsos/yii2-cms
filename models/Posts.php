@@ -6,6 +6,7 @@ use albertborsos\yii2cms\components\DataProvider;
 use albertborsos\yii2historizer\Historizer;
 use albertborsos\yii2lib\db\ActiveRecord;
 use albertborsos\yii2lib\helpers\S;
+use albertborsos\yii2lib\helpers\Seo;
 use albertborsos\yii2tagger\models\Tags;
 use frontend\models\ContactForm;
 use Yii;
@@ -286,14 +287,12 @@ class Posts extends ActiveRecord
             $values['url']         = Posts::generateUrl($this->id);
         }
 
-        $view = Yii::$app->getView();
-        $view->title = $values['title'].' | '.Yii::$app->name;
+        Seo::registerTag(Seo::TYPE_TITLE, $values['title']);
+        Seo::registerTag(Seo::TYPE_DESCRIPTION, $values['description']);
+        Seo::registerTag(Seo::TYPE_KEYWORDS, $values['keywords']);
+        Seo::registerTag(Seo::TYPE_ROBOTS, $values['robots']);
 
-        $view->registerMetaTag(['name' => 'description', 'content'=> $values['description']]);
-        $view->registerMetaTag(['name' => 'keywords', 'content'=> $values['keywords']]);
-        $view->registerMetaTag(['name' => 'robots', 'content'=> $values['robots']]);
-
-        $view->registerLinkTag(['rel' => 'canonical', 'href' => $values['canonical']]);
+        Seo::registerTag(Seo::TYPE_CANONICAL, $values['canonical']);
     }
 
 }
