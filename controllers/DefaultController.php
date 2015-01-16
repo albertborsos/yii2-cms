@@ -84,9 +84,13 @@ class DefaultController extends Controller
 
             $content = $this->module->replaceItems($content);
 
-            return $this->render('index', [
-                'content' => $content,
-            ]);
+            if($content === true){
+                return $this->redirect(Yii::$app->request->url);
+            }else{
+                return $this->render('index', [
+                    'content' => $content,
+                ]);
+            }
         }else{
             Yii::$app->session->setFlash('error', '<h4>Ilyen bejegyzés nem létezik!</h4>');
             return $this->goBack(['/']);
