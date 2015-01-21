@@ -306,11 +306,11 @@
             $auth = Yii::$app->getAuthManager();
             $sql = 'SELECT u.*, at.item_name FROM ' . Users::tableName().' u'
                 .' LEFT JOIN '. $auth->assignmentTable. ' at'
-                .' ON at.user_id=u.id'
-                .' WHERE u.status=:status_a';
+                .' ON at.user_id=u.id';
+                //.' WHERE u.status=:status_a';
 
             $cmd = Yii::$app->db->createCommand($sql);
-            $cmd->bindValue(':status_a', Users::STATUS_ACTIVE);
+            //$cmd->bindValue(':status_a', Users::STATUS_ACTIVE);
             $results = $cmd->queryAll();
 
             // a felhasználókat beteszem egy dataprovider-be
