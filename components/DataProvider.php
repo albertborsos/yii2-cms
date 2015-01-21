@@ -208,22 +208,4 @@ class DataProvider {
             return ArrayHelper::map($cmd->queryAll(), 'parent_post_id', 'parent_post_id');
         }
     }
-
-    public static function adminMenuItems(){
-        return [
-            'label' => FA::icon(FA::_BOOK) . ' Tartalomkezelő',
-            'items' => [
-                ['label' => 'Nyelvek', 'url' => ['/cms/languages/index']],
-                ['label' => 'Menüpontok', 'url' => ['/cms/posts/menu']],
-                ['label' => 'Blog Bejegyzések', 'url' => ['/cms/posts/blog']],
-                ['label' => 'Galéria', 'url' => ['/cms/galleries/index']],
-            ],
-            'url' => '#',
-            'linkOptions' => [
-                'class' => 'dropdown-toggle',
-                'data-toggle' => 'dropdown',
-            ],
-            'visible' => Yii::$app->getUser()->can('editor'),
-        ];
-    }
 } 
