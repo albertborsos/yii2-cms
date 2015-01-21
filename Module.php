@@ -6,6 +6,7 @@ use albertborsos\yii2cms\components\ContactForm;
 use albertborsos\yii2cms\models\Galleries;
 use albertborsos\yii2cms\models\Posts;
 use albertborsos\yii2lib\helpers\S;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 class Module extends \yii\base\Module
@@ -73,6 +74,12 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
+        $i18n = [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@vendor/albertborsos/yii2-cms/messages',
+                'forceTranslation' => true
+            ];
+        Yii::$app->i18n->translations['cms'] = $i18n;
         // custom initialization code goes here
         $view = \Yii::$app->view;
         CMSAsset::register($view);
