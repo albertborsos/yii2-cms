@@ -54,8 +54,9 @@
 
         public function actionModify()
         {
-            $user_id = Yii::$app->request->post('pk');
-            $role    = Yii::$app->request->post('value');
+            $key = Yii::$app->request->post('pk');
+            $user_id = unserialize(base64_decode($key));
+            $role = Yii::$app->request->post('value');
 
             $auth = Yii::$app->authManager;
             // 1 felhasználónak csak 1 joga lehet
@@ -66,7 +67,6 @@
             } else {
                 throw new HttpException(400, 'Right not exists!');
             }
-
         }
 
         public function actionDelete($id)
