@@ -32,6 +32,6 @@ use yii\widgets\ActiveForm;
             <!-- panel-body -->
         </div>
         <!-- panel panel-default -->
-        <?= Html::a('Van már fiókod? Jelentkezz be!', Yii::$app->urlManager->createUrl(['/users/login']), ['class' => 'btn btn-block']) ?>
+        <?= Html::a('Van már fiókod? Jelentkezz be!', Yii::$app->urlManager->createUrl(['/cms/user/login']), ['class' => 'btn btn-block']) ?>
     </div>
 </div>

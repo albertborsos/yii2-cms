@@ -133,7 +133,7 @@
         {
             if ($email === '' || $key === '') {
                 Yii::$app->session->setFlash('error', Yii::t('cms', 'activation_error_wrong_link'));
-                return $this->redirect(['/users/login']);
+                return $this->redirect(['/cms/user/login']);
             } else {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
@@ -146,7 +146,7 @@
                                 $transaction->commit();
                                 Yii::$app->session->setFlash('success', Yii::t('cms', 'activation_successful'));
 
-                                return $this->redirect(['/users/login']);
+                                return $this->redirect(['/cms/user/login']);
                             } else {
                                 throw new Exception(Yii::t('cms', 'activation_error'));
                             }
@@ -162,7 +162,7 @@
                     $transaction->rollBack();
                     Yii::$app->session->setFlash('error', $e->getMessage());
 
-                    return $this->redirect(['/users/login']);
+                    return $this->redirect(['/cms/user//login']);
                 }
             }
         }
@@ -179,7 +179,7 @@
                         $user->sendReminderMail();
                         Yii::$app->session->setFlash('success', Yii::t('cms', 'reminder_email_sent'));
 
-                        return $this->redirect(['/users/login']);
+                        return $this->redirect(['/cms/user/login']);
                     } else {
                         Yii::$app->session->setFlash('error', Yii::t('cms', 'reminder_error'));
                     }
@@ -208,7 +208,7 @@
                         if ($user->save()) {
                             Yii::$app->session->setFlash('success', Yii::t('cms', 'new_password_successfully_changed'));
                             Yii::$app->user->login($user);
-                            $this->redirect(['/users/profile']);
+                            $this->redirect(['/cms/user/profile']);
                         }
                     }
                 }
@@ -219,7 +219,7 @@
             } else {
                 Yii::$app->session->setFlash('error', Yii::t('cms', 'new_password_error_wrong_link'));
 
-                return $this->redirect(['/users/reminder']);
+                return $this->redirect(['/cms/user/reminder']);
             }
         }
 
@@ -238,7 +238,7 @@
                 $changepwd = Yii::$app->request->post('SetNewPasswordForm');
                 if (!is_null($changepwd)){
                     $user->changePassword(Values::arrayGet('email', $changepwd));
-                    return $this->redirect(['/users/profile']);
+                    return $this->redirect(['/cms/user/profile']);
                 }
 
                 if ($ud->load(Yii::$app->request->post(), 'UserDetails') && $ud->save()){
@@ -246,7 +246,7 @@
                 }else{
                     Yii::$app->session->setFlash('error', Yii::t('cms', 'user_details_update_error'));
                 }
-                return $this->redirect(['/users/profile']);
+                return $this->redirect(['/cms/user/profile']);
             }
 
             $form_pwd = new SetNewPasswordForm();

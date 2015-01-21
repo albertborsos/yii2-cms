@@ -82,6 +82,6 @@
             }else{
                 Yii::$app->session->setFlash('error', '<h4>'.Yii::t('cms', 'user_remove_yourself') . '</h4>');
             }
-            return $this->redirect(['/users/rights/admin']);
+            return $this->redirect(['/cms/rights/admin']);
         }
     }

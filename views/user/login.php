@@ -24,13 +24,13 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
                 <?= Html::submitButton('Bejelentkezés', ['class' => 'btn btn-primary btn-block', 'id' => 'loginform-submit']) ?>
-                <?= Html::a('Elfelejtett jelszó', Yii::$app->urlManager->createUrl(['/users/reminder']), ['class' => 'btn btn-warning btn-block']) ?>
+                <?= Html::a('Elfelejtett jelszó', Yii::$app->urlManager->createUrl(['/cms/user/reminder']), ['class' => 'btn btn-warning btn-block']) ?>
                 <?php ActiveForm::end(); ?>
             </div>
             <!-- panel-body -->
         </div>
         <!-- panel panel-default -->
-        <?= Html::a('Regisztráció', Yii::$app->urlManager->createUrl(['/users/register']), ['class' => 'btn btn-info btn-block', 'style' => 'margin-bottom:10px;']) ?>
+        <?= Html::a('Regisztráció', Yii::$app->urlManager->createUrl(['/cms/user/register']), ['class' => 'btn btn-info btn-block', 'style' => 'margin-bottom:10px;']) ?>
     </div>
     <!-- login -->
 </div>

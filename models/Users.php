@@ -380,7 +380,7 @@
                                 $model['id'],
                                 $model['item_name'],
                                 DataProvider::items('roles', $model['item_name'], false),
-                                ['/users/rights/modify'],
+                                ['/cms/rights/modify'],
                                 DataProvider::items('roles'));
                         },
                         'contentOptions' => $options_center,
@@ -415,7 +415,7 @@
         public function sendActivationMail(){
             $subject = 'Sikeres regisztráció';
 
-            $link['activation'] = Yii::$app->urlManager->getBaseUrl() . '/users/activate?email=' . $this->email . '&key=' . $this->auth_key;
+            $link['activation'] = Yii::$app->urlManager->getBaseUrl() . '/cms/user/activate?email=' . $this->email . '&key=' . $this->auth_key;
 
             $template = '@vendor/albertborsos/yii2-cms/views/mail/activation.php';
             $params = [
@@ -440,7 +440,7 @@
         public function sendReminderMail(){
             $subject = 'Új jelszavad';
 
-            $link['reminder'] = Yii::$app->urlManager->getBaseUrl() . '/users/setnewpassword?email=' . $this->email . '&key=' . $this->password_reset_token;
+            $link['reminder'] = Yii::$app->urlManager->getBaseUrl() . '/cms/user/setnewpassword?email=' . $this->email . '&key=' . $this->password_reset_token;
 
             $template = '@vendor/albertborsos/yii2-cms/views/mail/reminder.php';
             $params = [
