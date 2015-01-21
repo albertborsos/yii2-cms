@@ -4,6 +4,7 @@ namespace albertborsos\yii2cms\components;
 
 use albertborsos\yii2cms\models\Languages;
 use albertborsos\yii2cms\models\Posts;
+use albertborsos\yii2user\models\Users;
 use rmrevin\yii\fontawesome\FA;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -81,6 +82,21 @@ class DataProvider {
                     'NOINDEX'           => 'NOINDEX',
                     'NOINDEX, NOFOLLOW' => 'NOINDEX, NOFOLLOW',
                 ];
+                break;
+            case 'roles':
+                $array = array(
+                    'guest'  => 'Vendég',
+                    'reader' => 'Olvasó',
+                    'editor' => 'Szerkesztő',
+                    'admin'  => 'Adminisztrátor',
+                );
+                break;
+            case 'status_user':
+                $array = array(
+                    Users::STATUS_ACTIVE   => 'Aktív',
+                    Users::STATUS_INACTIVE => 'Inaktív',
+                    Users::STATUS_DELETED  => 'Törölt',
+                );
                 break;
         }
         if (is_null($id) && $returnArray) {
