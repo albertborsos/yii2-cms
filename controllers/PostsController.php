@@ -3,7 +3,6 @@
     namespace albertborsos\yii2cms\controllers;
 
     use albertborsos\yii2cms\components\DataProvider;
-    use albertborsos\yii2lib\helpers\S;
     use albertborsos\yii2tagger\models\Tags;
     use Exception;
     use Yii;

@@ -1,7 +1,7 @@
 <?php
     use albertborsos\yii2cms\models\Posts;
     use albertborsos\yii2lib\helpers\Date;
-    use albertborsos\yii2user\models\Users;
+    use albertborsos\yii2cms\models\Users;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 

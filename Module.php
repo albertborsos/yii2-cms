@@ -6,10 +6,15 @@ use albertborsos\yii2cms\components\ContactForm;
 use albertborsos\yii2cms\models\Galleries;
 use albertborsos\yii2cms\models\Posts;
 use albertborsos\yii2lib\helpers\S;
+use rmrevin\yii\fontawesome\FA;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 class Module extends \yii\base\Module
 {
+    const MENU_CMS = 'cms';
+    const MENU_USER = 'user';
+
     public $controllerNamespace = 'albertborsos\yii2cms\controllers';
     public $name = 'Tartalomkezelő';
 
@@ -73,6 +78,12 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
+        $i18n = [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@vendor/albertborsos/yii2-cms/messages',
+                'forceTranslation' => true
+            ];
+        Yii::$app->i18n->translations['cms'] = $i18n;
         // custom initialization code goes here
         $view = \Yii::$app->view;
         CMSAsset::register($view);
@@ -121,7 +132,43 @@ class Module extends \yii\base\Module
         return $content;
     }
 
-
-
-
+    public static function getMenu($type){
+        $items = [];
+        switch($type){
+            case self::MENU_CMS:
+                $items = [
+                    'label' => FA::icon(FA::_BOOK) . ' Tartalomkezelő',
+                    'items' => [
+                        ['label' => 'Nyelvek', 'url' => ['/cms/languages/index']],
+                        ['label' => 'Menüpontok', 'url' => ['/cms/posts/menu']],
+                        ['label' => 'Blog Bejegyzések', 'url' => ['/cms/posts/blog']],
+                        ['label' => 'Galéria', 'url' => ['/cms/galleries/index']],
+                    ],
+                    'url' => '#',
+                    'linkOptions' => [
+                        'class' => 'dropdown-toggle',
+                        'data-toggle' => 'dropdown',
+                    ],
+                    'visible' => Yii::$app->getUser()->can('editor'),
+                ];
+                break;
+            case self::MENU_USER:
+                $items = [
+                    'label' => FA::icon(FA::_USER) . ' ' . Yii::$app->user->identity->getFullname(),
+                    'items' => [
+                        ['label' => FA::icon(FA::_FILE) . ' Profilom', 'url' => ['/cms/user/profile']],
+                        ['label' => FA::icon(FA::_COG) . ' Beállítások', 'url' => ['/cms/user/settings']],
+                        ['label' => FA::icon(FA::_COG) . ' Jogosultságok', 'url' => ['/cms/rights/admin']],
+                        S::divider(true),
+                        ['label' => FA::icon(FA::_SIGN_OUT) . ' Kijelentkezés', 'url' => ['/cms/user/logout'], 'linkOptions' => ['data-method' => 'post',]],
+                    ],
+                    'url' => '#',
+                    'linkOptions' => [
+                        'class' => 'dropdown-toggle',
+                        'data-toggle' => 'dropdown',
+                    ],
+                ];
+        }
+        return $items;
+    }
 }
