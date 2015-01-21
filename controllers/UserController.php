@@ -16,6 +16,7 @@
     use Yii;
 
     class UserController extends Controller {
+        public $name = 'Felhasználó';
         public $defaultAction = 'login';
         public function init()
         {
