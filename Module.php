@@ -156,11 +156,11 @@ class Module extends \yii\base\Module
                 $items = [
                     'label' => FA::icon(FA::_USER) . ' ' . Yii::$app->user->identity->getFullname(),
                     'items' => [
-                        ['label' => FA::icon(FA::_FILE) . ' Profilom', 'url' => ['/users/profile']],
-                        ['label' => FA::icon(FA::_COG) . ' Beállítások', 'url' => ['/users/settings']],
-                        ['label' => FA::icon(FA::_COG) . ' Jogosultságok', 'url' => ['/users/rights/admin']],
+                        ['label' => FA::icon(FA::_FILE) . ' Profilom', 'url' => ['/cms/user/profile']],
+                        ['label' => FA::icon(FA::_COG) . ' Beállítások', 'url' => ['/cms/user/settings']],
+                        ['label' => FA::icon(FA::_COG) . ' Jogosultságok', 'url' => ['/cms/rights/admin']],
                         S::divider(true),
-                        ['label' => FA::icon(FA::_SIGN_OUT) . ' Kijelentkezés', 'url' => ['/users/logout'], 'linkOptions' => ['data-method' => 'post',]],
+                        ['label' => FA::icon(FA::_SIGN_OUT) . ' Kijelentkezés', 'url' => ['/cms/user/logout'], 'linkOptions' => ['data-method' => 'post',]],
                     ],
                     'url' => '#',
                     'linkOptions' => [
