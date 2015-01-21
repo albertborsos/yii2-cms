@@ -2,7 +2,6 @@
 
     namespace albertborsos\yii2cms\controllers;
 
-    use albertborsos\yii2lib\helpers\S;
     use albertborsos\yii2lib\helpers\Seo;
     use albertborsos\yii2lib\helpers\Values;
     use albertborsos\yii2lib\web\Controller;
@@ -11,7 +10,6 @@
     use albertborsos\yii2cms\forms\ReminderForm;
     use albertborsos\yii2cms\forms\SetNewPasswordForm;
     use albertborsos\yii2cms\models\Users;
-    use albertborsos\yii2cms\models\UserDetails;
     use yii\base\Exception;
     use yii\filters\AccessControl;
     use yii\filters\VerbFilter;

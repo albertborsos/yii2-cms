@@ -4,7 +4,6 @@ namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2cms\components\Gallery;
 use albertborsos\yii2cms\models\GalleryPhotos;
-use albertborsos\yii2lib\helpers\S;
 use Exception;
 use Yii;
 use albertborsos\yii2cms\models\Galleries;

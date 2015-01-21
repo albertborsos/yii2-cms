@@ -3,19 +3,11 @@
 namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2cms\components\DataProvider;
-use albertborsos\yii2cms\models\ContactForm;
-use albertborsos\yii2cms\models\Galleries;
 use albertborsos\yii2cms\models\Posts;
-use albertborsos\yii2lib\helpers\File;
-use albertborsos\yii2lib\helpers\S;
 use albertborsos\yii2lib\web\Controller;
 use albertborsos\yii2tagger\models\Tags;
 use Yii;
-use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
-use yii\web\YiiAsset;
 
 class DefaultController extends Controller
 {

@@ -3,13 +3,11 @@
 namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2cms\models\Galleries;
-use albertborsos\yii2lib\helpers\S;
 use Exception;
 use Yii;
 use albertborsos\yii2cms\models\GalleryPhotos;
 use albertborsos\yii2cms\models\GalleryPhotosSearch;
 use albertborsos\yii2lib\web\Controller;
-use yii\image\drivers\Image_GD;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
