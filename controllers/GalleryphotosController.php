@@ -65,6 +65,8 @@ class GalleryphotosController extends Controller
      */
     public function actionIndex($gallery = null)
     {
+        Yii::$app->getView()->enableMinify = false;
+
         $gallery_id = $gallery;
         $this->layout = '//fluid';
         if (!is_null($gallery_id)){
