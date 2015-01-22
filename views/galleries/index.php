@@ -109,7 +109,7 @@
                     //'dropdown' => true,
                     'buttons'       => [
                         'upload' => function ($url, $model, $key) {
-                                return Html::a(FA::icon(FA_PLUS), ['/cms/galleryphotos/index?gallery=' . $model['id']], ['class' => 'btn btn-sm btn-default']);
+                                return Html::a(FA::icon(FA::_PLUS), ['/cms/galleryphotos/index?gallery=' . $model['id']], ['class' => 'btn btn-sm btn-default']);
                             },
                     ],
                     'viewOptions'   => ['title' => 'Áttekintés', 'class' => 'btn btn-sm btn-default'],
