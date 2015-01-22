@@ -62,13 +62,6 @@
                         [
                             'actions' => ['register', 'activate', 'login', 'setnewpassword', 'reminder'],
                             'allow' => true,
-                            'matchCallback' => function(){
-                                    if (!Yii::$app->user->isGuest){
-                                        return $this->goHome();
-                                    }else{
-                                        return true;
-                                    }
-                                }
                         ],
                     ],
                 ],
@@ -95,6 +88,10 @@
 
         public function actionLogin()
         {
+            if (!Yii::$app->user->isGuest){
+                return $this->goHome();
+            }
+
             $model = new LoginForm();
             if ($model->load(Yii::$app->request->post()) && $model->login()) {
                 Yii::$app->session->setFlash('success', Yii::t('cms', 'login_successful'));
@@ -118,6 +115,10 @@
 
         public function actionRegister()
         {
+            if (!Yii::$app->user->isGuest){
+                return $this->goHome();
+            }
+
             $model = new RegisterForm();
             if ($model->load(Yii::$app->request->post()) && $model->register()) {
                 Yii::$app->session->setFlash('success',Yii::t('cms', 'registration_succesful'));
@@ -132,6 +133,10 @@
 
         public function actionActivate($email = '', $key = '')
         {
+            if (!Yii::$app->user->isGuest){
+                return $this->goHome();
+            }
+
             if ($email === '' || $key === '') {
                 Yii::$app->session->setFlash('error', Yii::t('cms', 'activation_error_wrong_link'));
                 return $this->redirect(['/cms/user/login']);
@@ -170,6 +175,10 @@
 
         public function actionReminder()
         {
+            if (!Yii::$app->user->isGuest){
+                return $this->goHome();
+            }
+
             $model = new ReminderForm();
 
             if ($model->load(Yii::$app->request->post())) {
@@ -194,6 +203,10 @@
 
         public function actionSetnewpassword($email, $key)
         {
+            if (!Yii::$app->user->isGuest){
+                return $this->goHome();
+            }
+
             $user = Users::findByPasswordResetToken($key);
             if (!is_null($user) && $user->email === $email) {
                 // talált usert
