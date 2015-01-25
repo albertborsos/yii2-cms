@@ -73,7 +73,17 @@
                     'format'        => 'html',
                     'headerOptions' => ['class' => 'text-center'],
                     'value'         => function ($model, $index, $widget) {
-                            return $model['description'];
+                            return Editable::input('description', $model['id'], $model['description'], ['updatebyeditable']);
+                        },
+                ],
+                [
+                    'attribute'     => 'link',
+                    'hAlign'        => 'center',
+                    'vAlign'        => 'middle',
+                    'format'        => 'html',
+                    'headerOptions' => ['class' => 'text-center'],
+                    'value'         => function ($model, $index, $widget) {
+                            return Editable::input('link', $model['id'], $model['link'], ['updatebyeditable']);
                         },
                 ],
                 [

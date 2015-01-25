@@ -21,7 +21,7 @@ use vova07\imperavi\Widget as Redactor;
                 'attribute' => 'content_preview',
                 'settings' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
             ]) ?>
-    
+
     <?= $form->field($model, 'link')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'status')->dropDownList(DataProvider::items('status')) ?>
