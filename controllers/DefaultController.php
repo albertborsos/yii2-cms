@@ -68,7 +68,11 @@ class DefaultController extends Controller
             ])->orderBy(['order_num' => 'ASC'])->one();
         }
         if (!is_null($post)){ /** @var $post Posts */
-            $this->breadcrumbs = [$post->name];
+            if(is_null($id)){
+                $this->breadcrumbs = false;
+            }else{
+                $this->breadcrumbs = [$post->name];
+            }
 
             $post->checkUrlIsCorrect();
             $post->setSEOValues();
