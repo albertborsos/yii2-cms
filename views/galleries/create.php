@@ -9,7 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Új Galéria létrehozása';
 ?>
 <div class="row">
-<div class="col-md-4">
+<div class="col-md-3">
 <div class="galleries-create">
 
     <legend><?= Html::encode($this->title) ?></legend>
@@ -20,7 +20,7 @@ $this->title = 'Új Galéria létrehozása';
 
 </div>
 </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <?= $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

@@ -174,9 +174,22 @@ class Gallery extends Widget {
         $models = $dataProvider->getModels();
 
         $items = [];
-        foreach($models as $model){
+        foreach($models as $model){ /** @var $model \albertborsos\yii2cms\models\GalleryPhotos */
+            $img = Html::img($model->getUrlFull(), [
+                'alt' => $model->title,
+                'style'=>'width:100%;'
+                ]);
+
+            if(!is_null($model->link)){
+                $content = Html::a($img, $model->link, [
+                    'title' => $model->title
+                ]);
+            }else{
+                $content = $img;
+            }
+
             $items[] = [
-                'content' => Html::img($model->getUrlFull(), ['style'=>'width:100%;']),
+                'content' => $content,
                 'caption' => $model->title,
             ];
         }

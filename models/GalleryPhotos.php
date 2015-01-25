@@ -4,14 +4,8 @@ namespace albertborsos\yii2cms\models;
 
 use albertborsos\yii2historizer\Historizer;
 use albertborsos\yii2lib\db\ActiveRecord;
-use albertborsos\yii2lib\helpers\S;
 use Exception;
-use Imagine\Image\ImagineInterface;
 use Yii;
-use yii\image\drivers\Image_GD;
-use yii\image\drivers\Kohana_Image_GD;
-use yii\image\ImageDriver;
-use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -22,6 +16,7 @@ use yii\web\UploadedFile;
  * @property string $filename
  * @property string $title
  * @property string $description
+ * @property string $link
  * @property integer $created_at
  * @property integer $created_user
  * @property integer $updated_at
@@ -109,9 +104,11 @@ class GalleryPhotos extends ActiveRecord
     public function rules()
     {
         return [
+            [['filename', 'title', 'description', 'link', 'status'], 'trim'],
+            [['filename', 'title', 'description', 'link', 'status'], 'default'],
             [['gallery_id', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
             [['description'], 'string'],
-            [['filename', 'title'], 'string', 'max' => 255],
+            [['filename', 'title', 'link'], 'string', 'max' => 255],
             [['status'], 'string', 'max' => 1]
         ];
     }
@@ -127,6 +124,7 @@ class GalleryPhotos extends ActiveRecord
             'filename' => 'Fájlnév',
             'title' => 'Cím',
             'description' => 'Leírás',
+            'link' => 'Link',
             'created_at' => 'Létrehozva',
             'created_user' => 'Létrehozta',
             'updated_at' => 'Módosítva',
