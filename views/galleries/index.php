@@ -45,9 +45,10 @@
                     'attribute'     => 'name',
                     'hAlign'        => 'center',
                     'vAlign'        => 'middle',
+                    'format' => 'raw',
                     'headerOptions' => ['class' => 'text-center'],
                     'value'         => function ($model, $index, $widget) {
-                            return $model['name'];
+                            return Editable::input('name', $model['id'], $model['name'], ['updatebyeditable']);
                         },
                 ],
                 [
