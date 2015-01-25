@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 ?>
 <div class="row">
-<div class="col-md-4">
+<div class="col-md-3">
 <div class="galleries-update">
 
     <legend><?= Html::encode($this->title) ?></legend>
@@ -18,7 +18,7 @@ use yii\helpers\Html;
 
 </div>
 </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <?= $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
