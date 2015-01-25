@@ -16,11 +16,11 @@ use vova07\imperavi\Widget as Redactor;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'description')->widget(Redactor::className(), [
+    <?= $form->field($model, 'description')->textarea();/*widget(Redactor::className(), [
                 'model' => $model,
                 'attribute' => 'content_preview',
                 'settings' => \albertborsos\yii2lib\helpers\Widgets::redactorOptions(),
-            ]) ?>
+            ])*/ ?>
 
     <?= $form->field($model, 'link')->textInput(['maxlength' => 255]) ?>
 
