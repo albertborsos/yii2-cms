@@ -4,6 +4,7 @@ namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2cms\components\DataProvider;
 use albertborsos\yii2cms\models\Posts;
+use albertborsos\yii2lib\helpers\S;
 use albertborsos\yii2lib\web\Controller;
 use albertborsos\yii2tagger\models\Tags;
 use Yii;
@@ -32,7 +33,12 @@ class DefaultController extends Controller
                         'matchCallback' => function(){
                             return Yii::$app->user->can('guest');
                         }
+                    ],
+                    [
+                        'actions' => ['migrateUp'],
+                        'allow'   => true,
                     ]
+
                 ],
             ],
         ];
@@ -129,5 +135,10 @@ class DefaultController extends Controller
     public function actionRedirecttohome(){
         Yii::$app->session->setFlash('info','<h4>Szia! A régi weboldalam megszűnt!</h4><p>Az a tartalom, amit kerestél már nem létezik. De azért nézz körbe hátha találsz néhány hasznos információt!</p>');
         return $this->redirect('/', 301);
+    }
+
+    public function actionMigrateUp(){
+        S::migrateUp();
+        Yii::$app->end();
     }
 }
