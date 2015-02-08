@@ -4,6 +4,7 @@ namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2cms\components\DataProvider;
 use albertborsos\yii2cms\models\Posts;
+use albertborsos\yii2lib\helpers\S;
 use albertborsos\yii2lib\web\Controller;
 use albertborsos\yii2tagger\models\Tags;
 use Yii;
@@ -32,7 +33,7 @@ class DefaultController extends Controller
                         'matchCallback' => function(){
                             return Yii::$app->user->can('guest');
                         }
-                    ]
+                    ],
                 ],
             ],
         ];
