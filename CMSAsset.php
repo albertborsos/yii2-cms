@@ -22,20 +22,17 @@ class CMSAsset extends AssetBundle
     public function init()
     {
         parent::init();
-        if (YII_DEBUG){
-            $this->time = '?'.time();
-        }
 
         $this->css = [
-            //'css/style.css'.$this->time,
-            'css/style.css'.$this->time,
-            'vendor/Magnific-Popup/magnific-popup.css'.$this->time,
+            //'css/style.css',
+            'css/style.css',
+            'vendor/Magnific-Popup/magnific-popup.css',
         ];
 
         $this->js = [
-            'js/cms.js'.$this->time,
-            'js/images.js'.$this->time,
-            'vendor/Magnific-Popup/jquery.magnific-popup.min.js'.$this->time,
+            'js/cms.js',
+            'js/images.js',
+            'vendor/Magnific-Popup/jquery.magnific-popup.min.js',
         ];
     }
 
