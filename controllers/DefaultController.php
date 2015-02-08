@@ -34,11 +34,6 @@ class DefaultController extends Controller
                             return Yii::$app->user->can('guest');
                         }
                     ],
-                    [
-                        'actions' => ['migrateUp'],
-                        'allow'   => true,
-                    ]
-
                 ],
             ],
         ];
@@ -135,10 +130,5 @@ class DefaultController extends Controller
     public function actionRedirecttohome(){
         Yii::$app->session->setFlash('info','<h4>Szia! A régi weboldalam megszűnt!</h4><p>Az a tartalom, amit kerestél már nem létezik. De azért nézz körbe hátha találsz néhány hasznos információt!</p>');
         return $this->redirect('/', 301);
-    }
-
-    public function actionMigrateUp(){
-        S::migrateUp();
-        Yii::$app->end();
     }
 }
