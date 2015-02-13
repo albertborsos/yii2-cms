@@ -208,4 +208,21 @@ class DataProvider {
             return ArrayHelper::map($cmd->queryAll(), 'parent_post_id', 'parent_post_id');
         }
     }
+
+    public static function migrateUp(){
+        $migrationPaths = S::get(\Yii::$app->params, 'cms.migrationPaths', []);
+        try{
+            foreach($migrationPaths as $migrationPath){
+                $cmd = 'migrate/up --migrationPath='.$migrationPath.' --interactive=0 --color=0';
+                if(!function_exists('exec')){
+                    throw new \Exception('The "exec" function is not allowed on the server');
+                }else{
+                    print exec(PHP_BINDIR . '/php '.Yii::getAlias('@app/../yii').' '.$cmd . ' 2>&1').' - '.$migrationPath.'<br />';
+                }
+            }
+            print 'Done!';
+        }catch (\Exception $e){
+            print $e->getMessage();
+        }
+    }
 } 
