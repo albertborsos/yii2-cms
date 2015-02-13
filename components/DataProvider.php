@@ -5,6 +5,7 @@ namespace albertborsos\yii2cms\components;
 use albertborsos\yii2cms\models\Languages;
 use albertborsos\yii2cms\models\Posts;
 use albertborsos\yii2cms\models\Users;
+use albertborsos\yii2lib\helpers\S;
 use rmrevin\yii\fontawesome\FA;
 use Yii;
 use yii\helpers\ArrayHelper;
