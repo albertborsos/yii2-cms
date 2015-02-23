@@ -28,7 +28,7 @@ class DefaultController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'blog', 'redirecttohome'],
+                        'actions' => ['index', 'blog', 'redirecttohome', 'error'],
                         'allow'   => true,
                         'matchCallback' => function(){
                             return Yii::$app->user->can('guest');
