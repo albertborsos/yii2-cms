@@ -15,11 +15,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin([
             'options' => [
-                'class' => 'form-horizontal'
+                //'class' => 'form-horizontal'
             ],
             'fieldConfig' => [
-                'template' => '{label}<div class="col-sm-9">{input}</div><div class="col-sm-12">{error}</div>',
-                'labelOptions' => ['class' => 'col-sm-3 control-label'],
+                'template' => '{label}{input}{error}',
+                'labelOptions' => ['class' => 'control-label'],
             ]
         ]); ?>
 
@@ -49,8 +49,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'phone_2')->textInput(['maxlength' => 30]) ?>
 
-    <div class="form-group">
-        <div class="col-sm-9 pull-right">
+    <div class="form-group row">
+        <div class="col-sm-12 pull-right">
             <?= Html::submitButton(
                 'Mentés',
                 ['class' => 'btn btn-primary btn-block']

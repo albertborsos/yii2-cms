@@ -18,8 +18,8 @@ use yii\helpers\Html;
 <?= $form->field($model, 'password')->passwordInput() ?>
 <?= $form->field($model, 'password_again')->passwordInput() ?>
 
-<div class="form-group">
-    <div class="col-md-12 pull-right">
+<div class="form-group row">
+    <div class="col-sm-12 pull-right">
         <?= Html::submitButton(
             'Beállítom',
             ['class' => 'btn btn-primary btn-block', 'id' => 'setnewpasswordform-submit']
