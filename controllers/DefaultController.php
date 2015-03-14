@@ -20,6 +20,7 @@ class DefaultController extends Controller
         $this->name          = 'Alap';
         $this->layout        = '//center';
         $this->setTheme('page');
+        $this->addActionNames(['migrate-up' => 'Migráció']);
     }
 
     public function behaviors()
