@@ -5,6 +5,7 @@ namespace albertborsos\yii2cms\controllers;
 use albertborsos\yii2cms\components\DataProvider;
 use albertborsos\yii2cms\models\Posts;
 use albertborsos\yii2lib\helpers\S;
+use albertborsos\yii2lib\helpers\Seo;
 use albertborsos\yii2lib\web\Controller;
 use albertborsos\yii2tagger\models\Tags;
 use Yii;
@@ -28,7 +29,7 @@ class DefaultController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'blog', 'redirecttohome', 'error'],
+                        'actions' => ['index', 'blog', 'redirecttohome', 'error', 'migrate-up'],
                         'allow'   => true,
                         'matchCallback' => function(){
                             return Yii::$app->user->can('guest');
@@ -48,6 +49,13 @@ class DefaultController extends Controller
         ];
     }
 
+    public function actionMigrateUp(){
+        $content = DataProvider::migrateUp();
+        Seo::noIndex();
+        return $this->render('index', [
+            'content' => $content,
+        ]);
+    }
 
     public function actionIndex($title = null, $id = null)
     {
