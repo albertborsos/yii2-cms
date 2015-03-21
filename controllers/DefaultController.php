@@ -53,6 +53,7 @@ class DefaultController extends Controller
     public function actionMigrateUp(){
         $content = DataProvider::migrateUp();
         Seo::noIndex();
+        Yii::$app->cache->flush();
         return $this->render('index', [
             'content' => $content,
         ]);
