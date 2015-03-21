@@ -22,7 +22,7 @@
 	],
     "require": {
         "albertborsos/yii2-lib": ">=1.4.0",
-        "albertborsos/yii2-tagger": "1.1.*",
+        "albertborsos/yii2-tagger": "1.2.*",
         "albertborsos/yii2-historizer": "1.1.*",
         "rmrevin/yii2-fontawesome": "2.6.2",
         "kartik-v/yii2-nav-x": "1.2.0",
