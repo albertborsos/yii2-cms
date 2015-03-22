@@ -255,7 +255,8 @@ class Posts extends ActiveRecord
                 if (Yii::$app->request->isPost){
                     if ($model->load(Yii::$app->request->post()) && $model->validate()){
                         $model->process(S::get(Yii::$app->params, 'cms.email.owner'));
-                        return true;
+                        Yii::$app->controller->redirect(Yii::$app->request->url);
+                        Yii::$app->end();
                     }
                 }
 
