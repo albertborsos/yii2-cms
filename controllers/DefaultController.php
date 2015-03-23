@@ -20,7 +20,6 @@ class DefaultController extends Controller
         $this->name          = 'Alap';
         $this->layout        = '//center';
         $this->setTheme('page');
-        $this->addActionNames(['migrate-up' => 'Migráció']);
     }
 
     public function behaviors()
@@ -30,7 +29,7 @@ class DefaultController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'blog', 'redirecttohome', 'error', 'migrate-up'],
+                        'actions' => ['index', 'blog', 'redirecttohome', 'error'],
                         'allow'   => true,
                         'matchCallback' => function(){
                             return Yii::$app->user->can('guest');
@@ -48,15 +47,6 @@ class DefaultController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
-    }
-
-    public function actionMigrateUp(){
-        $content = DataProvider::migrateUp();
-        Seo::noIndex();
-        Yii::$app->cache->flush();
-        return $this->render('index', [
-            'content' => $content,
-        ]);
     }
 
     public function actionIndex($title = null, $id = null)
