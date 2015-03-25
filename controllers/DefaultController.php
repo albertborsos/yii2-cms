@@ -4,6 +4,7 @@ namespace albertborsos\yii2cms\controllers;
 
 use albertborsos\yii2cms\components\DataProvider;
 use albertborsos\yii2cms\models\Posts;
+use albertborsos\yii2cms\SyntaxHighlighterAsset;
 use albertborsos\yii2lib\helpers\S;
 use albertborsos\yii2lib\helpers\Seo;
 use albertborsos\yii2lib\web\Controller;
@@ -52,6 +53,7 @@ class DefaultController extends Controller
     public function actionIndex($title = null, $id = null)
     {
         $this->setTheme('page');
+        $this->registerSyntaxHighlighter();
         if (!is_null($id)){
             // menu or blog posts
             $post = Posts::findOne([
@@ -99,6 +101,7 @@ class DefaultController extends Controller
      */
     public function actionBlog(){
         $this->setTheme('page');
+        $this->registerSyntaxHighlighter();
         Yii::$app->getView()->title = 'Blog | '.Yii::$app->name;
 
         $this->breadcrumbs = ['Blog'];
@@ -130,5 +133,11 @@ class DefaultController extends Controller
     public function actionRedirecttohome(){
         Yii::$app->session->setFlash('info','<h4>Szia! A régi weboldalam megszűnt!</h4><p>Az a tartalom, amit kerestél már nem létezik. De azért nézz körbe hátha találsz néhány hasznos információt!</p>');
         return $this->redirect('/', 301);
+    }
+
+    private function registerSyntaxHighlighter(){
+        if(Yii::$app->getModule('cms')->enableSyntaxHighlighter){
+            SyntaxHighlighterAsset::register($this->view);
+        }
     }
 }

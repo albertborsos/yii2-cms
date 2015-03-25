@@ -88,10 +88,6 @@ class Module extends \yii\base\Module
         $view = \Yii::$app->view;
         CMSAsset::register($view);
 
-        if($this->enableSyntaxHighlighter){
-            SyntaxHighlighterAsset::register($view);
-        }
-
         $this->setReplaceableContents();
         $this->setForms();
     }
