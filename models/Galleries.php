@@ -47,7 +47,10 @@ class Galleries extends ActiveRecord
     public function rules()
     {
         return [
-            [['pagesize','itemsinarow', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
+            [['name', 'replace_id'], 'trim'],
+            [['name', 'replace_id'], 'default'],
+            [['pagesize', 'itemsinarow'], 'required'],
+            [['pagesize', 'itemsinarow', 'created_at', 'created_user', 'updated_at', 'updated_user'], 'integer'],
             [['replace_id'], 'string', 'max' => 50],
             [['replace_id'], 'unique'],
             [['order'], 'string', 'max' => 5],
@@ -122,7 +125,9 @@ class Galleries extends ActiveRecord
     }
 
     public static function insertGallery($content){
-        $galleries = Galleries::findAll(['status' => DataProvider::STATUS_ACTIVE]);
+        $galleries = Galleries::find()
+            ->where(['status' => DataProvider::STATUS_ACTIVE])
+            ->andWhere('replace_id IS NOT NULL')->all();
         foreach($galleries as $gallery){
             if (strpos($content, $gallery->replace_id) !== false){
                 $content = str_replace($gallery->replace_id, $gallery->generate(), $content);
