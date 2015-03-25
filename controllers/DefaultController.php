@@ -107,7 +107,7 @@ class DefaultController extends Controller
             'post_type' => Posts::TYPE_BLOG,
             'status' => DataProvider::STATUS_ACTIVE,
         ])->orderBy([
-            'date_show' => SORT_ASC,
+            'date_show' => SORT_DESC,
         ])->all();
 
         $content = '';
