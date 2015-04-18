@@ -21,7 +21,7 @@
 		}
 	],
     "require": {
-        "albertborsos/yii2-lib": ">=1.4.0",
+        "albertborsos/yii2-lib": "<2.0.0",
         "albertborsos/yii2-image": ">=0.1.0",
         "albertborsos/yii2-tagger": "1.2.*",
         "albertborsos/yii2-historizer": "1.1.*",
